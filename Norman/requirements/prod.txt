@@ -8,8 +8,6 @@ Jinja2==2.9.5
 itsdangerous==0.24
 click>=5.0
 
-# Database
-flask-mongoengine
 
 # Migrations
 Flask-Migrate==2.0.3
