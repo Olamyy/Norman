@@ -6,7 +6,6 @@ from Norman.extensions import csrf_protect
 from Norman.utils import response
 from Norman.settings import DevConfig
 from Norman.hospital.models import Todo
-import requests as r
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -47,7 +46,7 @@ class WebHook(Resource):
         else:
             return response.response_error('Failed validation. Make sure the validation tokens match', args)
     
-      def post(self):
+    def post(self):
         data = request.get_json()
         print(data)
         if data.get('object', None) == 'page':
@@ -92,7 +91,10 @@ class WebHook(Resource):
 
     @staticmethod
     def call_send_api(message):
-        access_token = DevConfig.FACEBOOK_SECRET_KEY
+        access_token = 'EAAS0PtgoBk4BAAV6pDrocKGlPOAjdxyn' \
+                       'xBidP5noah1l27yRu2x0zZAc' \
+                       '1clvjQN1YAY9dHgJKGd8fPqjwHB' \
+                       'xQ0KuQxUahCkxUDmecH9OQvAk8FKuZBZA2jQhHPihh85WcALD8UZBMRxYXT1iAqaAGdpUcjKAlOBwL6VwisVC8QZDZD'
         uri = 'https://graph.facebook.com/v2.6/me/messages/access_token=' + access_token
         try:
             resp = r.post(uri, json=message)
