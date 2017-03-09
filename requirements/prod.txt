@@ -41,3 +41,6 @@ Flask-DebugToolbar==0.10.1
 #Requests
 requests
 
+#API
+flask_restful
+
