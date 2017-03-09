@@ -28,23 +28,31 @@ class Config(object):
 
 class ProdConfig(Config):
     """Production configuration."""
+    print("I'm using the dev config.")
 
     ENV = 'prod'
     DEBUG = False
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-    # MONGOALCHEMY_DATABASE = "mongodb://lekan:wxPython@ds121980.mlab.com:21980/norman"
+    MONGODB_DB = 'heroku_qcf3clms'
+    MONGODB_HOST = 'ds111559.mlab.com'
+    MONGODB_PORT = 11559
+    MONGODB_USERNAME = 'Olamilekan'
+    MONGODB_PASSWORD = 'toga'
 
 
 class DevConfig(Config):
+
     ENV = 'dev'
     DEBUG = True
     # Put the db file in project root
     DEBUG_TB_ENABLED = True
     ASSETS_DEBUG = True  # Don't bundle/minify static assets
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
-    # MONGO_PORT = 27017
-    # MONGO_HOST = "127.0.0.1"
-    # MONGOALCHEMY_DATABASE = "norman"
+    MONGODB_DB = 'heroku_qcf3clms'
+    MONGODB_HOST = 'ds111559.mlab.com'
+    MONGODB_PORT = 11559
+    MONGODB_USERNAME = 'Olamilekan'
+    MONGODB_PASSWORD = 'toga'
 
 
 class TestConfig(Config):
