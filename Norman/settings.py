@@ -32,7 +32,7 @@ class ProdConfig(Config):
     ENV = 'prod'
     DEBUG = False
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-    # MONGOALCHEMY_DATABASE = "mongodb://lekan:wxPython@ds121980.mlab.com:21980/norman"
+    MONGOALCHEMY_DATABASE = "mongodb://Olamilekan:toga@ds111559.mlab.com::11559/heroku_qcf3clms"
 
 
 class DevConfig(Config):
