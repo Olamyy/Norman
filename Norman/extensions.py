@@ -7,13 +7,12 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from flask_mongoengine import MongoEngine
-from flask_mongoalchemy import MongoAlchemy
 from flask_restful import Api
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
 login_manager = LoginManager()
-db = MongoAlchemy()
+db = MongoEngine()
 migrate = Migrate()
 api = Api()
 cache = Cache()
