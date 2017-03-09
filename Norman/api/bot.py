@@ -1,4 +1,3 @@
-import requests
 from flask import Blueprint, jsonify
 from flask import make_response
 from flask import request
@@ -6,6 +5,8 @@ from flask_restful import Resource
 from Norman.extensions import csrf_protect
 from Norman.utils import response
 from Norman.settings import DevConfig
+from Norman.hospital.models import Todo
+
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
@@ -45,3 +46,11 @@ class WebHook(Resource):
         else:
             return response.response_error('Failed validation. Make sure the validation tokens match', args)
 
+
+@blueprint.route('/test-mongo', methods=['POST'])
+@csrf_protect.exempt
+def test_mongo():
+    name = request.args.get('name')
+    init_db = Todo.objects.all()
+    print(init_db)
+    return name

@@ -13,8 +13,8 @@ class Hospital(UserMixin, db.Document):
     address = db.StringField(required=True, max_length=1000, min_length=3)
     email = db.StringField(required=True, max_length=50, min_length=10)
     created_at = db.DateTimeField(default=dt.datetime.now())
-    active = db.BoolField(default=False)
-    is_admin = db.BoolField(default=False)
+    # active = db.BoolField(default=False)
+    # is_admin = db.BoolField(default=False)
 
     def __init__(self, name, email, password=None, **kwargs):
         """Create instance."""
@@ -35,3 +35,8 @@ class Hospital(UserMixin, db.Document):
     def __repr__(self):
         """Represent instance as a unique string."""
         return '<Hospital({name!r})>'.format(name=self.name)
+
+
+class Todo(db.Document):
+    title = db.StringField(max_length=60)
+
