@@ -92,7 +92,7 @@ class WebHook(Resource):
 
     @staticmethod
     def call_send_api(message):
-        access_token = DevConfig.FACEBOOK_KEY
+        access_token = DevConfig.FACEBOOK_SECRET_KEY
         uri = 'https://graph.facebook.com/v2.6/me/messages/access_token=' + access_token
         try:
             resp = r.post(uri, json=message)
