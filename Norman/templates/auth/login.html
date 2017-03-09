@@ -1,0 +1,33 @@
+{% include "landingpage/base.html" %}
+<section id="loginSection" xmlns="http://www.w3.org/1999/html">
+						<div class="inner">
+							<section>
+								<form method="post" action="#">
+									<div class="field half first">
+										<label for="name">Name</label>
+										<input type="text" name="name" id="name" />
+									</div>
+									<div class="field half">
+										<label for="email">Email</label>
+										<input type="text" name="email" id="email" />
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Login" class="special" /></li>
+									</ul>
+								</form>
+                                  <div  style="padding-left: 80%;">
+                                     <h6>New User?</h6>
+								<button type="button" href="{{ url_for('auth.register') }}" id="doRegisterBtn"  class="">Register</button>
+                                </div>
+							</section>
+							<section class="split">
+								<section>
+									<div class="image">
+										<img src="{{ url_for('static', filename='landing/images/Norman.png') }}" width="310" height="500" alt="" />
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+{% include "landingpage/footer.html" %}

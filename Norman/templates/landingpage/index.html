@@ -1,0 +1,147 @@
+{% include "landingpage/base.html" %}
+
+				<!-- Banner -->
+					<section id="banner" class="major">
+						<div class="inner">
+							<header class="major">
+								<h1>Hello, I'm Norman</h1>
+							</header>
+							<div class="content">
+								<p>Your personal medical assistance bot.</p>
+								<ul class="actions">
+									<li><a href="#one" class="button next scrolly">Talk to me</a></li>
+								</ul>
+							</div>
+						</div>
+					</section>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- One -->
+							<section id="one" class="tiles">
+								<article>
+									<span class="image">
+										<img src="{{ url_for('static', filename='landing/images/pic01.jpg') }}" alt="" />
+									</span>
+									<header class="major">
+										<h3><a href="{{ url_for('public.youtube') }}" class="link">Quick Start</a></h3>
+										<p>Watch me work</p>
+									</header>
+								</article>
+								<article>
+									<span class="image">
+										<img src="{{ url_for('static', filename='landing/images/pic02.jpg') }}" alt="" />
+									</span>
+									<header class="major">
+										<h3><a href="{{ url_for('hospital.hospital') }}" class="link">Hospitals</a></h3>
+										<p>Hospitals currently using me</p>
+									</header>
+								</article>
+								<article>
+									<span class="image">
+										<img src="{{ url_for('static', filename='landing/images/pic05.jpg') }}" alt="" />
+									</span>
+									<header class="major">
+										<h3><a href="{{ url_for('public.features') }}" class="link">Features</a></h3>
+										<p>Check out the features that make me awesome</p>
+									</header>
+								</article>
+								<article>
+									<span class="image">
+										<img src="{{ url_for('static', filename='landing/images/pic06.jpg') }}" alt="" />
+									</span>
+									<header class="major">
+										<h3><a href="/{{ url_for('public.help') }}" class="link">Need Help?</a></h3>
+										<p>What do you need help with?</p>
+									</header>
+								</article>
+							</section>
+
+						<!-- Two -->
+							<section id="two">
+								<div class="inner">
+									<header class="major">
+										<h2>The Norman Bot</h2>
+									</header>
+									<p>
+                                        Hello again!! <br>I'm Norman. <br>A personal facebook chat messenger bot that
+                                        helps you keep track of the most important thing in your life.
+                                        <br><b>Your health.</b></br>
+                                    </p>
+                                    <div>
+                                      <a href="{{ url_for('hospital.hospital') }}" class="button next">For Hospitals</a>
+                                      <a href="" class="button next">For Personal Users</a>
+
+                                        </div>
+								</div>
+							</section>
+
+					</div>
+
+				<!-- Contact -->
+					<section id="contact">
+						<div class="inner">
+							<section>
+								<form method="post" action="#">
+									<div class="field half first">
+										<label for="name">Name</label>
+										<input type="text" name="name" id="name" />
+									</div>
+									<div class="field half">
+										<label for="email">Email</label>
+										<input type="text" name="email" id="email" />
+									</div>
+									<div class="field">
+										<label for="message">Message</label>
+										<textarea name="message" id="message" rows="6"></textarea>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="special" /></li>
+										<li><input type="reset" value="Clear" /></li>
+									</ul>
+								</form>
+							</section>
+							<section class="split">
+								<section>
+									<div class="contact-method">
+										<span class="icon alt fa-envelope"></span>
+										<h3>Email</h3>
+										<a href="#">{{ config.COMPANY_EMAIL }}</a>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon alt fa-phone"></span>
+										<h3>Phone</h3>
+										<span>(+234){{ config.COMPANY_PHONE }}</span>
+									</div>
+								</section>
+								<section>
+									<div class="contact-method">
+										<span class="icon alt fa-home"></span>
+										<h3>Address</h3>
+										<span>{{ config.COMPANY_ADDRESS  }}<br /></span>
+									</div>
+								</section>
+							</section>
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
+								<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
+								<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+
+</body>
+
+{% include "landingpage/footer.html" %}

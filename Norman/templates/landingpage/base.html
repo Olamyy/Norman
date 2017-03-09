@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html>
+	<head>
+  <title>{% block page_title %}Norman{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="author" content="{% block meta_author %}{% endblock %}">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="landing/js/ie/html5shiv.js"></script><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="landing/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="landing/css/ie8.css" /><![endif]-->
+
+        <!-- Mobile viewport optimized: h5bp.com/viewport -->
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="{{ url_for("static", filename="libs/font-awesome4/css/font-awesome.min.css") }}">
+                <link rel="stylesheet" href="{{ url_for("static", filename="landing/css/pricing.css") }}">
+        <link rel="stylesheet" href="{{ url_for("static", filename="landing/css/main.css") }}">
+
+
+        {% block css %}{% endblock %}
+
+	</head>
+
+	<body>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<a href="/" class="logo"><strong>{{ config.APP_NAME }}</strong></a>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+					<nav id="menu">
+						<ul class="links">
+							<li><a href="/">Home</a></li>
+							<li><a href="{{ url_for('public.features') }}">Features</a></li>
+							<li><a href="{{ url_for('public.pricing') }}">Pricing</a></li>
+							<li><a href="{{ url_for('public.privacy') }}">Privacy Policy</a></li>
+						</ul>
+						<ul class="actions vertical">
+							<li><a href="#" class="button special fit">Chat with me</a></li>
+							<li><a href="{{ url_for('auth.login') }}" id="loginBtn"   class="button fit">Log In</a></li>
+						</ul>
+					</nav>
+
+

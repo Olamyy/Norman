@@ -1,0 +1,18 @@
+
+</html>
+	<!-- Scripts -->
+        <!-- JavaScript at the bottom for fast page loading -->
+            {% assets "js_all" %}
+                <script type="text/javascript" src="{{ url_for('static', filename='{{ ASSET_URL }}') }}"></script>
+            {% endassets %}
+
+			<script src="{{ url_for('static', filename='landing/js/jquery.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='landing/js/jquery.scrolly.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='landing/js/jquery.scrollex.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='landing/js/skel.min.js') }}"></script>
+			<script src="{{ url_for('static', filename='landing/js/util.js') }}"></script>
+			<!--[if lte IE 8]><script src="landing/js/ie/respond.min.js"></script><![endif]-->
+			<script src="{{ url_for('static', filename='landing/js/main.js') }}"></script>
+
+	</body>
+</html>
