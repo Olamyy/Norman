@@ -97,7 +97,12 @@ class WebHook(Resource):
 
     @staticmethod
     def call_send_api(message):
-        access_token = DevConfig.FACEBOOK_SECRET_KEY
+        access_token = 'EAAS0PtgoBk4BAAV6pDrocKGlPOAjdxyn' \
+                       'xBidP5noah1l27yRu2x0zZAc' \
+                       '1clvjQN1YAY9dHgJKGd8fPqjwHB' \
+                       'xQ0KuQxUahCkxUDmecH9OQvAk8FK' \
+                       'uZBZA2jQhHPihh85WcALD8UZBMRx' \
+                       'YXT1iAqaAGdpUcjKAlOBwL6VwisVC8QZDZD'
         uri = 'https://graph.facebook.com/v2.6/me/messages/access_token=' + access_token
         try:
             resp = r.post(uri, json=message)
