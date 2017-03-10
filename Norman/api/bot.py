@@ -68,9 +68,11 @@ class WebHook(Resource):
                         for att in x['message'].get('attachments'):
                             print("att is", att)
                             bot.send_attachment_url(recipient_id, att['type'], att['payload']['url'])
+                    return "ok"
                 else:
                     print("WTF")
                     return "ok"
+            return "ok"
         return "Success"
 
 
