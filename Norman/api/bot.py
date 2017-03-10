@@ -6,6 +6,9 @@ from Norman.extensions import csrf_protect
 from Norman.utils import response
 from Norman.settings import DevConfig
 from Norman.hospital.models import Todo
+from pymessenger.bot import Bot
+
+bot = Bot(DevConfig.FACEBOOK_SECRET_KEY)
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -46,7 +49,7 @@ class WebHook(Resource):
         else:
             return response.response_error('Failed validation. Make sure the validation tokens match', args)
     
-    def post():
+    def post(self):
         output = request.get_json()
         for event in output['entry']:
             messaging = event['messaging']
