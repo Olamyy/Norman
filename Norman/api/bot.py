@@ -6,6 +6,8 @@ from Norman.extensions import csrf_protect
 from Norman.utils import response
 from Norman.settings import DevConfig
 from pymessenger.bot import Bot
+import requests as r
+from flask import json
 
 
 bot = Bot(DevConfig.FACEBOOK_SECRET_KEY)
