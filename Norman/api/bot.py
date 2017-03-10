@@ -70,9 +70,9 @@ class WebHook(Resource):
                 # time_of_event = entry['time']
                 for event in entry['messaging']:
                     if event.get('message', None):
-                        make_response(json.dumps({'success': True}), 200,
-                                      {'ContentType': 'application/json'})
                         self.reply(event)
+                return make_response(json.dumps({'success': True}), 200,
+                                     {'ContentType': 'application/json'})
 
     def reply(self, event):
         sender_id = event['sender']['id']
