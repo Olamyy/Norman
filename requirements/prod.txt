@@ -8,8 +8,8 @@ Jinja2==2.9.5
 itsdangerous==0.24
 click>=5.0
 
-# Database
-Flask-MongoAlchemy
+#Database
+flask-mongoengine
 
 # Migrations
 Flask-Migrate==2.0.3
@@ -43,4 +43,5 @@ requests
 #API
 flask_restful
 
-
+#Facebook
+pymessenger
