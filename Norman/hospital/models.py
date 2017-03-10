@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""User models."""
-import datetime as dt
+"""Hospital models."""
+import datetime
 
 from flask_login import UserMixin
 from Norman.database import db, PasswordField
@@ -12,13 +12,11 @@ class Hospital(UserMixin, db.Document):
     password = PasswordField(required=True, max_length=50, min_length=10)
     address = db.StringField(required=True, max_length=1000, min_length=3)
     email = db.StringField(required=True, max_length=50, min_length=10)
-    created_at = db.DateTimeField(default=dt.datetime.now())
-    # active = db.BoolField(default=False)
-    # is_admin = db.BoolField(default=False)
+    created_at = db.DateTimeField(default=datetime.datetime.now())
+    active = db.BooleanField(default=False)
 
-    def __init__(self, name, email, password=None, **kwargs):
+    def __init__(self, password=None):
         """Create instance."""
-        db.Document.__init__(self, name=name, email=email, **kwargs)
         if password:
             self.set_password(password)
         else:
@@ -36,7 +34,4 @@ class Hospital(UserMixin, db.Document):
         """Represent instance as a unique string."""
         return '<Hospital({name!r})>'.format(name=self.name)
 
-
-class Todo(db.Document):
-    title = db.StringField(max_length=60)
 
