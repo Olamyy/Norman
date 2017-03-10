@@ -38,6 +38,8 @@ def webhook():
     view_class = WebHook()
     if request.method == "GET":
         return view_class.get()
+    else:
+        return view_class.post()
 
 
 class WebHook(Resource):
