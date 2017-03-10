@@ -5,7 +5,6 @@ from flask_restful import Resource
 from Norman.extensions import csrf_protect
 from Norman.utils import response
 from Norman.settings import DevConfig
-from Norman.hospital.models import Todo
 from pymessenger.bot import Bot
 
 
@@ -41,7 +40,6 @@ def webhook():
         return view_class.get()
     else:
         return view_class.post()
-
 
 class WebHook(Resource):
     @staticmethod
@@ -117,10 +115,3 @@ class WebHook(Resource):
             print('Unable to connect to graph api')
 
 
-@blueprint.route('/test-mongo', methods=['POST'])
-@csrf_protect.exempt
-def test_mongo():
-    name = request.args.get('name')
-    init_db = Todo.objects.all()
-    print(init_db)
-    return name
