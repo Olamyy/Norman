@@ -93,17 +93,17 @@ class WebHook(Resource):
         self.call_send_api(message_data)
 
     def send_text_message(self, recipient_id, message_text=None):
-        message_data_dict = {'recipient': {'id': recipient_id}, 'message': {'text': message_text}}
-        message_data = json.dumps(message_data_dict)
+        message_data = {'recipient': {'id': recipient_id}, 'message': {'text': message_text}}
+        print('message_data: ', message_data)
         self.call_send_api(message_data)
 
     @staticmethod
     def call_send_api(message):
-        access_token = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
-        uri = 'https://graph.facebook.com/v2.6/me/messages/access_token=' + access_token
+        # access_token = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
+        uri = 'https://graph.facebook.com/v2.6/me/messages?access_token=EAAS0PtgoBk4BAOOxYN9iU0LbCMs3ZAxNDuTsObMSu6VrENInETL7TrZCZCGGjOvcWgM7zAUNsHaAtr7AwJgWpZB68aUGIBlZCzau2ZCFmTUBI5MqP8xJaejv9uMwKdKhNYgGWPJXGfd8OvGZBulzwRBG8sGQdJfGAlKLsfigkBxkgZDZD'
         try:
             resp = r.post(uri, json=message)
-            print(resp.status_code, '\n')
+            print(resp.status_code)
             print(resp.text)
         except r.ConnectionError:
             print('Unable to connect to graph api')
