@@ -51,19 +51,26 @@ class WebHook(Resource):
     
     def post(self):
         output = request.get_json()
+        print("The output is ", output)
         for event in output['entry']:
+            print("The event is", event)
             messaging = event['messaging']
+            print("The message event is,", messaging)
             for x in messaging:
                 if x.get('message'):
                     recipient_id = x['sender']['id']
+                    print("The recipient ID is", recipient_id)
                     if x['message'].get('text'):
                         message = x['message']['text']
+                        print("The message is", message)
                         bot.send_text_message(recipient_id, message)
                     if x['message'].get('attachments'):
                         for att in x['message'].get('attachments'):
+                            print("att is", att)
                             bot.send_attachment_url(recipient_id, att['type'], att['payload']['url'])
                 else:
-                    pass
+                    print("WTF")
+                    return "ok"
         return "Success"
 
 
