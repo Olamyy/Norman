@@ -71,17 +71,6 @@ class WebHook(Resource):
                         # self.free_conversation.init_conversation()
 
 
-@blueprint.route('/testing', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def testing_validation():
-    free_conversation = FreeConversation()
-    args = request.args
-    user_view = UserView()
-    user_id = args.get('user_id')
-    message = args.get('message')
-    if not user_view.validate_user(user_id):
-        return free_conversation.init_conversation()
-
 
 
 
