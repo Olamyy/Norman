@@ -1,0 +1,4 @@
+event: Introduction
+base_message: "Hello, it looks like I have not met you yet."
+messages: ['Hello', "I am Norman", 'I can do a lot for you']
+sent_messages: []
