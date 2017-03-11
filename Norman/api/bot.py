@@ -5,10 +5,11 @@ from flask_restful import Resource
 from Norman.extensions import csrf_protect
 from Norman.utils import response
 from Norman.settings import DevConfig
-from Norman.hospital.models import Todo
 from pymessenger.bot import Bot
 import requests as r
 from flask import json
+
+
 bot = Bot(DevConfig.FACEBOOK_SECRET_KEY)
 
 
@@ -42,9 +43,9 @@ def webhook():
     else:
         return view_class.post()
 
-
 class WebHook(Resource):
-    def get(self):
+    @staticmethod
+    def get():
         args = request.args
         verify_token = 'python_rocks'
         if args.get('hub.mode') == 'subscribe' and args.get('hub.verify_token') == verify_token:
@@ -54,6 +55,13 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_json()
+        for event in data['entry']:
+            messaging = event['messaging']
+            for x in messaging:
+                if x.get('message'):
+                    recipient_id = x['sender']['id']
+                    if x['message'].get('text'):
+                        message = x['message']['text']
         print(data)
         if data.get('object', None) == 'page':
             message_entries = data['entry']
@@ -109,10 +117,3 @@ class WebHook(Resource):
             print('Unable to connect to graph api')
 
 
-@blueprint.route('/test-mongo', methods=['POST'])
-@csrf_protect.exempt
-def test_mongo():
-    name = request.args.get('name')
-    init_db = Todo.objects.all()
-    print(init_db)
-    return name

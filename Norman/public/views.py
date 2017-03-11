@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Blueprint,render_template
+from flask import Blueprint, render_template
 
 blueprint = Blueprint('public', __name__, static_folder='../static')
 
