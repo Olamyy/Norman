@@ -27,7 +27,7 @@ class Conversation:
 
 class FreeConversation(Conversation):
     def __init__(self, **kwargs):
-        super(FreeConversation, self).__init__(**kwargs)
+        super(FreeConversation).__init__(**kwargs)
 
     def init_conversation(self):
         if not self.is_alive:
