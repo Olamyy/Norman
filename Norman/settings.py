@@ -28,7 +28,6 @@ class Config(object):
 
 class ProdConfig(Config):
     """Production configuration."""
-    print("I'm using the dev config.")
 
     ENV = 'prod'
     DEBUG = False
@@ -48,11 +47,10 @@ class DevConfig(Config):
     DEBUG_TB_ENABLED = True
     ASSETS_DEBUG = True  # Don't bundle/minify static assets
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
-    MONGODB_DB = 'heroku_qcf3clms'
-    MONGODB_HOST = 'ds111559.mlab.com'
-    MONGODB_PORT = 11559
-    MONGODB_USERNAME = 'Olamilekan'
-    MONGODB_PASSWORD = 'toga'
+    MONGODB_DB = 'Norman'
+    MONGODB_HOST = '127.0.0.1'
+    MONGODB_PORT = 27017
+
 
 
 class TestConfig(Config):

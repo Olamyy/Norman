@@ -1,43 +1,29 @@
-import datetime
+from bson import ObjectId
+from flask import jsonify
 
-from flask_login import UserMixin
-from Norman.database import db, PasswordField
-from Norman.extensions import bcrypt
+from Norman.users.models import User
 
 
-class Hospital(UserMixin, db.Document):
-    name = db.StringField(required=True, max_length=200, min_length=3)
-    fb_id = db.StringField(max_length=200, min_length=3)
-    first_name = db.StringField(required=True, max_length=200, min_length=3)
-    last_name = db.StringField(required=True, max_length=200, min_length=3)
-    email = db.EmailField(required=True, max_length=200, min_length=10)
-    username = db.StringField(required=True, max_length=50, min_length=3)
-    hospital_id = db.StringField(required=True, max_length=200, min_length=3)
-    services_id = db.StringField(required=True, max_length=200, min_length=3)
-    plan_id = db.StringField(required=True, max_length=200, min_length=3)
-    password = PasswordField(required=True, max_length=50, min_length=10)
-    is_verified = db.BooleanField(default=False)
-    is_active = db.BooleanField(default=False)
-    created_at = db.DateTimeField(default=datetime.datetime.now())
+class UserView:
+    def __init__(self):
+        self.user_object = User
+        pass
 
-    def __init__(self, name, email, password=None, **kwargs):
-        """Create instance."""
-        db.Document.__init__(self, name=name, email=email, **kwargs)
-        if password:
-            self.set_password(password)
+    def validate_fb_id(self, fb_id):
+        if not self.user_object.objects.get(fb_id=fb_id):
+            return False
         else:
-            self.password = None
+            return True
 
-    def set_password(self, password):
-        """Set password."""
-        self.password = bcrypt.generate_password_hash(password)
+    def validate_user_id(self, user_id):
+        if not self.user_object.objects.filter(username=user_id):
+            return False
+        else:
+            return True
 
-    def check_password(self, value):
-        """Check password."""
-        return bcrypt.check_password_hash(self.password, value)
-
-    def __repr__(self):
-        """Represent instance as a unique string."""
-        return '<Norman User({name!r})>'.format(name=self.name)
-
-
+    def validate_user(self, id):
+        if self.user_object.objects.filter(is_verified=False, fb_id=id) or not \
+                self.user_object.objects.filter(is_verified=False, user_id=id):
+            return False
+        else:
+            return True
