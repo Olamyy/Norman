@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>Norman</title>
+<meta name="description" content="Medical Assistance bot">
+<meta name="keywords" content="bot, facebook, ai, assistance, telegram, norman, python, flask">
+<meta name="author" content="Saptarang">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Assistant:200,300,400,600,700&amp;subset=hebrew" rel="stylesheet">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='landing/css/combine.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='landing/css/style.css') }}"/>
+<script src="{{ url_for('static', filename='landing/js/jsmodernizr.custom.js') }}"></script>
+<!--[if gte IE 9]><style type="text/css">.gradient {filter: none; }</style><![endif]-->
+
+<link rel="shortcut icon" href="{{ url_for('static', filename='landing/images/icons/favicon.ico') }}">
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='landing/images/icons/apple-icon-144x144.png') }}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='landing/images/icons/apple-icon-72x72.png') }}">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='landing/images/icons/apple-icon-114x114.png') }}">
+</head>
+<body id="top" class="topHeader light" data-spy="scroll" data-target="#menu">
+<div id="preloader"><div class="preloader"></div></div>
+
+<header>
+<a id="nav-expander" class="nav-expander fixed">
+<span class="line1"></span>
+<span class="line2"></span>
+<span class="line3"></span>
+</a>
+<div id="social">
+<i class="pe-7s-network main"></i>
+<ul class="social">
+<li><a href="https://www.facebook.com/Dezinethemes/" target="_blank" title="Follow Us on Facebook"><i class="fa fa-facebook round"></i></a></li>
+<li><a href="https://twitter.com/dezinethemes" target="_blank" title="Follow Us on Twitter"><i class="fa fa-twitter round"></i></a></li>
+</ul>
+</div>
+
+<nav id="menu" class="nav">
+<a class="logo" title="company Logo" href="/"><img class="img-responsive" src="{{ url_for('static', filename='landing/images/Norman_Logo.png') }}" width="82" height="55" alt="Company Logo"/></a>
+<ul class="main-menu nav" role="tablist">
+
+<li><a href="#features" title="Features"><i class="pe-7s-keypad"></i> <strong>Features</strong></a></li>
+<li><a href="#video" title="Demo"><i class="pe-7s-play"></i> <strong>Demo Video</strong></a></li>
+<li><a href="#pricing" title="Pricing"><i class="pe-7s-credit"></i> <strong>Pricing</strong></a></li>
+<li><a href="#faq" title="FAQ"><i class="pe-7s-help1"></i> <strong>FAQ</strong></a></li>
+<li><a href="#support" title="Support"><i class="pe-7s-help2"></i> <strong>Support</strong></a></li>
+<li><a href="#contact" title="Contact"><i class="pe-7s-mail"></i> <strong>Contact</strong></a></li>
+<li><a href="{{ url_for('public.privacy') }}" title="Privacy Policy"><i class="pe-7s-help2"></i> <strong>Privacy</strong></a></li>
+<li><a href="#login" title="Login"><i class="pe-7s-mail"></i> <strong>Login</strong></a></li>
+</ul>
+</nav>
+</header>

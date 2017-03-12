@@ -14,27 +14,3 @@ def home():
 def privacy():
     return render_template('landingpage/privacy.html')
 
-
-@blueprint.route('/help', methods=['GET'])
-def help():
-    return render_template('landingpage/privacy.html')
-
-
-@blueprint.route('/features', methods=['GET'])
-def features():
-    return render_template('landingpage/features.html')
-
-
-@blueprint.route('/promo-video', methods=['GET'])
-def youtube():
-    return render_template('landingpage/features.html')
-
-
-@blueprint.route('/about', methods=['GET'])
-def pricing():
-    return render_template('landingpage/pricing.html')
-
-
-@blueprint.route('/pricing', methods=['GET'])
-def about():
-    return render_template('landingpage/pricing.html')

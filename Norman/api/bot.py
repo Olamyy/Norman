@@ -12,8 +12,6 @@ from Norman.facebook.conversations import FreeConversation
 
 
 bot = Bot(DevConfig.FACEBOOK_SECRET_KEY)
-
-
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
