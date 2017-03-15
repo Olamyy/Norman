@@ -6,11 +6,11 @@ from Norman.database import db
 
 
 class Service(db.Document):
-    name = db.StringField(required=True, max_length=200, min_length=3)
+    name = db.StringField(required=True, max_length=200, min_length=3, unique=True)
     long_description = db.StringField(required=True, max_length=1000, min_length=3)
-    service_hashed = db.StringField(required=True, max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
     short_description = db.StringField(required=True, max_length=200, min_length=3)
+    service_id = db.StringField(required=True, max_length=1000, min_length=3)
 
     def __repr__(self):
         """Represent instance as a unique string."""

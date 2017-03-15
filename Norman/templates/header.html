@@ -12,9 +12,13 @@
 
 <link href="https://fonts.googleapis.com/css?family=Assistant:200,300,400,600,700&amp;subset=hebrew" rel="stylesheet">
 
+<link rel="stylesheet" href="{{ url_for('static', filename='landing/css/bootstrap.min.css') }}"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='landing/css/combine.css') }}"/>
 <link rel="stylesheet" href="{{ url_for('static', filename='landing/css/style.css') }}"/>
-<script src="{{ url_for('static', filename='landing/js/jsmodernizr.custom.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='landing/css/sweetalert2.min.css') }}"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='landing/css/toastr.min.css') }}"/>
+    <script src="{{ url_for('static', filename='landing/js/js.cookie.js') }}"></script>
+<script src="{{ url_for('static', filename='landing/js/modernizr.custom.js') }}"></script>
 <!--[if gte IE 9]><style type="text/css">.gradient {filter: none; }</style><![endif]-->
 
 <link rel="shortcut icon" href="{{ url_for('static', filename='landing/images/icons/favicon.ico') }}">
@@ -43,14 +47,14 @@
 <a class="logo" title="company Logo" href="/"><img class="img-responsive" src="{{ url_for('static', filename='landing/images/Norman_Logo.png') }}" width="82" height="55" alt="Company Logo"/></a>
 <ul class="main-menu nav" role="tablist">
 
-<li><a href="#features" title="Features"><i class="pe-7s-keypad"></i> <strong>Features</strong></a></li>
+<li><a href="#features" title="Features"><i class=""></i> <strong>Features</strong></a></li>
 <li><a href="#video" title="Demo"><i class="pe-7s-play"></i> <strong>Demo Video</strong></a></li>
 <li><a href="#pricing" title="Pricing"><i class="pe-7s-credit"></i> <strong>Pricing</strong></a></li>
 <li><a href="#faq" title="FAQ"><i class="pe-7s-help1"></i> <strong>FAQ</strong></a></li>
 <li><a href="#support" title="Support"><i class="pe-7s-help2"></i> <strong>Support</strong></a></li>
 <li><a href="#contact" title="Contact"><i class="pe-7s-mail"></i> <strong>Contact</strong></a></li>
-<li><a href="{{ url_for('public.privacy') }}" title="Privacy Policy"><i class="pe-7s-help2"></i> <strong>Privacy</strong></a></li>
-<li><a href="#login" title="Login"><i class="pe-7s-mail"></i> <strong>Login</strong></a></li>
+<li><a href="{{ url_for('public.privacy') }}" id="privacy" title="Privacy Policy"><i class="pe-7s-help2"></i> <strong>Privacy</strong></a></li>
+<li><a href="{{ url_for('auth.auth') }}" id="doAuth" title="Login"><i class="pe-7s-mail"></i> <strong>Login</strong></a></li>
 </ul>
 </nav>
 </header>

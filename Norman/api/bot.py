@@ -64,6 +64,7 @@ class WebHook(Resource):
             for action in messaging:
                 if action.get('message'):
                     recipient_id = action['sender']['id']
+
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello, {0}".format(recipient_id)
                         return bot.send_text_message(recipient_id, message)

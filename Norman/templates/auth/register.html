@@ -1,45 +1,45 @@
-{% include "landingpage/base.html" %}
-<section id="loginSection" xmlns="http://www.w3.org/1999/html">
-						<div class="inner">
-							<section>
-								<form method="post" action="" role="form">
-                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-									<div class="field half first">
-										<label for="name">Hospital Name</label>
-									{{form.name(placeholder="Hospital Name", class_="form-control")}}
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-									{{form.email(placeholder="Email", class_="form-control")}}
-									</div>
-                                     <div class="field">
-										<label for="Password">Password</label>
-									{{form.password(placeholder="Password", class_="form-control")}}
-									</div>
-                                    <div class="field">
-										<label for="Confirm Password">Confirm Password</label>
-									{{form.confirm(placeholder="Enter password again", class_="form-control")}}
-									</div>
-                                    <div class="field">
-										<label for="address">Address</label>
-									{{form.address(placeholder="Address", class_="form-control", rows="5")}}
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Register" class="special" /></li>
-									</ul>
-								</form>
-                                  <div  style="padding-left: 80%;">
-                                     <h6>Already a user?</h6>
-								<button type="button" href="{{ url_for('auth.login') }}" id="doLoginBtn"  class="">Login</button>
-                                </div>
-							</section>
-							<section class="split">
-								<section>
-									<div class="image">
-										<img src="{{ url_for('static', filename='landing/images/Norman.png') }}" width="310" height="500" alt="" />
-									</div>
-								</section>
-							</section>
-						</div>
-					</section>
-{% include "landingpage/footer.html" %}
+{% include 'header.html' %}
+
+<section id="login">
+<div class="container-wide">
+<div class="row">
+<div class="col-md-6 col-sm-12 col-sm-12 pTB8 pricingInfo equal wow fadeIn" data-wow-duration="0.50s" data-wow-delay="0.25s">
+<section class="mB3">
+<h2>Hospital Account</h2>
+<h6>Enter the details below to register your hospital<strong></strong></h6>
+<span class="seperator prime mT0">...</span>
+<form action="#top" method="post" id="cForm">
+<div class="form-group">
+<label for="name">Name</label>
+<input type="text" id="hospName" name="name" class="form-control" placeholder="Enter the hospital name" />
+</div>
+<div class="form-group">
+    <label for="message">Address</label>
+<textarea cols="50" rows="5" id="hospAddress" name="message" class="form-control" placeholder="Enter your address" required></textarea>
+</div>
+</form>
+</section>
+</div>
+<div class="col-md-6 col-sm-12 col-sm-12 page-block-full pTB8 equal wow fadeInRight" data-wow-duration="0.50s" data-wow-delay="0.25s">
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="form-group">
+<label for="speciality">Speciality</label>
+<input type="text" id="hospSpecialty" name="speciality" class="form-control" placeholder="Enter your speciality(ies)" />
+</div>
+<div class="form-group">
+    <label for="message">Description</label>
+<textarea cols="50" rows="5" id="hospDescription" name="message" class="form-control" placeholder="A short description of your medical facility" required></textarea>
+</div>
+    <input type="hidden" id="base_url" value="{{ config.BASE_URL}}">
+    <a class="btn btn-prime line smooth" href="" id="doCompleteRegistration" title="Register">Sign Up<i class="pe-7s-angle-right"></i></a>
+</div><div class="clear"></div>
+</div>
+</div>
+</section>
+
+
+{% include 'footer.html' %}
