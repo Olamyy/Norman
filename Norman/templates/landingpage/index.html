@@ -1,147 +1,530 @@
-{% include "landingpage/base.html" %}
+{% include 'header.html' %}
+ 
+ 
+<section id="slider" class="noBG">
+<div id="homeSlider" class="carousel carousel-fade slide" data-ride="carousel">
+ 
+<ol class="carousel-indicators">
+<li data-target="#homeSlider" data-slide-to="0" class="active"></li>
+<li data-target="#homeSlider" data-slide-to="1"></li>
+<li data-target="#homeSlider" data-slide-to="2"></li>
+</ol>
+ 
+<div class="carousel-inner" role="listbox">
+ 
+<div class="item active">
+<div class="col-md-4 col-md-offset-1 col-sm-5 col-xs-12 text-right" data-animation="animated bounceInLeft">
+<div class="img">
+<img class="img-responsive" src="{{ url_for('static', filename='landing/images/Norman.png') }}"  width="500" height="10"  alt="...">
+</div>
+</div>
+<div class="carousel-caption col-md-7 col-sm-7 col-xs-12" data-animation="animated bounceInRight">
+<div class="iconBox round">
+<i class="pe-7s-diamond"></i>
+</div>
+<h2>A personal <strong>medical</strong> assistance bot</h2>
+<span class="seperator">...</span>
+<p class="big">Norman is medical bot that provides the best of medical assistance to you.<br>It mixes the power of Machine Learning and
+  Artificial Intelligence to bring the best of health assistance.
+</p>
+<a class="btn btn-prime line smooth" href="#features" title="Explore">Explore Features<i class="pe-7s-angle-right"></i></a>
+<a class="btn btn-dark line smooth" href="#download" title="Download">Get Started <i class="pe-7s-angle-right"></i></a>
+</div>
+</div>
+ 
+ 
+<div class="item">
+<div class="col-md-4 col-md-offset-1 col-sm-5 col-xs-12 text-right" data-animation="animated bounceInLeft">
+<div class="img">
+<img class="img-responsive" src="{{ url_for('static', filename='landing/images/Norman.png') }}" width="450" height="740" alt="...">
+</div>
+</div>
+<div class="carousel-caption col-md-7 col-sm-7 col-xs-12" data-animation="animated bounceInRight">
+<div class="iconBox round">
+<i class="pe-7s-star"></i>
+</div>
+<h2>User Friendly <strong>Design</strong></h2>
+<span class="seperator">...</span>
+<p class="big">Norman has a user friendly discussion design.</p>
+    <a class="btn btn-prime line smooth" href="#features" title="Explore">Explore Features<i class="pe-7s-angle-right"></i></a>
+    <a class="btn btn-dark line smooth" href="#download" title="Download">Get Started <i class="pe-7s-angle-right"></i></a>
+</div>
+</div>
+ 
+ 
+<div class="item">
+<div class="col-md-4 col-md-offset-1 col-sm-5 col-xs-12 text-right" data-animation="animated bounceInLeft">
+<div class="img">
+<img class="img-responsive" src="{{ url_for('static', filename='landing/images/Norman.png') }}" width="450" height="740" alt="...">
+</div>
+</div>
+<div class="carousel-caption col-md-7 col-sm-7 col-xs-12" data-animation="animated bounceInRight">
+<div class="iconBox round">
+<i class="pe-7s-help2"></i>
+</div>
+<h2>Quick <strong>Support</strong></h2>
+<span class="seperator">...</span>
+<p class="big">You also get a 24hrs support from Norman</p>
+    <a class="btn btn-prime line smooth" href="#features" title="Explore">Explore Features<i class="pe-7s-angle-right"></i></a>
+    <a class="btn btn-dark line smooth" href="#download" title="Download">Get Started <i class="pe-7s-angle-right"></i></a></div>
+</div>
+ 
+</div> 
+ 
+ 
+</div>
+</section>
+ 
+ 
+<section id="features" class="BGlight pTB8 wow fadeIn">
+<div class="container-wide">
+<div class="row">
+<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+<img class="img-responsive mT5" src="{{ url_for('static', filename='landing/images/Norman_Logo.png') }}" width="380" height="402" alt="Foxy App"/>
+</div>
+<div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+<div class="col-lg-12">
+<h2>Awesome Norman <strong>Features</strong></h2>
+<span class="seperator prime mT0">...</span>
+<h6>You or your patient are the primary focus of Norman.</h6>
+<p>Some of <strong>Norman</strong>"s features are listed below </p>
+</div> <div class="clear"></div>
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 equal">
+<i class="pe-7s-science"></i>
+<h6>Intuitive Design</h6>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nisi enim, vulputate at justo tristique.</p>
+</div>
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 equal">
+<i class="pe-7s-albums"></i>
+<h6>Pre-made Themes</h6>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nisi enim, vulputate at justo tristique.</p>
+</div>
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 equal">
+<i class="pe-7s-battery"></i>
+<h6>Battery Friendly</h6>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nisi enim, vulputate at justo tristique.</p>
+</div>
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 equal">
+<i class="pe-7s-expand1"></i>
+<h6>Responsive Media</h6>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nisi enim, vulputate at justo tristique.</p>
+</div>
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 equal">
+<i class="pe-7s-paint-bucket"></i>
+<h6>Color Options</h6>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nisi enim, vulputate at justo tristique.</p>
+</div>
+<div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 equal">
+<i class="pe-7s-micro"></i>
+<h6>Voice Supported</h6>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nisi enim, vulputate at justo tristique.</p>
+</div>
+</div>
+</div> 
+</div> 
+</section>
+ 
+ 
+<section id="stat" class="">
+<div class="container-wide">
+<div class="row">
+<div class="col-md-4 col-md-push-4 col-sm-4 col-xs-12 pTB8 statImg BGprime equal">
+<img class="img-responsive" src="{{ url_for('static', filename='landing/images/Norman.png') }}" width="400" height="658" alt=""/>
+</div>
+<div class="col-md-4 col-md-pull-4 col-sm-6 col-xs-12 equal pTB8 counter wow fadeIn">
+<div class="text-center">
+<h2><strong>Norman</strong> Statistics</h2>
+<span class="seperator prime mT0">...</span>
+</div>
+<div class="stat">
+<div class="info">
+<h6>Downloads</h6>
+<p>Foxy is donwloaded more than 150K users for android and iOS mobile devices. Lorem best app.</p>
+</div>
+<div class="circle">
+<div><h1 class="timer" data-from="0" data-to="150000" data-speed="1500"></h1></div>
+</div> <div class="clear"></div>
+</div>
+<div class="stat">
+<div class="info">
+<h6>Active Users</h6>
+<p>Foxy is currently being used by those many number of active users. Its a popular app.</p>
+</div>
+<div class="circle">
+<div><h1 class="timer" data-from="0" data-to="3500" data-speed="1500"></h1></div>
+</div> <div class="clear"></div>
+</div>
+<div class="stat">
+<div class="info">
+<h6>Loved By</h6>
+<p>Foxy is really loved by so many users across the globe. Lorem ipsum dolar sit amet lorem ipsum.</p>
+</div>
+<div class="circle">
+<div><h1 class="timer" data-from="0" data-to="1000000" data-speed="1500"></h1></div>
+</div> <div class="clear"></div>
+</div>
+</div>
+<div class="col-md-4 col-sm-6 col-xs-12 pTB8 equal pieChart wow fadeIn">
+<div class="text-center">
+<h2><strong>Norman</strong> Score</h2>
+<span class="seperator prime mT0">...</span>
+</div>
+<div class="stat">
+<div class="chart" data-percent="97">97%</div>
+<div class="info">
+<h6>Performance</h6>
+<p>Foxy is one of the fastest operating mobile application rated by its users. Lorem ipsum dolar sit amet.</p>
+</div> <div class="clear"></div>
+</div>
+<div class="stat">
+<div class="chart" data-percent="89">89%</div>
+<div class="info">
+<h6>Data Syncing</h6>
+<p>It’s data syncing process is fast and smooth. Seamless interactions between server and device.</p>
+</div> <div class="clear"></div>
+</div>
+<div class="stat">
+<div class="chart" data-percent="80">80%</div>
+<div class="info">
+<h6>Memory Friendly</h6>
+<p>Foxy is a memory friendly app for your device. Foxy never lets your device heat up while its running.</p>
+</div> <div class="clear"></div>
+</div>
+</div>
+</div>
+</div> 
+</section>
+ 
+ 
+<section id="video" class="pTB8 BGlight opaque">
+<div class="container-wide">
+<div class="row">
+<div class="textBox">
+<div class="playIcon">
+<a class="icon start" href="https://www.youtube.com/embed/e452W2Kj-yg" title="Watch Now">
+<i class="iPlay pe-7s-play"></i>
+<i class="iClose pe-7s-close"></i>
+</a>
+</div>
+<div class="content">
+<h4 class="m0">Demo Video</h4>
+<p>Watch a quick short video explaining the ideology behind Norman.
+    <br>It demonstrates how Norman works and how you can use it.</p>
+</div> <div class="clear"></div>
+</div>
+<div class="videoBox">
+</div> <div class="clear"></div>
+</div> 
+</div> 
+</section>
 
-				<!-- Banner -->
-					<section id="banner" class="major">
-						<div class="inner">
-							<header class="major">
-								<h1>Hello, I'm Norman</h1>
-							</header>
-							<div class="content">
-								<p>Your personal medical assistance bot.</p>
-								<ul class="actions">
-									<li><a href="#one" class="button next scrolly">Talk to me</a></li>
-								</ul>
-							</div>
-						</div>
-					</section>
+<section id="pricing">
+<div class="container-wide">
+<div class="row">
+<div class="col-md-6 col-sm-12 col-sm-12 pTB8 pricingInfo equal wow fadeIn" data-wow-duration="0.50s" data-wow-delay="0.25s">
+<section class="mB3">
+<h2><strong>Pricing</strong> Plans</h2>
+<span class="seperator prime mT0">...</span>
+<h4 class="prime">Pricing Plan Short Description</h4>
+<p>Pricing Plan Long Description</p>
+</section>
+</div>
+<div class="col-md-6 col-sm-12 col-sm-12 page-block-full pTB8 equal wow fadeInRight" data-wow-duration="0.50s" data-wow-delay="0.25s">
+ 
+<ul class="nav nav-tabs" role="tablist">
+<li role="presentation" class=""><a href="#one" role="tab" data-toggle="tab">Demo Run</a></li>
+<li role="presentation" class="active"><a href="#two" role="tab" data-toggle="tab">Starter</a></li>
+<li role="presentation"><a href="#three" role="tab" data-toggle="tab">Professional</a></li>
+<li class="star" role="presentation"><a href="#four" role="tab" data-toggle="tab">Ultimate</a></li>
+</ul>
+ 
+<div class="tab-content">
+<div role="tabpanel" class="tab-pane fade in active" id="one">
+<div class="plan">
+<h1><sup>&#8358;</sup> 0.00 <small>/ month</small></h1>
+<ul class="simple paddingM">
+<li><strong>File Storage</strong> 20GB</li>
+<li><strong>Database Storage</strong> 2GB</li>
+<li><strong>Bandwidth</strong> 5GB/month</li>
+<li><strong>Memory Limit</strong> 512MB</li>
+<li><strong>Email Support</strong> <i class="pe-7s-check"></i></li>
+<li><strong>Phone Support</strong> <i class="pe-7s-close"></i></li>
+<li><strong>Backups</strong> <i class="pe-7s-close"></i></li>
+</ul>
+<div class="text-right">
+<p class="big">...It"s <strong class="prime">Free</strong> <a class="btn btn-dark line" href="#" title="Sign Up Now">Sign Up Now <i class="pe-7s-angle-right"></i></a> </p>
+</div>
+</div>
+</div>
 
-				<!-- Main -->
-					<div id="main">
+<div role="tabpanel" class="tab-pane fade in active" id="two">
+<div class="plan">
+<h1><sup>&#8358;</sup> 0.00 <small>/ month</small></h1>
+<ul class="simple paddingM">
+<li><strong>File Storage</strong> 20GB</li>
+<li><strong>Database Storage</strong> 2GB</li>
+<li><strong>Bandwidth</strong> 5GB/month</li>
+<li><strong>Memory Limit</strong> 512MB</li>
+<li><strong>Email Support</strong> <i class="pe-7s-check"></i></li>
+<li><strong>Phone Support</strong> <i class="pe-7s-close"></i></li>
+<li><strong>Backups</strong> <i class="pe-7s-close"></i></li>
+</ul>
+<div class="text-right">
+<p class="big">...It"s <strong class="prime">Free</strong> <a class="btn btn-dark line" href="#" title="Sign Up Now">Sign Up Now <i class="pe-7s-angle-right"></i></a> </p>
+</div>
+</div>
+</div>
 
-						<!-- One -->
-							<section id="one" class="tiles">
-								<article>
-									<span class="image">
-										<img src="{{ url_for('static', filename='landing/images/pic01.jpg') }}" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="{{ url_for('public.youtube') }}" class="link">Quick Start</a></h3>
-										<p>Watch me work</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="{{ url_for('static', filename='landing/images/pic02.jpg') }}" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="{{ url_for('hospital.hospital') }}" class="link">Hospitals</a></h3>
-										<p>Hospitals currently using me</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="{{ url_for('static', filename='landing/images/pic05.jpg') }}" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="{{ url_for('public.features') }}" class="link">Features</a></h3>
-										<p>Check out the features that make me awesome</p>
-									</header>
-								</article>
-								<article>
-									<span class="image">
-										<img src="{{ url_for('static', filename='landing/images/pic06.jpg') }}" alt="" />
-									</span>
-									<header class="major">
-										<h3><a href="/{{ url_for('public.help') }}" class="link">Need Help?</a></h3>
-										<p>What do you need help with?</p>
-									</header>
-								</article>
-							</section>
+<div role="tabpanel" class="tab-pane fade" id="two">
+<div class="plan">
+<h1><sup>&#8358;</sup> 149.00 <small>/ month</small></h1>
+<ul class="simple paddingM">
+<li><strong>File Storage</strong> 50GB</li>
+<li><strong>Database Storage</strong> 5GB</li>
+<li><strong>Bandwidth</strong> 10GB/month</li>
+<li><strong>Memory Limit</strong> 1GB</li>
+<li><strong>Email Support</strong> <i class="pe-7s-check"></i></li>
+<li><strong>Phone Support</strong> <i class="pe-7s-check"></i></li>
+<li><strong>Backups</strong> <i class="pe-7s-close"></i></li>
+</ul>
+<div class="text-right">
+<p class="big">...Are you <strong class="prime">convinced</strong>, yet? <a class="btn btn-sec line" href="#" title="Sign Up Now">Sign Up Now <i class="pe-7s-angle-right"></i></a> </p>
+</div>
+</div>
+</div>
+ 
+<div role="tabpanel" class="tab-pane fade" id="three">
+<div class="plan">
+<h1><sup>&#8358;</sup> 299.00 <small>/ month</small></h1>
+<ul class="simple paddingM">
+<li><strong>File Storage</strong> Unlimited</li>
+<li><strong>Database Storage</strong> Unlimited</li>
+<li><strong>Bandwidth</strong> Unlimited</li>
+<li><strong>Memory Limit</strong> Unlimited</li>
+<li><strong>Email Support</strong> <i class="pe-7s-check"></i></li>
+<li><strong>Phone Support</strong> <i class="pe-7s-check"></i></li>
+<li><strong>Backups</strong> <i class="pe-7s-check"></i></li>
+</ul>
+<div class="text-right">
+<p class="big">...Pretty <strong class="prime">Cool</strong>, huh? <a class="btn btn-prime line" href="#" title="Sign Up Now">Sign Up Now <i class="pe-7s-angle-right"></i></a> </p>
+</div>
+</div>
+</div>
+ 
+</div>
+</div><div class="clear"></div>
+</div> 
+</div> 
+</section>
+ 
+<section id="faq" class="pTB8 BGlight">
+<div class="container-wide">
+<h2>FAQ</h2>
+<span class="seperator prime mT0">...</span>
+<div class="row">
+<div class="col-md-6 col-sm-6 col-xs-12 wow fadeIn" data-wow-duration="0.50s" data-wow-delay="0.50s">
+<div class="panel-group text-left" id="category1" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category1" href="#cat1_1"><span></span>Lorem ipsum dolor sit amet? </a> </h6>
+</div>
+<div id="cat1_1" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category1" href="#cat1_2"><span></span>Nulla hendreit vitae consequat? </a> </h6>
+</div>
+<div id="cat1_2" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category1" href="#cat1_3"><span></span>Suspendisse dignissim convallis dolor at viverra? </a> </h6>
+</div>
+<div id="cat1_3" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default ">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category1" href="#cat1_4"><span></span>Consectetur adipiscing elit enim vulputate? </a> </h6>
+</div>
+<div id="cat1_4" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category1" href="#cat1_5"><span></span>Suspendisse dignissim convallis dolor at viverra? </a> </h6>
+</div>
+<div id="cat1_5" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+</div>
+</div> 
+ 
+<div class="col-md-6 col-sm-6 col-xs-12 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.50s">
+<div class="panel-group text-left" id="category2" role="tablist" aria-multiselectable="true">
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category2" href="#cat2_1"><span></span>Lorem ipsum dolor sit amet? </a> </h6>
+</div>
+<div id="cat2_1" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category2" href="#cat2_2"><span></span>Nulla hendreit vitae consequat? </a> </h6>
+</div>
+<div id="cat2_2" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category2" href="#cat2_3"><span></span>Suspendisse dignissim convallis dolor at viverra? </a> </h6>
+</div>
+<div id="cat2_3" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default ">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category2" href="#cat2_4"><span></span>Consectetur adipiscing elit enim vulputate? </a> </h6>
+</div>
+<div id="cat2_4" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<h6 class="panel-title"> <a data-toggle="collapse" data-parent="#category2" href="#cat2_5"><span></span>Suspendisse dignissim convallis dolor at viverra? </a> </h6>
+</div>
+<div id="cat2_5" class="panel-collapse collapse">
+<div class="panel-body"> <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch.
+Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.</p>
+</div>
+</div>
+</div>
+</div>
+</div> 
+<div class="clear"></div>
+<p class="col-md-12 mT3 text-right">More Questions? <a class="btn btn-sec line smooth" href="#contact" title="Contact Us">Contact Us <i class="pe-7s-angle-right"></i></a> </p>
+</div> 
+</div> 
+</section>
 
-						<!-- Two -->
-							<section id="two">
-								<div class="inner">
-									<header class="major">
-										<h2>The Norman Bot</h2>
-									</header>
-									<p>
-                                        Hello again!! <br>I'm Norman. <br>A personal facebook chat messenger bot that
-                                        helps you keep track of the most important thing in your life.
-                                        <br><b>Your health.</b></br>
-                                    </p>
-                                    <div>
-                                      <a href="{{ url_for('hospital.hospital') }}" class="button next">For Hospitals</a>
-                                      <a href="" class="button next">For Personal Users</a>
-
-                                        </div>
-								</div>
-							</section>
-
-					</div>
-
-				<!-- Contact -->
-					<section id="contact">
-						<div class="inner">
-							<section>
-								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="6"></textarea>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="special" /></li>
-										<li><input type="reset" value="Clear" /></li>
-									</ul>
-								</form>
-							</section>
-							<section class="split">
-								<section>
-									<div class="contact-method">
-										<span class="icon alt fa-envelope"></span>
-										<h3>Email</h3>
-										<a href="#">{{ config.COMPANY_EMAIL }}</a>
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<span class="icon alt fa-phone"></span>
-										<h3>Phone</h3>
-										<span>(+234){{ config.COMPANY_PHONE }}</span>
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<span class="icon alt fa-home"></span>
-										<h3>Address</h3>
-										<span>{{ config.COMPANY_ADDRESS  }}<br /></span>
-									</div>
-								</section>
-							</section>
-						</div>
-					</section>
-
-				<!-- Footer -->
-					<footer id="footer">
-						<div class="inner">
-							<ul class="icons">
-								<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
-								<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-								<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							</ul>
-						</div>
-					</footer>
-
-			</div>
+<section id="support" class="text-center pTB8">
+<div class="container-wide">
+<div class="row wow fadeIn">
+<h2>Impeccable <strong>Support</strong></h2>
+<span class="seperator prime mT0">...</span>
+<div class="col-md-4 col-sm-4 col-xs-12">
+<div class="iconBox round">
+<i class="pe-7s-mail"></i>
+</div>
+    Write to Us<h6>info@normanbot.ai</h6>
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12">
+<div class="iconBox round">
+<i class="pe-7s-phone"></i>
+</div>
+Connect with Us<h6>+234 90 36671876</h6>
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12">
+<div class="iconBox round">
+<i class="pe-7s-headphones"></i>
+</div>
+Chat with Us<h6>@NormanAI</h6>
+</div> <div class="clear"></div>
+<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12 mT6 subscribe">
+<h6>Subscribe to Our <strong>Newsletter</strong></h6>
+<small>Receive emails of Norman updates and upcoming features</small>
+<form action="http://www.saptarang.org/premium/html/foxy/02/form/subscribe.php" id="subscribeForm" method="post">
+<div class="form-row">
+<div class="form-group">
+<input type="email" id="emailSubscribe" name="emailSubscribe" class="form-control" placeholder="Enter Your Email Address Here..."/>
+</div>
+<div class="form-group">
+<input type="text" id="sub-security" name="sub-security" class="form-control hide" value=""/>
+</div>
+<div class="form-group submit">
+<input type="submit" id="sub-submit" name="sub-submit" value="Subscribe" class="btn btn-sec"/>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
 
 
-</body>
 
-{% include "landingpage/footer.html" %}
+<footer id="contact" class="BGdark noImg" data-stellar-background-ratio="0.3">
+<section>
+<div id="map_canvas" class="col-lg-7 col-md-6 col-sm-12 col-xs-12"></div>
+
+<div class="contactBox col-lg-12 col-md-12 col-sm-12 col-xs-12 wow fadeInLeft" data-wow-duration="0.85s" data-wow-delay="0.25s">
+<h3 class=" mT3"><strong>Connect</strong> With Us</h3>
+<span class="seperator prime mT0">...</span>
+<p class="white">Got a question or a suggestion?<br>
+Send us a message.</p>
+
+<div class="contact BGdark">
+<div class="cfs_response"></div>
+<form action="#top" method="post" id="cForm">
+<div class="form-group">
+<input type="text" id="name" name="name" class="form-control" placeholder="" required />
+<label for="name">Name</label>
+</div>
+<div class="form-group">
+<input type="email" id="email" name="email" class="form-control" placeholder="" required />
+<label for="email">Email</label>
+</div>
+<div class="form-group">
+<textarea cols="50" rows="5" id="message" name="message" class="form-control" placeholder="" required></textarea>
+<label for="message">Message</label>
+</div>
+<div class="row validate">
+<div class="col-md-8 col-sm-7 col-xs-12">
+<small>Swipe here  |</small>
+<div id="cfSlide"></div>
+<input type="hidden" id="cfsVal" value=""/>
+</div>
+<div class="col-md-4 col-sm-5 col-xs-12 text-right">
+<div class="form-group submit">
+<input type="button" id="cfSubmit" name="cfSubmit" disabled="disabled" value="send" class="btn btn-white line"/>
+</div>
+</div>
+</div>
+</form>
+</div>
+</div> <div class="clear"></div>
+</section> <div class="clear"></div>
+</footer>
+
+
+{% include 'footer.html' %}
