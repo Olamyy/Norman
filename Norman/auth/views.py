@@ -16,17 +16,12 @@ blueprint = Blueprint('auth', __name__, url_prefix='/auth', static_folder='../st
 
 @blueprint.route('/', methods=['GET'])
 def auth():
-    return render_template('auth/auth.html')
+        return render_template('auth/auth.html')
 
 
 @blueprint.route('/login', methods=['GET'])
 def login():
     return render_template('auth/login.html')
-
-#
-# @blueprint.route('/register/', methods=['GET'])
-# def register():
-#     return render_template('auth/register.html')
 
 
 @blueprint.route('/register/hospital', methods=['GET'])
