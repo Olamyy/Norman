@@ -29,34 +29,16 @@
 
     var doRegistration = function () {
        $('#doCompleteRegistration').on('click', function (event) {
-            event.preventDefault();
-            var userDetailsDict = {};
-            userDetailsDict['hospitalEmail'] = $('#hospEmail');
-            userDetailsDict['hospAddress'] = $('#hospAddress');
-            userDetailsDict['hospPassword'] = $('#hospPassword');
-            userDetailsDict['hospSpecialty'] = $('#hospSpecialty');
-            userDetailsDict['hospDesc'] = $('#hospDesc');
-            console.log(userDetailsDict);
-            $.ajax(
-                        {
-                          type: "POST",
-                          url: base_url + 'api/web/register',
-                          data: {
-                            "data": userDetailsDict
-                          },
-                          dataType: 'json',
-                          async : false,
-                          success: function (response) {
-                              swal('Well Done');
-                          },
-                          error : function(response){
-                                swal("Ooops", "The details you submitted are invalid/incomplete", 'error');
-                          }
-                        });
-
-        });
-
+           event.preventDefault();
+           var userDetailsDict = {};
+           userDetailsDict['hospitalEmail'] = $('#hospEmail').val();
+           userDetailsDict['hospAddress'] = $('#hospAddress').val();
+           userDetailsDict['hospSpecialty'] = $('#hospSpecialty').val();
+           userDetailsDict['hospDesc'] = $('#hospDesc').val();
+           console.log(userDetailsDict);
+       })
     };
+
     goToHospital();
     doAuth();
     doPrivacy();
