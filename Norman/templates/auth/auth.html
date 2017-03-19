@@ -1,47 +1,52 @@
-{% include "header.html" %}
+{% include 'header.html' %}
 
 <section id="login">
 <div class="container-wide">
 <div class="row">
 <div class="col-md-6 col-sm-12 col-sm-12 pTB8 pricingInfo equal wow fadeIn" data-wow-duration="0.50s" data-wow-delay="0.25s">
 <section class="mB3">
-<h2>Login</h2>
-<h6>Login to access your <strong>Norman</strong> Dashboard</h6>
+<h2>Hospital Account</h2>
+<h6>Enter the details below to register your hospital<strong></strong></h6>
 <span class="seperator prime mT0">...</span>
-<form action="#top" method="post" id="cForm">
+<form action="" method="post" id="cForm">
 <div class="form-group">
-<label for="name">Email/Username</label>
-<input type="text" id="name" name="name" class="form-control" placeholder="Enter your email or username" required />
+<label for="name">Email</label>
+<input type="email" id="hospEmail" name="email" class="form-control"/>
 </div>
 <div class="form-group">
-<label for="email">Password</label>
-<input type="email" id="email" name="email" class="form-control" placeholder="Enter your password" required />
+<label for="name">Name</label>
+<input type="text" id="hospName" name="name" class="form-control" placeholder="Enter the hospital name" />
 </div>
-<a class="btn btn-prime line smooth" href="" id="doLogin" title="Login">Login<i class="pe-7s-angle-right"></i></a>
+<div class="form-group">
+    <label for="message">Address</label>
+<textarea cols="50" rows="5" id="hospAddress" name="message" class="form-control" placeholder="Enter your address" required></textarea>
+</div>
 </form>
 </section>
 </div>
 <div class="col-md-6 col-sm-12 col-sm-12 page-block-full pTB8 equal wow fadeInRight" data-wow-duration="0.50s" data-wow-delay="0.25s">
-<h2>Register</h2>
-<h6>Create an account to start making the best use of <strong>Norman</strong></h6>
-<span class="seperator prime mT0">...</span>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <div class="form-group">
-<label for="name">Email</label>
-<input type="email" id="emailReg" name="email" class="form-control" placeholder="Enter your email" />
-</div>
-<div class="form-group">
-<label for="email">Password</label>
-<input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" />
+ <div class="form-group">
+<label for="speciality">Speciality</label>
+<input type="text" id="hospSpecialty" name="speciality" class="form-control" placeholder="Enter your speciality(ies)" />
 </div>
     <div class="form-group">
-    </div>
-    <a class="btn btn-prime line smooth"  id="doRegister" title="Login">Start Registration<i class="pe-7s-angle-right"></i></a>
-     </div>
-
+    <label for="message">Description</label>
+<textarea cols="20" rows="5" id="hospDesc" name="description" class="form-control" placeholder="Short optional description of"></textarea>
 </div>
+    <br>
+    <input type="hidden" id="base_url" value="{{ config.BASE_URL}}">
+    <a class="btn btn-prime line smooth" href="" id="doCompleteRegistration" title="Register">Sign Up<i class="pe-7s-angle-right"></i></a>
 </div><div class="clear"></div>
+</div>
 </div>
 </div>
 </section>
 
-{% include "footer.html" %}
+
+{% include 'footer.html' %}
