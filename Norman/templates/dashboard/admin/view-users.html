@@ -1,0 +1,291 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+<div class="content-page">
+                <div class="content">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                 <a data-toggle="modal" data-target="#add-category" class="btn btn-success btn-md waves-effect waves-light m-b-30" data-animation="fadein" data-plugin="custommodal"
+                                                        data-overlaySpeed="200" data-overlayColor="#36404a"><i class="md md-add"></i> Add User</a>
+                            </div><!-- end col -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-10.html')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">coderthemes@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">USA</span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-9.jpg')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">coderthemes@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">USA</span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-8.jpg')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">coderthemes@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">USA</span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-7.jpg')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">coderthemes@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">USA</span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-6.jpg')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">coderthemes@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">USA</span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-5.html')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Johnathan Deo</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">coderthemes@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Location :</strong> <span class="m-l-15">USA</span></p>
+                                        </div>
+
+                                        <button type="button" class="btn btn-custom btn-rounded waves-effect waves-light">Send Message</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+
+                        </div>
+                        <!-- end row -->
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    2017 © Norman Bot.
+                </footer>
+
+            </div>
+
+
+    <!-- Modal Add Category -->
+                                <div class="modal fade none-border" id="add-category">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title"><strong>Add a category </strong></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="custom-modal-text text-left">
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <label for="name">Name</label>
+                                                        <input type="text" class="form-control" id="name" placeholder="Enter name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="position">Position</label>
+                                                        <input type="text" class="form-control" id="position" placeholder="Enter position">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="company">Company</label>
+                                                        <input type="text" class="form-control" id="company" placeholder="Enter company">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Email address</label>
+                                                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+{% endblock %}

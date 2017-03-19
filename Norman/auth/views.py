@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""User views."""
+
 
 from flask import Blueprint, render_template
 
