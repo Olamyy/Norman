@@ -9,3 +9,4 @@ blueprint = Blueprint('hospital', __name__, url_prefix='/hospital', static_folde
 @blueprint.route('/', methods=['GET'])
 def hospital():
     return render_template('auth/login.html')
+

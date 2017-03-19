@@ -19,30 +19,7 @@ Flask-WTF==0.14.2
 WTForms==2.1
 
 # Deployment
-gunicorn>=19.1.1
-
-# Assets
-Flask-Assets==0.12
-cssmin>=0.2.0
-jsmin>=2.0.11
-
-# Auth
-Flask-Login==0.4.0
-Flask-Bcrypt==0.7.1
-
-# Caching
-Flask-Caching>=1.0.0
-
-# Debug toolbar
-Flask-DebugToolbar==0.10.1
-
-#Requests
-requests
-
-
-#API
-flask_restful
-
+gunicorn>=1
 #Facebook
 pymessenger
 

@@ -4,6 +4,7 @@ from flask import flash
 from flask import jsonify, make_response
 import string
 import random
+from bson.json_util import dumps
 
 
 def flash_errors(form, category='warning'):
@@ -26,12 +27,24 @@ class Response:
 
     @staticmethod
     def response_ok(data):
-        response = jsonify({'status': 'success', 'data': data}, 201)
+        try:
+            oid = data._id
+            data._id = str(oid)
+        except AttributeError:
+            pass
+        try:
+            oid = data['_id']
+            data['_id'] = str(oid)
+        except KeyError:
+            pass
+
+
+        response = jsonify({'status': 'success', 'data': data}, 200)
         return make_response(response)
 
     @staticmethod
     def response_error(message, error=None):
         response = jsonify({'status': 'fail', 'message': message, 'error': error})
-        return make_response(jsonify(response), 201)
+        return make_response(response)
 
 response = Response()
