@@ -3,13 +3,13 @@ from flask import json
 from flask import make_response
 from flask import request
 from flask_restful import Resource
-from Norman.extensions import csrf_protect
-from Norman.utils import response
-from Norman.settings import DevConfig
 from pymessenger.bot import Bot
-from Norman.users.views import UserView
-from Norman.facebook.conversations import FreeConversation
 
+from Norman.core.conversations import FreeConversation
+from Norman.extensions import csrf_protect
+from Norman.settings import DevConfig
+from Norman.utils import response
+from Norman.api.web import UserAPI
 
 bot = Bot(DevConfig.FACEBOOK_SECRET_KEY)
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -45,7 +45,7 @@ def webhook():
 
 class WebHook(Resource):
     def __init__(self):
-        self.user_view = UserView()
+        self.user_view = UserAPI()
         self.free_conversation = FreeConversation()
 
     @staticmethod

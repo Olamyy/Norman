@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, redirect
 
 
 blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_folder='../static')
@@ -17,3 +17,8 @@ def create_user():
 @blueprint.route('/view-users', methods=['GET'])
 def view_users():
     return render_template('dashboard/admin/view-users.html')
+
+
+@blueprint.route('/logout', methods=['GET'])
+def logout():
+    return redirect('auth')

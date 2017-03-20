@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """Custom Models."""
 import datetime
-
-from Norman.database import db
+from flask_login import UserMixin
+from Norman.database import db, PasswordField
+from Norman.extensions import bcrypt
 
 
 class Service(db.Document):
@@ -28,3 +29,57 @@ class Plan(db.Document):
     def __repr__(self):
         """Represent instance as a unique string."""
         return '<Plan({name!r})>'.format(name=self.name)
+
+
+class Hospital(UserMixin, db.Document):
+    name = db.StringField(required=True, max_length=200, min_length=3)
+    password = PasswordField(required=True, max_length=50, min_length=10)
+    address = db.StringField(required=True, max_length=1000, min_length=3)
+    description = db.StringField(required=True, max_length=1000, min_length=3)
+    specialty = db.StringField(required=True, max_length=1000, min_length=3)
+    email = db.StringField(required=True, max_length=50, min_length=10)
+    image = db.StringField(required=True, max_length=200, min_length=3)
+    created_at = db.DateTimeField(default=datetime.datetime.now())
+    service_list = db.ListField()
+    plan_id = db.StringField(required=True, max_length=200, min_length=3)
+    active = db.BooleanField(default=False)
+
+    def __init__(self, password=None):
+        """Create instance."""
+        if password:
+            self.set_password(password)
+        else:
+            self.password = None
+
+    def set_password(self, password):
+        """Set password."""
+        self.password = bcrypt.generate_password_hash(password)
+
+    def check_password(self, value):
+        """Check password."""
+        return bcrypt.check_password_hash(self.password, value)
+
+    def __repr__(self):
+        """Represent instance as a unique string."""
+        return '<Hospital({name!r})>'.format(name=self.name)
+
+
+class User(UserMixin, db.Document):
+    fb_id = db.StringField(max_length=200, min_length=3)
+    first_name = db.StringField(required=True, max_length=200, min_length=3)
+    user_id = db.StringField(required=True, max_length=20, min_length=3)
+    last_name = db.StringField(required=True, max_length=200, min_length=3)
+    email = db.EmailField(required=True, max_length=200, min_length=10)
+    username = db.StringField(required=True, max_length=50, min_length=3)
+    hospital_id = db.StringField(required=True, max_length=200, min_length=3)
+    services_id = db.StringField(required=True, max_length=200, min_length=3)
+    plan_id = db.StringField(required=True, max_length=200, min_length=3)
+    is_verified = db.BooleanField(default=False)
+    is_on_hospital_list_but_not_on_fb_list = db.BooleanField(default=False)
+    is_active = db.BooleanField(default=False)
+    is_on_plan = db.BooleanField(default=False)
+    created_at = db.DateTimeField(default=datetime.datetime.now())
+
+
+
+
