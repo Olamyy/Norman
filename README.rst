@@ -12,7 +12,7 @@ add the following to ``.bashrc`` or ``.bash_profile``.
 
 .. code-block:: bash
 
-    export NORMAN_SECRET='something-really-secret'
+    e
 
 Before running shell commands, set the ``FLASK_APP`` and ``FLASK_DEBUG``
 environment variables ::

@@ -2,6 +2,8 @@
 """Application configuration."""
 import os
 
+from pymongo import MongoClient
+
 
 class Config:
     """Base configuration."""
@@ -13,7 +15,7 @@ class Config:
     ASSETS_DEBUG = False
     DEBUG_TB_ENABLED = False  # Di-sable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
-    CACHE_TYPE = 'memcached'  # Can be "memcached", "redis", etc.
+    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MONGOALCHEMY_DATABASE = "norman"
     FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfI\
@@ -61,6 +63,7 @@ class ProdConfig(Config, UIConfig, PricingConfig):
     MONGODB_USERNAME = 'Olamilekan'
     MONGODB_PASSWORD = 'toga'
     BASE_URL = 'norman-bot.herokuapp.com/'
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
 
 
 class DevConfig(Config, UIConfig, PricingConfig):
@@ -74,6 +77,7 @@ class DevConfig(Config, UIConfig, PricingConfig):
     MONGODB_HOST = '127.0.0.1'
     MONGODB_PORT = 27017
     BASE_URL = "localhost:5000/"
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
 
 
 class TestConfig(Config):
