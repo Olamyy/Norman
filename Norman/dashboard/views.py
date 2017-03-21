@@ -22,3 +22,8 @@ def view_users():
 @blueprint.route('/logout', methods=['GET'])
 def logout():
     return redirect('auth')
+
+
+@blueprint.route('/profile', methods=['GET'])
+def profile():
+    return render_template('dashboard/admin/profile.html')

@@ -44,12 +44,9 @@ class Hospital(UserMixin, db.Document):
     plan_id = db.StringField(required=True, max_length=200, min_length=3)
     active = db.BooleanField(default=False)
 
-    def __init__(self, password=None):
+    def __init__(self, **kwargs):
         """Create instance."""
-        if password:
-            self.set_password(password)
-        else:
-            self.password = None
+        pass
 
     def set_password(self, password):
         """Set password."""
@@ -70,7 +67,7 @@ class User(UserMixin, db.Document):
     user_id = db.StringField(required=True, max_length=20, min_length=3)
     last_name = db.StringField(required=True, max_length=200, min_length=3)
     email = db.EmailField(required=True, max_length=200, min_length=10)
-    username = db.StringField(required=True, max_length=50, min_length=3)
+    username = db.StringField(max_length=50, min_length=3)
     hospital_id = db.StringField(required=True, max_length=200, min_length=3)
     services_id = db.StringField(required=True, max_length=200, min_length=3)
     plan_id = db.StringField(required=True, max_length=200, min_length=3)
@@ -79,6 +76,10 @@ class User(UserMixin, db.Document):
     is_active = db.BooleanField(default=False)
     is_on_plan = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.datetime.now())
+
+    def __init__(self, **kwargs):
+        """Create instance."""
+        pass
 
 
 
