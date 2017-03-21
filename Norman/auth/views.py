@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-"""User views."""
+
 
 from flask import Blueprint, render_template
+
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth', static_folder='../static')
 

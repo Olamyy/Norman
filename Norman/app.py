@@ -6,9 +6,10 @@ from Norman import commands, public
 from Norman.api import bot, web
 from Norman.assets import assets
 from Norman.auth import views as auth_view
-from Norman.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager, migrate
-from Norman.hospital import models, views
+from Norman.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager
+from Norman.dashboard import views
 from Norman.settings import ProdConfig
+from Norman.models import Hospital
 
 
 def create_app(config_object=ProdConfig):
@@ -66,7 +67,7 @@ def register_shellcontext(app):
         """Shell context objects."""
         return {
             'db': db,
-            'Hospital': models.Hospital}
+            'Hospital': Hospital}
 
     app.shell_context_processor(shell_context)
 
