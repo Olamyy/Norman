@@ -45,7 +45,6 @@ def webhook():
 class WebHook(Resource):
     def __init__(self):
         self.user_view = UserAPI()
-
     @staticmethod
     def get():
         args = request.args
