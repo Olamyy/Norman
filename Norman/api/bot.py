@@ -48,7 +48,7 @@ class WebHook(Resource):
     @staticmethod
     def get():
         args = request.args
-        verify_token = ''
+        verify_token = 'python_rocks'
         if args.get('hub.mode') == 'subscribe' and args.get('hub.verify_token') == verify_token:
             return make_response(args.get('hub.challenge').strip("\n\""))
         else:
