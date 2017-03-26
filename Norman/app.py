@@ -6,7 +6,7 @@ from Norman import commands, public
 from Norman.api import bot, web
 from Norman.assets import assets
 from Norman.auth import views as auth_view
-from Norman.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, login_manager
+from Norman.extensions import  cache, csrf_protect, db, debug_toolbar, login_manager
 from Norman.dashboard import views
 from Norman.settings import ProdConfig
 from Norman.models import Hospital
@@ -30,7 +30,6 @@ def create_app(config_object=ProdConfig):
 def register_extensions(app):
     """Register Flask extensions."""
     assets.init_app(app)
-    bcrypt.init_app(app)
     cache.init_app(app)
     db.init_app(app)
     csrf_protect.init_app(app)

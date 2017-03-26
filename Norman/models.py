@@ -2,8 +2,7 @@
 """Custom Models."""
 import datetime
 from flask_login import UserMixin
-from Norman.database import db, PasswordField
-from Norman.extensions import bcrypt
+from Norman.database import db
 
 
 class Service(db.Document):
@@ -33,7 +32,6 @@ class Plan(db.Document):
 
 class Hospital(UserMixin, db.Document):
     name = db.StringField(required=True, max_length=200, min_length=3)
-    password = PasswordField(required=True, max_length=50, min_length=10)
     address = db.StringField(required=True, max_length=1000, min_length=3)
     description = db.StringField(required=True, max_length=1000, min_length=3)
     specialty = db.StringField(required=True, max_length=1000, min_length=3)
@@ -46,22 +44,6 @@ class Hospital(UserMixin, db.Document):
 
     def __init__(self, password=None):
         """Create instance."""
-        if password:
-            self.set_password(password)
-        else:
-            self.password = None
-
-    def set_password(self, password):
-        """Set password."""
-        self.password = bcrypt.generate_password_hash(password)
-
-    def check_password(self, value):
-        """Check password."""
-        return bcrypt.check_password_hash(self.password, value)
-
-    def __repr__(self):
-        """Represent instance as a unique string."""
-        return '<Hospital({name!r})>'.format(name=self.name)
 
 
 class User(UserMixin, db.Document):

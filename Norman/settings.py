@@ -27,6 +27,7 @@ class UIConfig:
     COMPANY_PHONE = "9036671876"
     COMPANY_ADDRESS = "Ilab, Department of Electronics Electrical Engineering, Obafemi Awolowo University, "\
                       "Ile-Ife, Osun State"
+
     NORMAN_FEATURES_TEXT = {"feature1": "feature1desc",
                             "feature2": "feature2desc",
                             "feature3": "feature2desc",
