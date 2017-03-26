@@ -16,7 +16,7 @@ def login():
     return render_template('dashboard/admin/login.html')
 
 
-@blueprint.route('/register/hospital', methods=['GET'])
+@blueprint.route('/register', methods=['GET'])
 def hospital_reg():
     return render_template('auth/registerhospital.html')
 

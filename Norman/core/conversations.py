@@ -25,20 +25,20 @@ class Conversation:
             return conversation_data, self.is_alive
 
 
-class FreeConversation(Conversation):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-    #
-    # def init_conversation(self):
-    #         raise DeadConversationError("The conversation is dead")
-
-    def init_conversation(self):
-        if not self.is_alive:
-            raise DeadConversationError("The conversation is dead")
-        else:
-            conversation = self.load_conversation(
-                '/home/lekanterragon/Desktop/Norman/Norman/conversation_data/free_conversation.yaml')
-            conversation_data, self.is_alive = conversation[0], conversation[1]
-
-            return jsonify({'response': conversation_data['base_message']})
-
+# class FreeConversation(Conversation):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#     #
+#     # def init_conversation(self):
+#     #         raise DeadConversationError("The conversation is dead")
+#
+#     def init_conversation(self):
+#         if not self.is_alive:
+#             raise DeadConversationError("The conversation is dead")
+#         else:
+#             conversation = self.load_conversation(
+#                 '/home/lekanterragon/Desktop/Norman/Norman/conversation_data/free_conversation.yaml')
+#             conversation_data, self.is_alive = conversation[0], conversation[1]
+#
+#             return jsonify({'response': conversation_data['base_message']})
+#

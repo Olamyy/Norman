@@ -5,7 +5,6 @@ from flask import request
 from flask_restful import Resource
 from pymessenger.bot import Bot
 
-from Norman.core.conversations import FreeConversation
 from Norman.extensions import csrf_protect
 from Norman.settings import DevConfig
 from Norman.utils import response
@@ -46,8 +45,6 @@ def webhook():
 class WebHook(Resource):
     def __init__(self):
         self.user_view = UserAPI()
-        self.free_conversation = FreeConversation()
-
     @staticmethod
     def get():
         args = request.args
@@ -70,5 +67,4 @@ class WebHook(Resource):
                         return bot.send_text_message(recipient_id, message)
                 return make_response(json.dumps({'success': True}), 200,
                                      {'ContentType': 'application/json'})
-#                         self.free_conversation.init_conversation()
 
