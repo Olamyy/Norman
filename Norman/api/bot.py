@@ -64,11 +64,8 @@ class WebHook(Resource):
             for action in messaging:
                 if action.get('message'):
                     recipient_id = action['sender']['id']
-
                     if not self.user_view.validate_user(recipient_id):
-                        message = "Hello, {0}".format(recipient_id)
-                        return bot.send_text_message(recipient_id, message)
-                return make_response(json.dumps({'success': True}), 200,
-                                     {'ContentType': 'application/json'})
+                        message = "Hello {0}, I'm Norman. Type Help to get started".format(recipient_id)
+                        bot.send_text_message(recipient_id, message)
+                        return response.response_ok('success')
 #                         self.free_conversation.init_conversation()
-
