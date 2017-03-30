@@ -16,6 +16,9 @@ class Service(db.Document):
         """Represent instance as a unique string."""
         return '<Service({name!r})>'.format(name=self.name)
 
+    def __str__(self):
+        pass
+
 
 class Plan(db.Document):
     name = db.StringField(required=True, max_length=200, min_length=3)
@@ -66,6 +69,12 @@ class User(UserMixin, db.Document):
 
     def __init__(self, **kwargs):
         """Create instance."""
+        pass
+
+
+class Modal(UserMixin, db.Document):
+
+    def __init__(self):
         pass
 
 

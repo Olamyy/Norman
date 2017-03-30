@@ -64,7 +64,7 @@ class WebHook(Resource):
 
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello, {0}".format(recipient_id)
-                        return bot.send_text_message(recipient_id, message)
-                return make_response(json.dumps({'success': True}), 200,
-                                     {'ContentType': 'application/json'})
+                        bot.send_text_message(recipient_id, message)
+                        return response.response_ok('Success')
+
 

@@ -34,7 +34,7 @@ def db(app):
     """A database for the tests."""
     _db.app = app
     with app.app_context():
-        _db.create_all()
+        _db.connection()
 
     yield _db
 
@@ -42,10 +42,3 @@ def db(app):
     _db.session.close()
     _db.drop_all()
 
-
-@pytest.fixture
-def user(db):
-    """A user for the tests."""
-    user = UserFactory(password='myprecious')
-    db.session.commit()
-    return user
