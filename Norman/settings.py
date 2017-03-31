@@ -10,6 +10,7 @@ class Config:
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     BCRYPT_LOG_ROUNDS = 13
+    __version__ = '0.0.1'
     ASSETS_DEBUG = False
     DEBUG_TB_ENABLED = False  # Di-sable Debug toolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False
@@ -18,6 +19,9 @@ class Config:
     MONGOALCHEMY_DATABASE = "norman"
     FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfI\
                     KTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
+    GRAPH_API_URL = 'https://graph.facebook.com/v2.6/<action>access_token={0}'.format(FACEBOOK_SECRET_KEY)
+
+
 
 
 class UIConfig:

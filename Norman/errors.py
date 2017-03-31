@@ -17,6 +17,10 @@ class HttpMethodError(NormanError):
     pass
 
 
+class HttpError(NormanError):
+    pass
+
+
 class DeadConversationError(NormanError):
     """
     Raised when a conversation is dead.

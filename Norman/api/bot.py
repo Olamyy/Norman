@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-from flask import json
 from flask import make_response
 from flask import request
 from flask_restful import Resource
