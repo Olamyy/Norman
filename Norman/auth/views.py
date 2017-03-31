@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth', static_folder='../static')
 
 
 @blueprint.route('/', methods=['GET'])
 def auth():
-    return render_template('dashboard/admin/register.html')
+    return redirect(url_for('auth.register'))
 
 
 @blueprint.route('/login', methods=['GET'])
@@ -17,8 +17,8 @@ def login():
 
 
 @blueprint.route('/register', methods=['GET'])
-def hospital_reg():
-    return render_template('auth/registerhospital.html')
+def register():
+    return render_template('dashboard/admin/register.html')
 
 
 # FOR SELECTION OF PLAN ID AFTER REGISTRATION
