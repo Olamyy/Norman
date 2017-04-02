@@ -56,15 +56,6 @@
                 <a href="{{ url_for('public.home') }}" class="logo"><span>Norman<span>Bot</span></span></a>
                 <h5 class="text-muted m-t-0 font-600">Select Plan For Hosptal</h5>
             </div>
-{#            <div class="m-t-1 card-box">#}
-{#                <div class="text-center">#}
-{#                    <h4 class="text-uppercase font-bold m-b-0">Confirm Email</h4>#}
-{#                </div>#}
-{#                <div class="panel-body text-center">#}
-{#                    <img src="{{ url_for('static',filename='assets/images/mail_confirm.png')}}" alt="img" class="thumb-lg m-t-20 center-block" />#}
-{#                    <p class="text-muted font-13 m-t-20"> A email has been send to <b>youremail@domain.com</b>. Please check for an email from company and click on the included link to reset your password. </p>#}
-{#                </div>#}
-{#            </div>#}
         </div>
         <!-- end wrapper page -->
 
@@ -87,9 +78,10 @@
                                                 <li>1 User</li>
                                                 <li>24x7 Support</li>
                                             </ul>
+                                           <input type="hidden" value="{{ url_for('web.register') }}" id="register_url">
 
                                             <div class="text-center">
-                                                <a href="#" class="btn btn-success btn-bordred btn-rounded waves-effect waves-light">Select Plan</a>
+                                                <button type="submit" value="demo" id="demo" class="plan_btn btn btn-success btn-bordred waves-effect waves-light">Select Plan</button>
                                             </div>
                                         </div>
                                     </article>
@@ -113,7 +105,7 @@
                                             </ul>
 
                                             <div class="text-center">
-                                                <a href="#" class="btn btn-success btn-bordred btn-rounded waves-effect waves-light">Select Plan</a>
+                                                <button type="submit" value="professional" id="professional" class="plan_btn btn btn-success btn-bordred waves-effect waves-light">Select Plan</button>
                                             </div>
                                         </div>
                                     </article>
@@ -136,7 +128,8 @@
                                             </ul>
 
                                             <div class="text-center">
-                                                <a href="#" class="btn btn-success btn-bordred btn-rounded waves-effect waves-light">Select Plan</a>
+                                                <button type="submit" id="starter" class="plan_btn btn btn-success btn-bordred waves-effect waves-light"
+                                                                value="starter">Select Plan</button>
                                             </div>
                                         </div>
                                     </article>
@@ -165,6 +158,10 @@
         <script src="{{ url_for('static',filename='assets/js/wow.min.js') }}"></script>
         <script src="{{ url_for('static',filename='assets/js/jquery.nicescroll.html') }}"></script>
         <script src="{{ url_for('static',filename='assets/js/jquery.scrollTo.min.html') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/core.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/js/js.cookie.js') }}"></script>
+
+
 
 
         <script src="{{ url_for('static',filename='assets/js/jquery.core.html') }}"></script>

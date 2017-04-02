@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth', static_folder='../static')
 
@@ -18,10 +18,19 @@ def login():
 
 @blueprint.route('/register', methods=['GET'])
 def register():
+    action = request.args.get('action')
+    if action:
+        if action == "verify":
+            return verify()
     return render_template('dashboard/admin/register.html')
 
 
 # FOR SELECTION OF PLAN ID AFTER REGISTRATION
-@blueprint.route('/plans', methods=['GET'])
+@blueprint.route('/register/plans', methods=['GET'])
 def plan():
     return render_template('dashboard/admin/plans.html')
+
+
+def verify():
+    return render_template('dashboard/admin/verify.html')
+

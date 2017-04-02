@@ -1,8 +1,9 @@
+from bson import ObjectId, errors
 from flask import Blueprint, jsonify
 from flask import request
 from flask_restful import Resource
-from Norman.models import Service,Hospital,User
-from Norman.extensions import csrf_protect
+from Norman.models import Service, Hospital, User
+from Norman.extensions import csrf_protect, db
 from Norman.utils import Response as response
 from Norman.utils import generate_id
 from datetime import datetime
@@ -17,12 +18,12 @@ def isItUp():
     return jsonify({'hello': 'world'})
 
 
-@blueprint.route('/service', methods=['GET', 'POST'])
+@blueprint.route('/hospital', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def register():
-    view_class = ServiceAPI()
+    view_class = HospitalApi()
     if request.method == "GET":
-        return view_class.get()
+        return view_class.get_hospital()
     else:
         return view_class.post()
 
@@ -88,5 +89,51 @@ class UserAPI:
             return False
         else:
             return True
+
+
+class HospitalApi(Resource):
+    def post(self):
+        data = request.get_json()
+        action, hospital_id = data.get('action', '').lower(), data.get('hospital_id', None)
+        if not action:
+            return response.response_error('Unable to handle action', 'No action specified.')
+        else:
+            if action == "get":
+                return self.get_hospital(hospital_id)
+            elif action == "create":
+                return self.create_hospital(data)
+            elif action == "update":
+                return self.update_hospital(hospital_id)
+            return self.disable_hospital(hospital_id)
+
+    def get_hospital(self, hospital_id=None):
+        try:
+            hospital_details = db.find_one({"_id": ObjectId(hospital_id)})
+            if not hospital_details:
+                return response.response_error("Unable to retrieve Hospital", "Invalid Hospital ID")
+            else:
+                return response.response_ok(hospital_details)
+        except errors.InvalidId as error:
+            return response.response_error("Unable to retrieve Hospital", error)
+
+    def create_hospital(self, data):
+        create_hospital = Hospital(name=data['name'],
+                                   email=data['email'],
+                                   reg_num=data['reg_num'],
+                                   created_at=datetime.now(),
+                                   plan_id=data['plan_id'],
+                                   password=data['password'],
+                                   )
+        try:
+            create_hospital.save()
+            return response.response_ok(create_hospital)
+        except NotUniqueError:
+            return response.response_error('Unable to create service', 'Hospital name already exists')
+
+    def disable_hospital(self, hospital_id):
+        pass
+
+    def update_hospital(self, hospital_id):
+        pass
 
 
