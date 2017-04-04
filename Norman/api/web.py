@@ -141,10 +141,4 @@ class HospitalApi(Resource):
     def update_hospital(self, hospital_id):
         pass
 
-    def verify_hospital(self, verID, verificationCode):
-        return jsonify({verID: 'world'})
-        try:
-            hospital = Hospital.objects.get(ver_id=verID, verificationCode=verificationCode)
-            return response.response_ok(hospital)
-        except DoesNotExist as error:
-            return response.response_error('Unable to create hospital', error)
+
