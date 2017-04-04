@@ -66,12 +66,15 @@ class ProdConfig(Config, UIConfig, PricingConfig):
     ENV = 'prod'
     DEBUG = False
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-    MONGODB_DB = 'heroku_qcf3clms'
-    MONGODB_HOST = 'ds111559.mlab.com'
-    MONGODB_PORT = 11559
-    MONGODB_USERNAME = 'Olamilekan'
-    MONGODB_PASSWORD = 'toga'
     BASE_URL = 'norman-bot.herokuapp.com/'
+    MONGODB_SETTINGS = {
+        'db': 'heroku_qcf3clms',
+        'host': 'ds111559.mlab.com',
+        'port': 11559,
+        'username': 'Olamilekan',
+        'password': 'toga',
+        'alias': 'default'
+    }
 
 
 class DevConfig(Config, UIConfig, PricingConfig):
@@ -81,12 +84,13 @@ class DevConfig(Config, UIConfig, PricingConfig):
     DEBUG_TB_ENABLED = True
     ASSETS_DEBUG = True  # Don't bundle/minify static assets
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
-    MONGODB_DB = 'Norman'
-    MONGODB_HOST = '127.0.0.1'
-    MONGODB_PORT = 27017
-    BASE_URL = "localhost:5000/"
-    pymongo_client = MongoClient('mongodb://localhost:27017/')
-
+    MONGODB_SETTINGS = {
+        'db': 'Norman',
+        'host': '127.0.0.1',
+        'port': 27017,
+        'password': 'toga',
+        'alias': 'default'
+    }
 
 
 class TestConfig(Config):
