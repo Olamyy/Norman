@@ -33,16 +33,15 @@ class Plan(db.Document):
         return '<Plan({name!r})>'.format(name=self.name)
 
 
-class Hospital(UserMixin, db.Document):
+class Hospital(db.Document):
     name = db.StringField(required=True, max_length=200, min_length=3)
     password = db.StringField(required=True, max_length=50, min_length=10)
-    address = db.StringField(required=True, max_length=1000, min_length=3)
-    description = db.StringField(required=True, max_length=1000, min_length=3)
-    specialty = db.StringField(required=True, max_length=1000, min_length=3)
+    address = db.StringField(required=False, max_length=1000, min_length=3)
+    description = db.StringField(required=False, max_length=1000, min_length=3)
+    specialty = db.StringField(required=False, max_length=1000, min_length=3)
     email = db.StringField(required=True, max_length=50, min_length=10)
-    image = db.StringField(required=True, max_length=200, min_length=3)
+    image = db.StringField(required=False, max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
-    service_list = db.ListField()
     plan_id = db.StringField(required=True, max_length=200, min_length=3)
     active = db.BooleanField(default=False)
 

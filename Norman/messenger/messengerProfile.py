@@ -1,15 +1,15 @@
-from Norman.settings import Config
+from Norman.settings import FBConfig
 from Norman.api.base import base
 from Norman.errors import HttpError
 
 
 class ProfileAPI:
     # @Todo : Handle Delete URLs
-    def __init__(self):
-        self.field_name = ''
-        self.graphAPIURL = Config.GRAPH_API_URL.replace('<action>', '/me/messenger_profile')
-        self.graphAPIURLFields = Config.GRAPH_API_URL.replace('<action>', 'me/messenger_profile?'
-                                                                          'fields={0}'.format(self.field_name))
+    def __init__(self, field_name):
+        self.field_uri = 'messenger_profile'
+        self.field_name = field_name
+        self.graphAPIURL = FBConfig.GRAPH_API_URL.replace('<field_uri>', self.field_uri).replace('?fields=[]', '')
+        self.graphAPIURLGET = FBConfig.GRAPH_API_URL.replace('<field_uri>', self.field_uri).replace('[]', self.field_name)
 
 
 class PersitentMenu(ProfileAPI):
@@ -19,8 +19,7 @@ class PersitentMenu(ProfileAPI):
     https://developers.facebook.com/docs/messenger-platform/messenger-profile/persistent-menu
     """
     def __init__(self):
-        super().__init__()
-        self.field_name = 'persistent_menu'
+        super().__init__('persistent_menu')
 
     def set_menu(self, menu_data):
         """
@@ -31,15 +30,15 @@ class PersitentMenu(ProfileAPI):
         """
         request = base.exec_request('POST', self.graphAPIURL, data=menu_data)
         if request:
-            print("Successfully Set Menu")
+            return request
 
     def get_menu(self):
-        request = base.exec_request('GET', self.graphAPIURLFields)
+        request = base.exec_request('GET', self.graphAPIURLGET)
         if request:
             return request
 
     def delete_menu(self):
-        request = base.exec_request('DELETE', self.graphAPIURLFields)
+        request = base.exec_request('DELETE', self.graphAPIURLGET)
         if request:
             return request
 
@@ -51,10 +50,10 @@ class GetStarted(ProfileAPI):
     https://developers.facebook.com/docs/messenger-platform/messenger-profile/get-started-button
     """
     def __init__(self):
-        super().__init__()
-        self.field_name = "get_started"
+        super().__init__('get_started')
 
     def set_message(self, payload):
+        print(self.graphAPIURL)
         request = base.exec_request('POST', self.graphAPIURL, data=payload)
         if request:
             print(request)
@@ -62,14 +61,15 @@ class GetStarted(ProfileAPI):
             raise HttpError('Unable to complete request.')
 
     def get_message(self):
-        request = base.exec_request('GET', self.graphAPIURLFields)
+        print(self.graphAPIURLGET)
+        request = base.exec_request('GET', self.graphAPIURLGET)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
     def delete_message(self):
-            request = base.exec_request('DELETE', self.graphAPIURLFields)
+            request = base.exec_request('DELETE', self.graphAPIURLGET)
             if request:
                 return request
             else:
@@ -83,8 +83,7 @@ class GreetingText(ProfileAPI):
     https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text
     """
     def __init__(self):
-        super().__init__()
-        self.field_name = "greeting"
+        super().__init__('greeting')
 
     def set_text(self, payload):
         request = base.exec_request('POST', self.graphAPIURL, data=payload)
@@ -94,14 +93,14 @@ class GreetingText(ProfileAPI):
             raise HttpError('Unable to complete request.')
 
     def get_text(self):
-        request = base.exec_request('GET', self.graphAPIURLFields)
+        request = base.exec_request('GET', self.graphAPIURLGET)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
     def delete_message(self):
-        request = base.exec_request('DELETE', self.graphAPIURLFields)
+        request = base.exec_request('DELETE', self.graphAPIURLGET)
         if request:
             return request
         else:
@@ -110,8 +109,7 @@ class GreetingText(ProfileAPI):
 
 class WhitelistDomain(ProfileAPI):
     def __init__(self):
-        super().__init__()
-        self.field_name = "whitelisted_domains"
+        super().__init__('whitelisted_domains')
 
     def set_text(self, payload):
         request = base.exec_request('POST', self.graphAPIURL, data=payload)
@@ -121,14 +119,14 @@ class WhitelistDomain(ProfileAPI):
             raise HttpError('Unable to complete request.')
 
     def get_text(self):
-        request = base.exec_request('GET', self.graphAPIURLFields)
+        request = base.exec_request('GET', self.graphAPIURLGET)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
     def delete_message(self):
-        request = base.exec_request('DELETE', self.graphAPIURLFields)
+        request = base.exec_request('DELETE', self.graphAPIURLGET)
         if request:
             return request
         else:
@@ -141,11 +139,9 @@ class AccountLinking(ProfileAPI):
     """
     pass
 
-    
+
 class TargetAudience(ProfileAPI):
     """
     Not sure if we need this now but let's just leave it here.
     """
     pass
-
-

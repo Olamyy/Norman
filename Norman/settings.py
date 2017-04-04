@@ -18,11 +18,16 @@ class Config:
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MONGOALCHEMY_DATABASE = "norman"
-    FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfI\
-                    KTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
-    GRAPH_API_URL = 'https://graph.facebook.com/v2.6/<action>access_token={0}'.format(FACEBOOK_SECRET_KEY)
 
 
+class FBConfig(Config):
+    """
+    The GRAPH_API_URL format is <base_url><version><action><fields>
+    """
+    FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
+    GRAPH_API_VERSION = 'v2.6'
+    GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/<field_uri>?fields=[]&access_token={1}'.format(
+        GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
 
 
 class UIConfig:

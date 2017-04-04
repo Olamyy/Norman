@@ -5,11 +5,11 @@ from flask_restful import Resource
 from pymessenger.bot import Bot
 
 from Norman.extensions import csrf_protect
-from Norman.settings import DevConfig
+from Norman.settings import FBConfig
 from Norman.utils import response
 from Norman.api.web import UserAPI
 
-bot = Bot(DevConfig.FACEBOOK_SECRET_KEY)
+bot = Bot(FBConfig.FACEBOOK_SECRET_KEY)
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -60,7 +60,6 @@ class WebHook(Resource):
             for action in messaging:
                 if action.get('message'):
                     recipient_id = action['sender']['id']
-
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello, {0}".format(recipient_id)
                         bot.send_text_message(recipient_id, message)
