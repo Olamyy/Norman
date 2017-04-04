@@ -1,14 +1,18 @@
 from flask import Blueprint, jsonify
 from flask import request
 from flask_restful import Resource
-from Norman.models import Service,Hospital,User
+from Norman.models import Service
+from Norman.models import Service, Hospital, User
 from Norman.extensions import csrf_protect
 from Norman.utils import Response as response
 from Norman.utils import generate_id
 from datetime import datetime
-from mongoengine.errors import NotUniqueError
+from mongoengine.errors import NotUniqueError, DoesNotExist
+from Norman.settings import DevConfig
+
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
+db = DevConfig.pymongo_client.Norman['hospital']
 
 
 @blueprint.route('/isItUp', methods=['GET', 'POST'])
@@ -38,13 +42,13 @@ class ServiceAPI(Resource):
 
     def post(self):
         data = request.get_json()
-        action, service_id = data.get('action', None), data.get('service_id', None)
+        action, service_id = data.get('action', None).lower(), data.get('service_id', None)
         if not action:
             return response.response_error('Unable to handle action', 'No action specified.')
         else:
-            if action == "GET":
+            if action == "get":
                 return self.get(service_id)
-            elif action == "CREATE":
+            elif action == "create":
                 return self.create_service(data)
             else:
                 return self.disable_service(service_id)
@@ -64,6 +68,103 @@ class ServiceAPI(Resource):
     def disable_service(self, service_id):
         pass
 
+
+@blueprint.route('/hospital', methods=['POST'])
+@csrf_protect.exempt
+def hospital_api():
+    view_class = HospitalApi()
+    if request.method == "POST":
+        return view_class.post()
+
+
+class HospitalApi(Resource):
+    def post(self):
+        data = request.get_json()
+        action, hospital_id = data.get('action', None).lower(), data.get('hospital_id', None)
+        if not action:
+            return response.response_error('Unable to handle action', 'No action specified.')
+        else:
+            if action == "get":
+                return self.get_hospital(hospital_id)
+            elif action == "create":
+                return self.create_hospital(data)
+            else:
+                return self.disable_service(hospital_id)
+
+    def get_hospital(self, hospital_id=None):
+        try:
+            hospital_details = db.find_one({u"_id": ObjectId(hospital_id)})
+            print(hospital_details)
+            if not hospital_details:
+                return response.response_error("Unable to retrieve Hospital", "Invalid Hospital ID")
+            else:
+                return response.response_ok(hospital_details)
+        except DoesNotExist as error:
+            return response.response_error("Unable to retrieve Hospital", error)
+
+    def create_hospital(self, data):
+        create_hospital = Hospital(name=data['name'],
+                                   address=data['address'],
+                                   specialty=data['specialty'],
+                                   email=data['email'],
+                                   created_at=datetime.now(),
+                                   plan_id=data['plan_id'],
+                                   description=data['description'], active=False)
+        try:
+            create_hospital.save()
+            return response.response_ok(create_hospital)
+        except NotUniqueError:
+            return response.response_error('Unable to create service', 'Hospital name already exists')
+
+    def disable_hospital(self, service_id):
+        pass
+
+
+@blueprint.route('/user', methods=['POST'])
+@csrf_protect.exempt
+def user_api():
+    view_class = UserApi()
+    if request.method == "POST":
+        return view_class.post()
+
+
+class UserApi(Resource):
+    def post(self):
+        data = request.get_json()
+        action, user_id = data.get('action', None).lower(), data.get('user_id', None)
+        if not action:
+            return response.response_error('Unable to handle action', 'No action specified.')
+        else:
+            if action == "get":
+                return self.get_user(user_id)
+            elif action == "create":
+                return self.create_user(data)
+            else:
+                return self.disable_user(user_id)
+
+    def get_user(self, user_id=None):
+        try:
+            user_details = User.objects.filter(_id=ObjectId(user_id))
+            if not user_details:
+                return response.response_error("Unable to retrieve user", "Invalid User ID")
+            else:
+                return response.response_ok(user_details)
+        except errors.InvalidId as error:
+            return response.response_error("Unable to retrieve user", error)
+
+    def create_user(self, data):
+        create_user = User(name=data['name'], password=data['password'],
+                                   address=data['address'], specialty=data['specialty'], email=data['email'], created_at=datetime.now(),
+                                   plan_id=data['plan_id'], description=data['description'],
+                                   service_list=data['service_list'].split(','), active=False)
+        try:
+            create_user.save()
+            return response.response_ok(create_user)
+        except NotUniqueError:
+            return response.response_error('Unable to create user', 'User already exists')
+
+    def disable_user(self, service_id):
+        pass
 
 class UserAPI:
     def __init__(self):
@@ -88,5 +189,3 @@ class UserAPI:
             return False
         else:
             return True
-
-

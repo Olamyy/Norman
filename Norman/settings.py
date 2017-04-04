@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Application configuration."""
 import os
+from pymongo import MongoClient
 
 
 class Config:
@@ -79,6 +80,8 @@ class DevConfig(Config, UIConfig, PricingConfig):
     MONGODB_HOST = '127.0.0.1'
     MONGODB_PORT = 27017
     BASE_URL = "localhost:5000/"
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
+
 
 
 class TestConfig(Config):
