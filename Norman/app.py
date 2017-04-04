@@ -6,7 +6,7 @@ from Norman import commands, public
 from Norman.api import bot, web
 from Norman.assets import assets
 from Norman.auth import views as auth_view
-from Norman.extensions import  cache, csrf_protect, db, debug_toolbar, login_manager
+from Norman.extensions import  cache, csrf_protect, db, debug_toolbar, login_manager, mailer
 from Norman.dashboard import views
 from Norman.settings import ProdConfig
 from Norman.models import Hospital
@@ -35,6 +35,7 @@ def register_extensions(app):
     csrf_protect.init_app(app)
     login_manager.init_app(app)
     debug_toolbar.init_app(app)
+    mailer.init_app(app)
     return None
 
 

@@ -5,9 +5,9 @@ from flask_restful import Resource
 from Norman.models import Service, Hospital, User
 from Norman.extensions import csrf_protect, db
 from Norman.utils import Response as response
-from Norman.utils import generate_id
+from Norman.utils import generate_id, hash_data
 from datetime import datetime
-from mongoengine.errors import NotUniqueError
+from mongoengine.errors import NotUniqueError, DoesNotExist
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 
@@ -104,7 +104,9 @@ class HospitalApi(Resource):
                 return self.create_hospital(data)
             elif action == "update":
                 return self.update_hospital(hospital_id)
-            return self.disable_hospital(hospital_id)
+            elif action == "verify":
+                    return self.verify_hospital(data['verID'], data['verificationCode'])
+            return self.disable_hospital(data)
 
     def get_hospital(self, hospital_id=None):
         try:
@@ -117,18 +119,21 @@ class HospitalApi(Resource):
             return response.response_error("Unable to retrieve Hospital", error)
 
     def create_hospital(self, data):
+        hashed_password = hash_data(data['password'])
         create_hospital = Hospital(name=data['name'],
                                    email=data['email'],
                                    reg_num=data['reg_num'],
                                    created_at=datetime.now(),
                                    plan_id=data['plan_id'],
-                                   password=data['password'],
+                                   password=hashed_password,
+                                   ver_id=data['temp_id']
                                    )
+
         try:
             create_hospital.save()
             return response.response_ok(create_hospital)
-        except NotUniqueError:
-            return response.response_error('Unable to create service', 'Hospital name already exists')
+        except NotUniqueError as error:
+            return response.response_error('Unable to create hospital', error)
 
     def disable_hospital(self, hospital_id):
         pass
@@ -136,4 +141,10 @@ class HospitalApi(Resource):
     def update_hospital(self, hospital_id):
         pass
 
-
+    def verify_hospital(self, verID, verificationCode):
+        return jsonify({verID: 'world'})
+        try:
+            hospital = Hospital.objects.get(ver_id=verID, verificationCode=verificationCode)
+            return response.response_ok(hospital)
+        except DoesNotExist as error:
+            return response.response_error('Unable to create hospital', error)

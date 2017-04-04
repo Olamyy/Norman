@@ -94,3 +94,16 @@ class TestConfig(Config):
     BCRYPT_LOG_ROUNDS = 4  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
     WTF_CSRF_ENABLED = False  # Allows form testing
     MONGOALCHEMY_DATABASE = "norman"
+
+
+class MailerConfig(Config):
+    MAIL_SERVER = ''
+    MAIL_PORT = 25
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    MAIL_DEBUG = True
+    MAIL_USERNAME = None
+    MAIL_PASSWORD = None
+    MAIL_DEFAULT_SENDER = None
+    MAIL_MAX_EMAILS = None
+    MAIL_ASCII_ATTACHMENTS = False

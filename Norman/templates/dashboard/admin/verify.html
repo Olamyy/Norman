@@ -16,15 +16,16 @@
                         				<div class="col-md-8  col-md-offset-3">
                         					<h4 class="m-t-0 header-title"><b>Verify Registration</b></h4>
                         					<p class="text-muted m-b-30 font-13">
-												Hi<code>{username}</code>, enter the 4 digit verification number sent to <code>{email}</code>,
+												Hi <code>{{ hospital.name }}</code>, enter the 4 digit verification number sent to <code>{{ hospital.email }}</code>,
                                                 below to verify your registration.
 											</p>
-											<form role="form">
+                                                    <div id="error"></div>
 	                                            <div class="form-group">
-	                                                <input type="password" class="form-control" id="verificationCode" placeholder="Enter code here">
+	                                                <input type="text" class="form-control" id="verificationCode" placeholder="Enter code here">
 	                                            </div>
-	                                            <button type="submit" class="btn btn-purple waves-effect waves-light">Verify Account</button>
-	                                        </form>
+                                                <input type="hidden" value="{{ url_for('web.register') }}" id="verify_url">
+	                                            <button class="btn btn-purple waves-effect waves-light" id="verificationBtn">Verify Account</button>
+	                                            <button  class="btn btn-success waves-effect waves-light" id="requestNewCode">Request new code</button>
                         				</div><!-- end col -->
                                     </div><!-- end row -->
                         		</div>

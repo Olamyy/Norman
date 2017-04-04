@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect
 from flask_mongoengine import MongoEngine, MongoEngineSessionInterface
 from flask_restful import Api
+from flask_mail import Mail
 
 csrf_protect = CSRFProtect()
 login_manager = LoginManager()
@@ -16,3 +17,4 @@ api = Api()
 session_interface = MongoEngineSessionInterface(db)
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
+mailer = Mail()

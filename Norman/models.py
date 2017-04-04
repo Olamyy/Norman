@@ -34,20 +34,23 @@ class Plan(db.Document):
 
 
 class Hospital(db.Document):
-    name = db.StringField(required=True, max_length=200, min_length=3)
-    password = db.StringField(required=True, max_length=50, min_length=10)
+    name = db.StringField(required=True, max_length=200, min_length=3, unique=True)
+    password = db.StringField(required=True, max_length=50, min_length=5)
     address = db.StringField(required=False, max_length=1000, min_length=3)
     description = db.StringField(required=False, max_length=1000, min_length=3)
     specialty = db.StringField(required=False, max_length=1000, min_length=3)
-    email = db.StringField(required=True, max_length=50, min_length=10)
+    email = db.StringField(required=True, max_length=50, min_length=10, unique=True)
     image = db.StringField(required=False, max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
     plan_id = db.StringField(required=True, max_length=200, min_length=3)
+    reg_num = db.StringField(required=True, max_length=200, min_length=3, unique=True)
     active = db.BooleanField(default=False)
+    ver_id = db.StringField(required=True, max_length=200, min_length=3)
+    verificationID = db.StringField(required=True, max_length=4, min_length=4)
 
-    def __init__(self, **kwargs):
-        """Create instance."""
-        pass
+    def __repr__(self):
+        """Represent instance as a unique string."""
+        return '<Hospital({name!r})>'.format(name=self.name)
 
 
 class User(UserMixin, db.Document):

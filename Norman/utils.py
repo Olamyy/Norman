@@ -4,6 +4,7 @@ from flask import flash
 from flask import jsonify, make_response
 import string
 import random
+import hashlib
 
 
 def flash_errors(form, category='warning'):
@@ -16,6 +17,14 @@ def flash_errors(form, category='warning'):
 def generate_id(length):
         chars = string.ascii_uppercase + string.digits
         return ''.join(random.choice(chars) for _ in range(length))
+
+
+def hash_data(data):
+    return hashlib.sha256(data.encode('utf-8')).hexdigest()
+
+
+def validate_hashes(new_password, old):
+    return True if hash_data(new_password) == old else False
 
 
 class Response:

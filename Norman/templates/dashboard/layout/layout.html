@@ -42,7 +42,7 @@
         <div id="wrapper">
             <div class="topbar">
                 <div class="topbar-left">
-                    <a href="/dashboard" class="logo"><span>Norman<span>bot</span></span><i class="zmdi zmdi-layers"></i></a>
+                    <a href="{{ url_for('dashboard.profile') }}" class="logo"><span>Norman<span>bot</span></span><i class="zmdi zmdi-layers"></i></a>
                 </div>
 
                 <!-- Button mobile view to collapse sidebar menu -->
@@ -102,10 +102,10 @@
                     <!-- User -->
                     <div class="user-box">
                         <div class="user-img">
-                            <img src="{{ url_for('static', filename='assets/images/users/avatar-1.jpg') }}" alt="user-img" title="Hospital Avatar" class="img-circle img-thumbnail img-responsive">
+                            <img src="{{ url_for('static', filename='assets/images/users/hospital.png') }}" alt="user-img" title="Hospital Avatar" class="img-circle img-thumbnail img-responsive">
                             <div class="user-status offline"><i class="zmdi zmdi-dot-circle"></i></div>
                         </div>
-                        <h5><a href="#">Hospital Name</a> </h5>
+                        <h5>{{ hospital.name }} </h5>
                         <ul class="list-inline">
                             <li>
                                 <a href="{{ url_for('dashboard.profile') }}" >
@@ -277,6 +277,8 @@
         <script src="{{ url_for('static', filename='assets/plugins/fullcalendar/dist/fullcalendar.min.js') }}"></script>
         <script src="{{ url_for('static', filename='assets/pages/jquery.fullcalendar.js') }}"></script>
         <script src="{{ url_for('static', filename='assets/plugins/moment/moment.js') }}"></script>
+                <script src="{{ url_for('static', filename='assets/js/core.js') }}"></script>
+                <script src="{{ url_for('static', filename='assets/js/dentist.js') }}"></script>
 
         <!-- App js -->
         <script src="{{ url_for('static', filename='assets/js/jquery.core.html') }}"></script>

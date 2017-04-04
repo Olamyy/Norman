@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint, redirect
 
+from flask_login import login_required
 
 blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_folder='../static')
 

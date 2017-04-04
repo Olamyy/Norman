@@ -1,0 +1,33 @@
+{
+  "name": "dentist.js",
+  "homepage": "https://github.com/kelvintaywl/dentist.js",
+  "authors": [
+    "Kelvin Tay <kelvintaywl@gmail.com>"
+  ],
+  "description": "Dentist JS helps extract those darn url query params",
+  "keywords": [
+    "url",
+    "parse",
+    "query",
+    "string"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "e213e69a43",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e213e69a43afa7d83abc292dd59b10253c7c595c"
+  },
+  "_source": "https://github.com/kelvintaywl/dentist.js.git",
+  "_target": "*",
+  "_originalSource": "dentistjs",
+  "_direct": true
+}

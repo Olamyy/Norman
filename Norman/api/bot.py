@@ -3,14 +3,14 @@ from flask import make_response
 from flask import request
 from flask_restful import Resource
 from pymessenger.bot import Bot
-
 from Norman.extensions import csrf_protect
 from Norman.settings import FBConfig
 from Norman.utils import response
 from Norman.api.web import UserAPI
+from Norman.norman.user import NormanUser
 
 bot = Bot(FBConfig.FACEBOOK_SECRET_KEY)
-blueprint = Blueprint('api', __name__, url_prefix='/api')
+blueprint = Blueprint('api', __name__ , url_prefix='/api')
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -41,9 +41,17 @@ def webhook():
         return view_class.post()
 
 
+@blueprint.route('/test', methods=['POST'])
+@csrf_protect.exempt
+def test():
+    view_class = TestAPI()
+    return view_class.post()
+
+
 class WebHook(Resource):
     def __init__(self):
         self.user_view = UserAPI()
+
     @staticmethod
     def get():
         args = request.args
@@ -62,7 +70,32 @@ class WebHook(Resource):
                     recipient_id = action['sender']['id']
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello, {0}".format(recipient_id)
-                        bot.send_text_message(recipient_id, message)
-                        return response.response_ok('Success')
+                        user = NormanUser(recipient_id)
+                        if user.is_new:
+                            user.instantiate_user()
+                            user.start_conversation(message, type="new")
+                        else:
+                            user = user.get_user_instance()
+                            user.start_conversation(message, type="existing")
+                            bot.send_text_message(recipient_id, message)
+                            return response.response_ok('Success')
+
+
+class TestAPI(Resource):
+    def __init__(self):
+        self.user_view = UserAPI()
+
+    def post(self):
+        data = request.get_json()
+        recipient_id = data['id']
+        message = data['message']
+        user = NormanUser(recipient_id)
+        if user.is_new:
+            user.instantiate_user()
+            user.start_conversation(message, type="new")
+        else:
+            user = user.get_user_instance()
+            user.start_conversation(message, type="existing")
+
 
 

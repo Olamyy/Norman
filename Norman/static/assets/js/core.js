@@ -58,9 +58,7 @@
                   var payload = Cookies.getJSON('payload');
                   payload['plan_id'] = plan_id;
 
-                  var  register_url  = $('#register_url').val();
-
-                  console.log(payload)
+                var  register_url  = $('#register_url').val();
 
                 $.ajax({
 
@@ -69,21 +67,47 @@
                            data : JSON.stringify(payload),
                            contentType: 'application/json',
                            dataType:"json",
-                           success : function (json) {
-                                        console.log(json);
+                           success : function (response) {
+                                window.location.href = 'auth/dashboard?action=verify&id='+response.id;
                            },
                            error : function(xhr, errmsg, err){
-                                        console.log(xhr)
-                                        console.log(err)
-                                        console.log(errmsg)
+                                        handle_error('Unable to create hospital', errmsg)
                            }
                             })
                 });
+    };
 
+    var verifyHospital = function () {
+               $("#verificationBtn").on('click', function() {
+                var currentURL = document.URL;
+                var params = currentURL.extract();
+                var payload = {"ver_id": params.verID,
+                               "verificationCode": $('#verificationCode').val(),
+                                'action': "verify"
+                                    };
+
+                var  verify_url  = $('#verify_url').val();
+                   $.ajax({
+
+                           url : verify_url,
+                           type:  "POST",
+                           data : JSON.stringify(payload),
+                           contentType: 'application/json',
+                           dataType:"json",
+                           success : function (response) {
+                                window.location.href = 'auth/dashboard?action=verify&id='+response.id;
+                           },
+                           error : function(xhr, errmsg, err){
+                                        handle_error('Unable to create hospital', errmsg)
+                           }
+                            })
+                });
     };
 
     startRegistration();
 
     finishRegistration();
+
+    verifyHospital();
 
 })(window.jQuery);
