@@ -68,16 +68,21 @@ class User(UserMixin, db.Document):
     is_active = db.BooleanField(default=False)
     is_on_plan = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.datetime.now())
+    session_ids = db.ListField()
 
     def __init__(self, **kwargs):
         """Create instance."""
         pass
 
+    def __repr__(self):
+        """Represent instance as a unique string."""
+        return '<User({username!r})>'.format(username=self.username)
 
-class Modal(UserMixin, db.Document):
 
-    def __init__(self):
-        pass
+class Session(db.Document):
+    created_at = db.DateTimeField(default=datetime.datetime.now())
+    message_count = db.IntField()
+    session_id = db.StringField(required=True, max_length=200, min_length=3)
 
 
 

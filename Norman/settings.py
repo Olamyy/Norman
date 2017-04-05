@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Application configuration."""
 import os
-from pymongo import MongoClient
 
 
 class Config:

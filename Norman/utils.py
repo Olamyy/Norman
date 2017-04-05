@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Helper utilities and decorators."""
+import uuid
+
 from flask import flash
 from flask import jsonify, make_response
 import string
@@ -25,6 +27,10 @@ def hash_data(data):
 
 def validate_hashes(new_password, old):
     return True if hash_data(new_password) == old else False
+
+
+def generate_session_id():
+    return str(uuid.uuid1())
 
 
 class Response:
