@@ -9,6 +9,7 @@ from Norman.models import User, Hospital
 from .factories import UserFactory
 
 
+
 @pytest.mark.usefixtures('db')
 class TestUser:
     """User tests."""

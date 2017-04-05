@@ -10,70 +10,203 @@ from Norman.errors import HttpError
 # Upload API
 # Error Codes
 
-class SendAPI:
-    def __init__(self, payload):
-        self.graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
+graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
-    def send_message(self, payload):
-        request = base.exec_request('POST', self.graphAPIURL, data=payload)
-        if request:
-            print(request)
-        else:
-            raise HttpError('Unable to complete request.')
+
+class SendAPI:
+    """
+    ### Note on priority types
+         - REGULAR: will emit a sound/vibration and a phone notification;
+         - SILENT_PUSH: will just emit a phone notification;
+         - NO_PUSH: will not emit either
+           *** by default, messages will be REGULAR push notification type ***
+    """
+
+    def send_text(self, data):
+        """ Send plain text reply to user
+
+            Usage: Accepts a dictionary of the form
+                {
+                    'text': 'some text to send',
+                    'recipient': 'valid facebook user id',
+                    'priority': 'a valid priority type' (optional)
+                }
+
+        """
+
+        if validate_data(data, 'text'):
+            payload = clean_text(data)
+            send_message(payload)
+
+    def send_attachment(self):
+        """ Send attachments to user...
+            Supports: image, audio, video, file
+        """
+        pass
+
+    def send_action(self):
+        """
+            Make chat feel less 'Bot-ty' and more Natural
+            By simulating user actions...
+            Supports: typing_on, typing_off, mark_seen
+        """
+        pass
+
+    def send_button(self):
+        """
+            Request input from the user using buttons.
+            Buttons can:
+            - Open a Specified url
+            - Make a back-end call to specified webhook
+            - Call a phone number
+            - Open a share dialog
+            - open payment dialog
+        """
+        pass
+
+    def send_template(self):
+        """
+            Want to combine multiple response types?
+            No problem, template got you covered ..hehe
+            Supports: image attachment, short description and buttons
+        """
+        pass
+
+
+class Recipient:
+    def __init__(self):
+        self.payload = {'user_id': None}
+
+
+class Message:
+    def __init__(self):
+        self.payload = {
+            "text": None,
+            "attachment": None,
+            "quick_replies": None,
+            "metadata": None
+        }
 
 
 class Payload:
     def __init__(self, recipient, message=None, sender_action=None, notification_type="REGULAR"):
-        """
-
-        :param recipient:
-        :param message:
-        :param sender_action:
-        :param notification_type:
-        """
-        self.recipient = recipient
-        if not message and not sender_action:
-            raise ValueError("At least one of message/sender is required ")
-
-        self.payload = jsonify(
-            {
-                "recipient": {"id": self.recipient.user_id},
-                "message": {message.content},
-                "sender_action": sender_action,
-                "notification_type": notification_type
-            }
-        )
-
-
-message = {}
-
-
-class Message:
-    def __init__(self, text, attachment=False, quick_replies=False, metadata=None):
-        self.content = {
-            "text": text,
-            "attachment": attachment,
-            "quick_replies": quick_replies,
-            "metadata": metadata
+        self.payload = {
+            "recipient": recipient,
+            "message": message,
+            "sender_action": sender_action,
+            "notification_type": notification_type
         }
-        self.message = message
-        self.text = None
-        self.attachment = None
-        self.quick_replies = None
-        self.metadata = None
-
-    def clean_message(self):
-        self.text = self.clean_text(message['text'])
-        self.attachment = message['text']
-        self.quick_replies = message['text']
-        self.metadata = message['text']
-
-        return self
-
-    def clean_text(self, param):
-        return True
 
 
-class Recipient:
-    def __init__(self, user_id):
-        self.user_id = user_id
+def validate_data(data, response_type):
+
+        text = data.get('text', None)
+        recipient_id = data.get('recipient_id', None)
+
+        if response_type is 'text':
+            if text and recipient_id:
+                return True
+
+
+class Button:
+    """ Feature:
+        - type: web_url or postback
+        - title: text displayed on the screen
+        - url: only valid for type web_url
+        - payload: only valid for type postback
+
+    """
+
+    def __init__(self):
+        self.content = {
+            "type": None,
+            "url": None,
+            "title": None,
+            "payload": None
+          }
+
+
+class template_list:
+    pass
+
+class list_item:
+    def __init__(self):
+        self.content = {
+
+            "title": None,
+            "image_url": None,
+            "subtitle": None,
+            "default_action": {
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/shop_collection",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                },
+            "buttons": [
+                {
+                    "title": "Shop Now",
+                    "type": "web_url",
+                    "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
+                    "messenger_extensions": true,
+                    "webview_height_ratio": "tall",
+                    "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                }
+            ]
+                }
+# Utils
+
+def clean_message(data):
+    """Accepts a dictionary"""
+    pass
+
+
+def clean_text(data):
+    text = data.get('text', None)
+    recipient_id = data.get('recipient_id', None)
+
+    recipient_obj = Recipient()
+    message_obj = Message()
+
+    recipient_obj.payload['user_id'] = recipient_id
+    message_obj.payload['text'] = text
+
+    message_payload = clean_payload(message_obj.payload)
+    recipient_payload = clean_payload(recipient_obj.payload)
+
+    final_payload = Payload(message_payload, recipient_payload)
+    return clean_payload(final_payload.payload)
+
+
+def send_message(payload):
+    # request = base.exec_request('POST', graphAPIURL, data=payload)
+    # if request:
+    #     print(request)
+    # else:
+    #     raise HttpError('Unable to complete request.')
+    print(payload)
+
+
+def clean_payload(payload):
+    new_payload = payload.copy()
+    for entry in payload:
+        if not payload[entry]:
+            new_payload.pop(entry)
+    return new_payload
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    test = SendAPI()
+    test.send_text({'text': 'hello', 'recipient_id': 'world', 'priority': 'HIGH'})
