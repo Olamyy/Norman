@@ -1,7 +1,8 @@
 from bson import ObjectId
+from flask import jsonify
 from mongoengine import DoesNotExist
 
-from Norman.models import User
+from Norman.models import UserModel, Hospital
 
 
 class Utils:
@@ -37,9 +38,11 @@ class Utils:
         """
         pass
 
-    def update(self,  match,  update):
+    def update(self,  match,  update, match_field_name, update_field_name):
         """
         Update user or user data
+        :param update_field_name:
+        :param match_field_name:
         :param update:
         :param match:
         :return:
@@ -49,7 +52,7 @@ class Utils:
 
 class UserUtils(Utils):
     def __init__(self):
-        self.userdb = User
+        self.userdb = UserModel
         self.id = None
         self.email = None
         self.fb_id = None
@@ -61,7 +64,7 @@ class UserUtils(Utils):
             if user:
                 self.id = user.id
                 self.email = user.email
-                self.fb_id = user.fb
+                self.fb_id = user.fb_id
                 return self
             else:
                 return None
@@ -74,22 +77,18 @@ class UserUtils(Utils):
             if user:
                 self.id = user.id
                 self.email = user.email
-                self.fb_id = user.fb
+                self.fb_id = user.fb_id
                 return self
-            else:
-                return None
         except DoesNotExist:
-                return None
+                return False
 
-    def update(self, match, update):
-        return True if self.userdb.objects(match).update(update) else False
+    def update(self, match, updates, match_field_name, update_field_name):
+        return True if self.userdb.objects.filter(match_field_name=match).update(update_field_name=updates) else False
 
     def is_first_message(self, fb_id):
         try:
-            user = self.userdb.objects.get(fb_id=fb_id, is_first_message=True)
+            user = self.userdb.objects.get(fb_id=fb_id)
             if user:
                 return True
-            else:
-                return None
         except DoesNotExist:
-            return None
+            return False

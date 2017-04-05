@@ -47,36 +47,67 @@ class Hospital(db.Document):
     active = db.BooleanField(default=False)
     ver_id = db.StringField(required=True, max_length=200, min_length=3)
     verificationID = db.StringField(required=True, max_length=4, min_length=4)
+    has_sent_first_message = db.BooleanField(default=True)
+    fb_id = db.StringField(max_length=200, min_length=3)
 
     def __repr__(self):
         """Represent instance as a unique string."""
         return '<Hospital({name!r})>'.format(name=self.name)
 
 
-class User(UserMixin, db.Document):
+class Toga(db.Document):
+    name  = db.StringField(max_length=200, min_length=3)
+
+#
+# class User(db.Document):
+#     name  = db.StringField(max_length=200, min_length=3)
+    # fb_id = db.StringField(max_length=200, min_length=3)
+    # first_name = db.StringField(max_length=200, min_length=3)
+    # user_id = db.StringField(max_length=20, min_length=3)
+    # last_name = db.StringField(max_length=200, min_length=3)
+    # email = db.EmailField(max_length=200, min_length=10)
+    # username = db.StringField(max_length=50, min_length=3)
+    # hospital_id = db.StringField(max_length=200, min_length=3)
+    # services_id = db.StringField(max_length=200, min_length=3)
+    # plan_id = db.StringField(max_length=200, min_length=3)
+    # is_verified = db.BooleanField(default=False)
+    # is_on_hospital_list_but_not_on_fb_list = db.BooleanField(default=False)
+    # is_active = db.BooleanField(default=False)
+    # is_on_plan = db.BooleanField(default=False)
+    # created_at = db.DateTimeField(default=datetime.datetime.now())
+    # session_ids = db.ListField()
+    # has_sent_first_message = db.BooleanField(default=True)
+    #
+    # def __init__(self, **kwargs):
+    #     """Create instance."""
+    #     pass
+    #
+    # def __repr__(self):
+    #     """Represent instance as a unique string."""
+    #     return '<User({username!r})>'.format(username=self.username)
+
+
+class UserModel(db.Document):
+    name = db.StringField(required=True, max_length=200, min_length=3)
     fb_id = db.StringField(max_length=200, min_length=3)
-    first_name = db.StringField(required=True, max_length=200, min_length=3)
-    user_id = db.StringField(required=True, max_length=20, min_length=3)
-    last_name = db.StringField(required=True, max_length=200, min_length=3)
-    email = db.EmailField(required=True, max_length=200, min_length=10)
+    first_name = db.StringField(max_length=200, min_length=3)
+    user_id = db.StringField(max_length=20, min_length=3)
+    last_name = db.StringField(max_length=200, min_length=3)
+    email = db.EmailField(max_length=200, min_length=10)
     username = db.StringField(max_length=50, min_length=3)
-    hospital_id = db.StringField(required=True, max_length=200, min_length=3)
-    services_id = db.StringField(required=True, max_length=200, min_length=3)
-    plan_id = db.StringField(required=True, max_length=200, min_length=3)
+    hospital_id = db.StringField(max_length=200, min_length=3)
+    services_id = db.StringField(max_length=200, min_length=3)
+    plan_id = db.StringField(max_length=200, min_length=3)
     is_verified = db.BooleanField(default=False)
     is_on_hospital_list_but_not_on_fb_list = db.BooleanField(default=False)
     is_active = db.BooleanField(default=False)
     is_on_plan = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.datetime.now())
     session_ids = db.ListField()
+    has_sent_first_message = db.BooleanField(default=False)
 
-    def __init__(self, **kwargs):
-        """Create instance."""
-        pass
 
-    def __repr__(self):
-        """Represent instance as a unique string."""
-        return '<User({username!r})>'.format(username=self.username)
+
 
 
 class Session(db.Document):

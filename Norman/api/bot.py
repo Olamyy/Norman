@@ -80,22 +80,24 @@ class WebHook(Resource):
                             user.start_conversation(message, type="existing")
 
 
-# class TestAPI(Resource):
-#     def __init__(self):
-#         self.user_view = UserAPI()
-#
-#     def post(self):
-#         data = request.get_json()
-#         recipient_id = data['id']
-#         message = data['message']
-#         user = NormanUser(recipient_id)
-#         if user.is_first:
-#             user.instantiate_user()
-#             user.start_conversation(message, type="new")
-#             return response.response_ok('Success')
-#         else:
-#             user = user.get_user_instance()
-#             user.start_conversation(message, type="existing")
-#
+class TestAPI(Resource):
+    def __init__(self):
+        self.user_view = UserAPI()
+
+    def post(self):
+        data = request.get_json()
+        recipient_id = data['id']
+        message = data['message']
+        user = NormanUser(recipient_id)
+        if user.first_message:
+            user.instantiate_user()
+            print(user)
+            user.start_conversation(message, type="new")
+            return response.response_ok('Success')
+        else:
+            user = user.get_user_instance()
+            user.start_conversation(message, type="existing")
+            return response.response_ok('Success')
+
 
 

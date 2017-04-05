@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from mongoengine import DoesNotExist
 
-from Norman.models import Hospital, User
+from Norman.models import Hospital, UserModel
 
 
 class HospitalUtil(UserMixin):

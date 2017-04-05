@@ -2,7 +2,7 @@ from bson import ObjectId, errors
 from flask import Blueprint, jsonify
 from flask import request
 from flask_restful import Resource
-from Norman.models import Service, Hospital, User
+from Norman.models import Service, Hospital,Toga, UserModel
 from Norman.extensions import csrf_protect, db
 from Norman.utils import Response as response
 from Norman.utils import generate_id, hash_data
@@ -15,7 +15,11 @@ blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 @blueprint.route('/isItUp', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def isItUp():
-    return jsonify({'hello': 'world'})
+    test = UserModel(name="Olamilekan", fb_id='HYDSJJ', email='olamyy58222222222222222@gmail.com').save()
+    # test = Toga(name="Hello").save()
+    if test:
+        return jsonify({'hi': test.name})
+    return ()
 
 
 @blueprint.route('/hospital', methods=['GET', 'POST'])
@@ -68,7 +72,7 @@ class ServiceAPI(Resource):
 
 class UserAPI:
     def __init__(self):
-        self.user_object = User
+        self.user_object = UserModel
         pass
 
     def validate_fb_id(self, fb_id):
