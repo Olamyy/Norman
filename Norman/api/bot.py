@@ -77,7 +77,13 @@ class WebHook(Resource):
                             return response.response_ok('Success')
                         else:
                             user = user.get_user_instance()
+<<<<<<< .merge_file_7wuSEC
                             user.start_conversation(message, type="existing")
+=======
+                            message = user.start_conversation(message, type="existing")
+                            bot.send_text_message(recipient_id, message)
+                            return response.response_ok('Success')
+>>>>>>> .merge_file_aFMErC
 
 
 class TestAPI(Resource):
