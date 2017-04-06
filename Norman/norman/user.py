@@ -1,4 +1,4 @@
-from Norman.conversation.norman import norman
+# from Norman.conversation.norman import norman
 from Norman.core.dbutils import UserUtils
 from Norman.models import UserModel
 from Norman.utils import generate_session_id

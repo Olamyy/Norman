@@ -5,8 +5,6 @@ from Norman.settings import FBConfig
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
-
-<<<<<<< HEAD
 # class SendAPI:
 #     """
 #
@@ -183,15 +181,16 @@ graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 #             new_payload.pop(entry)
 #     return new_payload
 
-=======
->>>>>>> 1b4045a213ba7c4ff3d13d20e790ab3f221d2a77
+
 class Message(object):
 
     def __init__(self, recipient_id, **kwargs):
         self.recipient_id = recipient_id
         self.notification_type = None
         self.payload_structure = {
-                                  'recipient_id': self.recipient_id,
+                                  'recipient': {
+                                                'id': self.recipient_id
+                                                },
                                   'message': {
                                       "text": '',
                                       'attachment': {
@@ -217,6 +216,7 @@ class Message(object):
         self.payload_structure['sender_action'] = action
 
         # connect
+        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
