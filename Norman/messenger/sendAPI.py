@@ -202,9 +202,7 @@ class Message(object):
                                   'message': {
                                       "text": ''
                                   },
-                                  'user_action': {
-                                      'user_action': ''
-                                  },
+                                  'sender_action': '',
                                   'attachment': {
                                       'type': '',
                                       'payload': {
@@ -222,7 +220,7 @@ class Message(object):
         :return:
         """
         self.payload_structure.pop('attachment')
-        self.payload_structure['user_action']['user_action'] = action
+        self.payload_structure['sender_action'] = action
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request

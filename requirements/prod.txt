@@ -47,4 +47,7 @@ pymessenger
 
 pyyaml
 
+#Mail
+flask-mail
+
 
