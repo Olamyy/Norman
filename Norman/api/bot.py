@@ -67,11 +67,13 @@ class WebHook(Resource):
                         user = NormanUser(recipient_id)
                         if user.first_message:
                             user.instantiate_user()
+                            print(user.start_conversation(message, type="new"))
                             bot.send_text_message(recipient_id, user.start_conversation(message, type="new"))
                             return response.response_ok('Success')
                         else:
                             user = user.get_user_instance()
-                            bot.send_text_message(recipient_id, user.start_conversation(message, type="new"))
+                            print(user.start_conversation(message, type="new"))
+                            bot.send_text_message(recipient_id, user.start_conversation(message, type="existing"))
                             return response.response_ok('Success')
 
 
@@ -93,9 +95,12 @@ class TestAPI(Resource):
         user = NormanUser(recipient_id)
         if user.first_message:
             user.instantiate_user()
-            return jsonify({'response': user.start_conversation(message, type="new")})
+            print(user.start_conversation(message, type="new"))
+            return jsonify({'response': str
+            (user.start_conversation(message, type="new"))})
         else:
             user = user.get_user_instance()
+            print(user.start_conversation(message, type="existing"))
             return jsonify({'response': user.start_conversation(message, type="existing")})
 
 
