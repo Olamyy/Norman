@@ -72,7 +72,7 @@ class WebHook(Resource):
                             return response.response_ok('Success')
                         else:
                             user = user.get_user_instance()
-                            print(user.start_conversation(message, type="new"))
+                            # print(user.start_conversation(message, type="new"))
                             bot.send_text_message(recipient_id, user.start_conversation(message, type="existing"))
                             return response.response_ok('Success')
 
