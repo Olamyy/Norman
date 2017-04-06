@@ -50,4 +50,5 @@ pyyaml
 #Mail
 flask-mail
 
-
+#chat
+chatterbot
