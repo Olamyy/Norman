@@ -25,7 +25,7 @@ class FBConfig(Config):
     """
     FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
     GRAPH_API_VERSION = 'v2.6'
-    GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/<field_uri>?fields=[]&access_token={1}'.format(
+    GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/messages?access_token={1}'.format(
         GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
 
 

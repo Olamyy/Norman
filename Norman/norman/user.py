@@ -1,4 +1,4 @@
-from Norman.conversation.norman import norman
+# from Norman.conversation.norman import norman
 from Norman.core.dbutils import UserUtils
 from Norman.models import UserModel
 from Norman.utils import generate_session_id
@@ -19,7 +19,8 @@ class NormanUser:
         self.instantiated_user = True
 
     def start_conversation(self, message, **kwargs):
-        return norman.get_response(message)
+        # return norman.get_response(message)
+        return "David says hi"
 
     def get_user_instance(self):
         self.session_id = self.user
