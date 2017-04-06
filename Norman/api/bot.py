@@ -3,11 +3,12 @@ from flask import make_response
 from flask import request
 from flask_restful import Resource
 from pymessenger.bot import Bot
+
+from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
+from Norman.norman.user import NormanUser
 from Norman.settings import FBConfig
 from Norman.utils import response
-from Norman.api.web import UserAPI
-from Norman.norman.user import NormanUser
 
 bot = Bot(FBConfig.FACEBOOK_SECRET_KEY)
 blueprint = Blueprint('api', __name__ , url_prefix='/api')
@@ -71,7 +72,7 @@ class WebHook(Resource):
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello, {0}".format(recipient_id)
                         user = NormanUser(recipient_id)
-                        if user.is_new:
+                        if user.first_message:
                             user.instantiate_user()
                             user.start_conversation(message, type="new")
                         else:
@@ -90,7 +91,7 @@ class TestAPI(Resource):
         recipient_id = data['id']
         message = data['message']
         user = NormanUser(recipient_id)
-        if user.is_new:
+        if user.first_message:
             user.instantiate_user()
             user.start_conversation(message, type="new")
         else:

@@ -1,8 +1,7 @@
 from bson import ObjectId
-from flask import jsonify
 from mongoengine import DoesNotExist
 
-from Norman.models import UserModel, Hospital
+from Norman.models import UserModel
 
 
 class Utils:

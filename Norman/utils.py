@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """Helper utilities and decorators."""
+import hashlib
+import random
+import string
 import uuid
 
 from flask import flash
 from flask import jsonify, make_response
-import string
-import random
-import hashlib
 
 
 def flash_errors(form, category='warning'):
@@ -23,6 +23,10 @@ def generate_id(length):
 
 def hash_data(data):
     return hashlib.sha256(data.encode('utf-8')).hexdigest()
+
+
+# def sleep_for(duration):
+#     time
 
 
 def validate_hashes(new_password, old):

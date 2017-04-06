@@ -26,3 +26,10 @@ class DeadConversationError(NormanError):
     Raised when a conversation is dead.
     """
     pass
+
+
+class SendAPIError(NormanError):
+    """
+
+    """
+    pass
