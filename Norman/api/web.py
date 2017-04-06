@@ -1,13 +1,15 @@
+from datetime import datetime
+
 from bson import ObjectId, errors
 from flask import Blueprint, jsonify
 from flask import request
 from flask_restful import Resource
-from Norman.models import Service, Hospital,Toga, UserModel
+from mongoengine.errors import NotUniqueError
+
 from Norman.extensions import csrf_protect, db
+from Norman.models import Service, Hospital, UserModel
 from Norman.utils import Response as response
 from Norman.utils import generate_id, hash_data
-from datetime import datetime
-from mongoengine.errors import NotUniqueError, DoesNotExist
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 
@@ -143,6 +145,9 @@ class HospitalApi(Resource):
         pass
 
     def update_hospital(self, hospital_id):
+        pass
+
+    def verify_hospital(self, hospital_id, code):
         pass
 
 

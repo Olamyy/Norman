@@ -6,5 +6,7 @@ class Norman(ChatBot):
         super().__init__(name, **kwargs)
         self.name = name
 
+    def get_response(self, input_item, session_id=None):
+        return "Hello World"
 
-norman = Norman(name='Norman')
+norman = Norman(name='Hey')

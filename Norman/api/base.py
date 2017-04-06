@@ -1,11 +1,11 @@
-import os
-import requests
 import json
-from Norman.settings import Config
+
+import requests
+
 from Norman.errors import HttpMethodError
 
 
-class BasePayantAPI(object):
+class BaseAPI(object):
     """
 
     """
@@ -49,4 +49,4 @@ class BasePayantAPI(object):
             return self._json_parser(response)
         response.raise_for_status()
 
-base = BasePayantAPI()
+base = BaseAPI()
