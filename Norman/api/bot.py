@@ -67,11 +67,11 @@ class WebHook(Resource):
                         user = NormanUser(recipient_id)
                         if user.first_message:
                             user.instantiate_user()
-                            bot.send_text_message(recipient_id, user.start_conversation(message, type="new"))
+                            bot.send_text_message(recipient_id, message)
                             return response.response_ok('Success')
                         else:
                             user = user.get_user_instance()
-                            bot.send_text_message(recipient_id, user.start_conversation(message, type="existing"))
+                            bot.send_text_message(recipient_id, message)
                             return response.response_ok('Success')
 
 
