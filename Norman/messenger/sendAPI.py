@@ -2,22 +2,11 @@ from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.settings import FBConfig
 
-# Buttons
-# Quick Replies
-# Sender Actions
-# Upload API
-# Error Codes
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
 
 # class SendAPI:
-#     """
-#     ### Note on priority types
-#          - REGULAR: will emit a sound/vibration and a phone notification;
-#          - SILENT_PUSH: will just emit a phone notification;
-#          - NO_PUSH: will not emit either
-#            *** by default, messages will be REGULAR push notification type ***
 #     """
 #
 #     def send_text(self, data):
@@ -194,52 +183,70 @@ graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 #     return new_payload
 
 class Message(object):
+
     def __init__(self, recipient_id, **kwargs):
         self.recipient_id = recipient_id
         self.notification_type = None
         self.payload_structure = {
                                   'recipient_id': self.recipient_id,
                                   'message': {
-                                      "text": ''
+                                      "text": '',
+                                      'attachment': {
+                                          'type': '',
+                                          'payload': {
+                                              'template_type': '',
+                                              'url': '',
+                                              'title': ''
+                                          },
+                                      }
                                   },
                                   'sender_action': '',
-                                  'attachment': {
-                                      'type': '',
-                                      'payload': {
-                                          'template_type': '',
-                                          'url': '',
-                                          'title': ''
-                                      },
-
-                                  },
-                                    }
+                                  'notification_type': ''
+                                }
 
     def send_action(self, action):
         """
-
-        :return:
+        :param action: - typing_on, typing_off, mark_as_read
         """
-        self.payload_structure.pop('attachment')
+        # clean up payload
+        self.payload_structure.pop('message')
+        self.payload_structure.pop('notification_type')
         self.payload_structure['sender_action'] = action
+
+        # connect
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
-    def send_message(self, message_type, message, attachment_url=None):
+    def send_message(self, message_type, message_text=None, attachment=None, notification_type=None):
         """
+        - text must be UTF-8 and has a 640 character limit
+        - You cannot send a text and an attachment together
+        :param message_type: text or attachment
+        :param message_text: text to send
+        :param attachment: a valid attachment object i.e dictionary
+        :param notification_type: REGULAR, SILENT_PUSH, or NO_PUSH
+        :return: json response object
+        """
+        notification_type = notification_type
 
-        :return:
-        """
-        attachment_url = attachment_url
-        self.payload_structure.pop('user_action')
         if message_type == "text":
-            self.payload_structure['message']['text'] = message
-            self.payload_structure.pop('attachment')
+            self.payload_structure['message']['text'] = message_text
+            self.payload_structure['message'].pop('attachment')
         else:
-            self.payload_structure['attachment'] = {'type': message_type}
-            self.payload_structure['attachment']['payload'] = {'url': attachment_url}
+            self.payload_structure['message'].pop('text')
+            self.payload_structure['message']['attachment'] = attachment
+
+        # clean up payload
+        self.payload_structure.pop('sender_action')
+        if notification_type:
+            self.payload_structure['notification_type'] = notification_type
+        else:
+            self.payload_structure.pop('notification_type')
+
+        # connect
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
@@ -250,10 +257,9 @@ class Message(object):
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
-        self.payload_structure["attachment"]["type"] = "template"
-        self.payload_structure["attachment"]["payload"]["template_type"] = ""
-        self.payload_structure["attachment"]["payload"]["buttons"] = {}
-        self.payload_structure["attachment"]["payload"]["elements"] = {
+        self.payload_structure['message']["attachment"]["type"] = "template"
+        self.payload_structure['message']["attachment"]["payload"]["buttons"] = {}
+        self.payload_structure['message']["attachment"]["payload"]["elements"] = [{
                                              'title': "",
                                              'image_url': "",
                                              'subtitle': "",
@@ -273,16 +279,20 @@ class Template(Message):
                                                          'fallback_url': ''
                                                          }
 
-                                             }
+                                             }]
 
     def send_template_message(self, template_type, **kwargs):
+        self.payload_structure["message"]["attachment"]["payload"]["template_type"] = template_type
+
         if template_type == "button":
-            self.payload_structure["attachment"]["payload"]["text"] = kwargs.get('text')
-            self.payload_structure['attachment']['payload'].pop('elements')
-            self.payload_structure["attachment"]["payload"]["template_type"] = template_type
-            self.payload_structure['buttons'] = [kwargs.get('buttons')]
+            self.payload_structure['message']["attachment"]["payload"]["text"] = kwargs.get('text')
+            self.payload_structure['message']['attachment']['payload'].pop('elements')
+        elif template_type == 'generic':
+            self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('generic_info')
+        elif template_type == 'list':
+            self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('list_info')
+
+        if kwargs.get("buttons"):
+            self.payload_structure['message']['buttons'] = [kwargs.get('buttons')]
         else:
-            pass
-
-
-
+            self.payload_structure.pop('buttons')
