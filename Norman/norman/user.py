@@ -1,9 +1,7 @@
-from flask import jsonify
-
+from Norman.conversation.norman import norman
 from Norman.core.dbutils import UserUtils
 from Norman.models import UserModel
 from Norman.utils import generate_session_id
-from Norman.conversation.norman import norman
 
 
 class NormanUser:
@@ -21,8 +19,9 @@ class NormanUser:
         self.instantiated_user = True
 
     def start_conversation(self, message, **kwargs):
-        return norman.get_response(message, self.session_id)
+        return norman.get_response(message)
 
     def get_user_instance(self):
         self.session_id = self.user
+
 

@@ -42,13 +42,6 @@ def webhook():
         return view_class.post()
 
 
-@blueprint.route('/test', methods=['POST'])
-@csrf_protect.exempt
-def test():
-    view_class = TestAPI()
-    return view_class.post()
-
-
 class WebHook(Resource):
     def __init__(self):
         self.user_view = UserAPI()
@@ -74,12 +67,21 @@ class WebHook(Resource):
                         user = NormanUser(recipient_id)
                         if user.first_message:
                             user.instantiate_user()
-                            user.start_conversation(message, type="new")
+                            print(user.start_conversation(message, type="new"))
+                            bot.send_text_message(recipient_id, user.start_conversation(message, type="new"))
+                            return response.response_ok('Success')
                         else:
                             user = user.get_user_instance()
-                            message = user.start_conversation(message, type="existing")
-                            bot.send_text_message(recipient_id, message)
+                            print(user.start_conversation(message, type="new"))
+                            bot.send_text_message(recipient_id, user.start_conversation(message, type="existing"))
                             return response.response_ok('Success')
+
+
+@blueprint.route('/test', methods=['POST'])
+@csrf_protect.exempt
+def test():
+    view_class = TestAPI()
+    return view_class.post()
 
 
 class TestAPI(Resource):
@@ -93,10 +95,13 @@ class TestAPI(Resource):
         user = NormanUser(recipient_id)
         if user.first_message:
             user.instantiate_user()
-            user.start_conversation(message, type="new")
+            print(user.start_conversation(message, type="new"))
+            return jsonify({'response': str
+            (user.start_conversation(message, type="new"))})
         else:
             user = user.get_user_instance()
-            user.start_conversation(message, type="existing")
+            print(user.start_conversation(message, type="existing"))
+            return jsonify({'response': user.start_conversation(message, type="existing")})
 
 
 
