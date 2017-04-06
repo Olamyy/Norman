@@ -1,5 +1,5 @@
 from Norman.api.base import base
-from Norman.errors import HttpError, SendAPIError
+from Norman.errors import HttpError
 from Norman.settings import FBConfig
 
 # Buttons
@@ -194,18 +194,14 @@ graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 #     return new_payload
 
 class Message(object):
-    def __init__(self, recipient_id, message=None, is_user_action=False, **kwargs):
+    def __init__(self, recipient_id, **kwargs):
         self.recipient_id = recipient_id
-        self.message = message
         self.notification_type = None
-        self.user_action = is_user_action
-        self.action = kwargs.get('action') if is_user_action else None
         self.payload_structure = {
                                   'recipient_id': self.recipient_id,
                                   'message': {
-                                      "text": message
+                                      "text": ''
                                   },
-
                                   'user_action': {
                                       'user_action': ''
                                   },
@@ -220,73 +216,46 @@ class Message(object):
                                   },
                                     }
 
-    def send_action(self):
+    def send_action(self, action):
         """
 
         :return:
         """
         self.payload_structure.pop('attachment')
-        self.payload_structure['user_action']['user_action'] = self.action
+        self.payload_structure['user_action']['user_action'] = action
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
-    def send_message(self, message_type, attachment_url=None):
+    def send_message(self, message_type, message, attachment_url=None):
         """
 
         :return:
         """
-        message_type = message_type
         attachment_url = attachment_url
         self.payload_structure.pop('user_action')
-        if type == "text":
-            self.payload_structure['attachment'] = {'type': message_type}
+        if message_type == "text":
+            self.payload_structure['message']['text'] = message
+            self.payload_structure.pop('attachment')
         else:
             self.payload_structure['attachment'] = {'type': message_type}
-            self.payload_structure['payload'] = {'url': attachment_url}
+            self.payload_structure['attachment']['payload'] = {'url': attachment_url}
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
-
-"""
- "recipient":{
-    "id":"USER_ID"
-  },
-  "message":{
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"button",
-        "text":"What do you want to do next?",
-        "buttons":[
-          {
-            "type":"web_url",
-            "url":"https://petersapparel.parseapp.com",
-            "title":"Show Website"
-          },
-          {
-            "type":"postback",
-            "title":"Start Chatting",
-            "payload":"USER_DEFINED_PAYLOAD"
-          }
-        ]
-      }
-    }
-  }
-}''''''''''''"""""""""
-"'"
 
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
-        self.payload_structure["template_type"] = ""
-        self.payload_structure["buttons"] = {}
-        self.payload_structure["elements"] = {
+        self.payload_structure["attachment"]["type"] = "template"
+        self.payload_structure["attachment"]["payload"]["template_type"] = ""
+        self.payload_structure["attachment"]["payload"]["buttons"] = {}
+        self.payload_structure["attachment"]["payload"]["elements"] = {
                                              'title': "",
                                              'image_url': "",
                                              'subtitle': "",
@@ -307,14 +276,15 @@ class Template(Message):
                                                          }
 
                                              }
-        if self.user_action:
-            raise SendAPIError('Unable to send a message and an action')
 
-    def send_template_message(self, template_type):
-        if template_type == "buttons":
-            self.payload_structure.pop('elements')
-            self.payload_structure['template_type'] = template_type
-            self.payload_structure['buttons'] = {}
+    def send_template_message(self, template_type, **kwargs):
+        if template_type == "button":
+            self.payload_structure["attachment"]["payload"]["text"] = kwargs.get('text')
+            self.payload_structure['attachment']['payload'].pop('elements')
+            self.payload_structure["attachment"]["payload"]["template_type"] = template_type
+            self.payload_structure['buttons'] = [kwargs.get('buttons')]
+        else:
+            pass
 
 
 
