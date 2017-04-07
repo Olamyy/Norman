@@ -44,7 +44,7 @@
                      }
                      else{
                          Cookies.set('payload', payload);
-                         window.location.href = '/auth/register/plans';
+                         window.location.href = 'register/plans';
                          }
             }
             else
@@ -59,6 +59,8 @@
                   payload['plan_id'] = plan_id;
 
                 var  register_url  = $('#register_url').val();
+                console.log(register_url);
+                console.log(payload)
 
                 $.ajax({
 
@@ -68,9 +70,10 @@
                            contentType: 'application/json',
                            dataType:"json",
                            success : function (response) {
-                                window.location.href = 'auth/dashboard?action=verify&id='+response.id;
+                                window.location.href = 'auth/dashboard?action=verify&id='+response.ver_id;
                            },
                            error : function(xhr, errmsg, err){
+                                        window.location.href = window.location.replace('/plans', '');
                                         handle_error('Unable to create hospital', errmsg)
                            }
                             })

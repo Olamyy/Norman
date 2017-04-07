@@ -20,7 +20,7 @@ def isItUp():
     test = UserModel(name="Olamilekan", fb_id='HYDSJJ', email='olamyy58222222222222222@gmail.com').save()
     # test = Toga(name="Hello").save()
     if test:
-        return jsonify({'hi': test.name})
+        return jsonify({'hi': 'hello'})
     return ()
 
 
@@ -135,10 +135,9 @@ class HospitalApi(Resource):
                                    ver_id=data['temp_id'],
                                    verificationID=generate_id(4)
                                    )
-
         try:
-            create_hospital.save()
-            return response.response_ok(create_hospital)
+            if create_hospital.save():
+                return response.response_ok(create_hospital)
         except NotUniqueError as error:
             return response.response_error('Unable to create hospital', error)
 

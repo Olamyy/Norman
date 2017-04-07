@@ -51,6 +51,6 @@ class Response:
     @staticmethod
     def response_error(message, error=None):
         response = jsonify({'status': 'fail', 'message': message, 'error': error})
-        return make_response(response, 201)
+        return make_response(response, 400)
 
 response = Response()

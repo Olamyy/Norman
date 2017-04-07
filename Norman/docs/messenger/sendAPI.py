@@ -1,5 +1,4 @@
-from Norman.messenger.sendAPI import Message, Template
-
+from Norman.messenger.sendAPI import Message
 
 """
     Examples on how to you sendAPI class in your code

@@ -64,20 +64,6 @@ class NormanInputAdapter(InputAdapter):
 class NormanLogicAdapter(LogicAdapter):
     def __init__(self, **kwargs):
         super(NormanLogicAdapter, self).__init__(**kwargs)
-        self.recipient = kwargs.get('recipient_id')
-        self.command_obj = Command()
-        self.command = 'command'
-        self.normal_message = 'normal'
-
-    def detect_input_type(self, statement):
-        if self.command_obj.is_valid_command(statement):
-            return self.command
-        else:
-            return self.normal_message
-
-    def process_input(self, statement):
-        input_type = self.detect_input_type(statement)
-        return statement
 
 
 class NormanStorageAdapter(LogicAdapter):
