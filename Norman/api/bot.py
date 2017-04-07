@@ -75,30 +75,29 @@ class WebHook(Resource):
                             return response.response_ok('Success')
 
 
-# @blueprint.route('/test', methods=['POST'])
-# @csrf_protect.exempt
-# def test():
-#     view_class = TestAPI()
-#     return view_class.post()
-#
-#
-# class TestAPI(Resource):
-#     def __init__(self):
-#         self.user_view = UserAPI()
-#
-#     def post(self):
-#         data = request.get_json()
-#         recipient_id = data['id']
-#         message = data['message']
-#         user = NormanUser(recipient_id)
-#         if user.first_message:
-#             user.instantiate_user()
-#             # print(user.start_conversation(message, type="new"))
-#             return jsonify({'response': str(user.start_conversation(message, type="new"))})
-#         else:
-#             user = user.get_user_instance()
-#             print(user.start_conversation(message, type="existing"))
-#             return jsonify({'response': user.start_conversation(message, type="existing")})
-#
-#
-#
+@blueprint.route('/test', methods=['POST'])
+@csrf_protect.exempt
+def test():
+    view_class = TestAPI()
+    return view_class.post()
+
+
+class TestAPI(Resource):
+    def __init__(self):
+        self.user_view = UserAPI()
+
+    def post(self):
+        data = request.get_json()
+        recipient_id = data['id']
+        message = data['message']
+        user = NormanUser(recipient_id)
+        if user.first_message:
+            user.instantiate_user()
+            return jsonify({'response': user.start_conversation(message)})
+        else:
+            user = user.get_user_instance()
+            print(user.start_conversation(message, type="existing"))
+            return jsonify({'response': user.start_conversation(message, type="existing")})
+
+
+
