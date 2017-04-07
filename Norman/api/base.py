@@ -27,7 +27,7 @@ class BaseAPI(object):
             'DELETE': requests.delete
         }
 
-        payload = json.dumps(data) if data else data
+        payload = data if data else data
         request = method_map.get(method)
 
         if not request:
@@ -35,18 +35,21 @@ class BaseAPI(object):
                 "Request method not recognised or implemented")
 
         response = request(
-            url, data=payload, verify=True)
-        if response.status_code == 404:
-            msg = "The object request cannot be found"
-            if response.json().get('message'):
-                body = response.json()
-            return response.status_code, body
-            # return response.status_code, False, msg, None
-        body = response.json()
-        if body.get('status') == 'error':
-            return response.status_code, body['status'], body['message']
-        if response.status_code in [200, 201]:
-            return self._json_parser(response)
-        response.raise_for_status()
+            url=url, json=payload, verify=True)
+
+        return response.content
+
+        # if response.status_code == 404:
+        #     msg = "The object request cannot be found"
+        #     if response.json().get('message'):
+        #         body = response.json()
+        #     return response.status_code, body
+        #     # return response.status_code, False, msg, None
+        # body = response.json()
+        # if body.get('status') == 'error':
+        #     return response.status_code, body['status'], body['message']
+        # if response.status_code in [200, 201]:
+        #     return self._json_parser(response)
+        # response.raise_for_status()
 
 base = BaseAPI()
