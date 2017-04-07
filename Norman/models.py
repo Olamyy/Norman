@@ -35,7 +35,7 @@ class Plan(db.Document):
 
 class Hospital(db.Document):
     name = db.StringField(required=True, max_length=200, min_length=3, unique=True)
-    password = db.StringField(required=True, max_length=50, min_length=5)
+    password = db.StringField(required=True, max_length=200, min_length=5)
     address = db.StringField(required=False, max_length=1000, min_length=3)
     description = db.StringField(required=False, max_length=1000, min_length=3)
     specialty = db.StringField(required=False, max_length=1000, min_length=3)

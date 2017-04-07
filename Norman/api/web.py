@@ -132,7 +132,8 @@ class HospitalApi(Resource):
                                    created_at=datetime.now(),
                                    plan_id=data['plan_id'],
                                    password=hashed_password,
-                                   ver_id=data['temp_id']
+                                   ver_id=data['temp_id'],
+                                   verificationID=generate_id(4)
                                    )
 
         try:
