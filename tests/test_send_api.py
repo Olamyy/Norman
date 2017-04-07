@@ -1,5 +1,4 @@
-from Norman.messenger.sendAPI import Message, Template
-
+from Norman.messenger.sendAPI import Message
 
 """
     Examples on how to you sendAPI class in your code
@@ -141,49 +140,3 @@ def test_message(recipient):
 
 
 
-
-
-
-
-
-
-
-#{
-#   "recipient":{
-#   	"id":"USER_ID"
-#   },
-#   "sender_action":"typing_on"
-# }'
-
-# https://graph.facebook.com/v2.6/me/messages?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD
-# https://graph.facebook.com/v2.6/me/messages?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-
-# "recipient":{
-#   "id":"1280106375410348"
-#   },
-#   "sender_action": "typing_on"
-# }
-
-# "{"recipient":{"id":"USER_ID"}, "message":{"text":"hello, world!"}}"
-
-# "{
-#   "recipient":{
-#   	"id":"1280106375410348"
-#   },
-#   "message":{
-#   	"text":"hello, world!"
-#   }
-# }"
-#
-# curl -X POST -H "Content-Type: application/json" -d '{
-#   "recipient":{
-#   	"id":"1280106375410348"
-#   },
-#   "sender_action":"typing_on"
-# }' "https://graph.facebook.com/v2.6/me/messages?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-#
-#
-# '{"recipient": {"id":"1280106375410348"}, "sender_action":"typing_on"}'
-# '{"recipient": {"id":"1280106375410348"}, "message":{"text":"hello, world!"}}'
-# '{"recipient": {"id":"1280106375410348"}, "message":{"text":"typing_on"}}'
-# '{"recipient": {"id": "1280106375410348"}, "message": {"text": "typing_on"}}'
