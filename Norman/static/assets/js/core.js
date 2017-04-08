@@ -60,7 +60,7 @@
 
                 var  register_url  = $('#register_url').val();
                 console.log(register_url);
-                console.log(payload)
+                console.log(payload);;;;;;;;;;;;;;;;;;;;;;;;;;;
 
                 $.ajax({
 
@@ -70,7 +70,7 @@
                            contentType: 'application/json',
                            dataType:"json",
                            success : function (response) {
-                                window.location.href = 'auth/dashboard?action=verify&id='+response.ver_id;
+                                window.location.href = 'auth/dashboard?action=verify&verID='+response.ver_id;
                            },
                            error : function(xhr, errmsg, err){
                                         window.location.href = window.location.replace('/plans', '');
