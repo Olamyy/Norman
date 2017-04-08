@@ -38,3 +38,8 @@ def view_hospital_profile():
 @blueprint.route('/edit-hospital-profile', methods=['GET'])
 def edit_hospital_profile():
     return render_template('dashboard/admin/edit-hospital-profile.html')
+
+
+@blueprint.route('/view-services', methods=['GET'])
+def view_services():
+    return  render_template('dashboard/admin/view-services.html')
