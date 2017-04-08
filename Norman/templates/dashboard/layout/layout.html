@@ -147,17 +147,17 @@
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-settings"></i> <span> Settings </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-hospital-alt"></i> <span> Hospital </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a href="">Change Plan</a></li>
                                     <li><a href="{{ url_for('dashboard.view_hospital_profile') }}">View Hospital Details</a></li>
                                     <li><a href="{{ url_for('dashboard.edit_hospital_profile') }}">Edit Hospital Details</a></li>
+                                    <li><a href="">Change Plan</a></li>
                                 </ul>
                             </li>
 
-                            <li>
-                                <a href="{{ url_for('dashboard.profile') }}" class="waves-effect "><i class="zmdi zmdi-account"></i> <span> Profile </span> </a>
-                            </li>
+{#                            <li>#}
+{#                                <a href="{{ url_for('dashboard.profile') }}" class="waves-effect "><i class="zmdi zmdi-account"></i> <span> Profile </span> </a>#}
+{#                            </li>#}
 
                             <li>
                                 <a href="{{ url_for('dashboard.logout') }}" class="waves-effect "><i class="zmdi zmdi-power"></i> <span> Logout </span> </a>
