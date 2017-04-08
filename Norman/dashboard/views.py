@@ -44,6 +44,13 @@ def add_patient():
 def view_patients():
     return render_template('dashboard/admin/view-patient.html')
 
+
 @blueprint.route('/patient', methods=['GET'])
 def patient():
     return render_template('dashboard/admin/single-patient.html')
+
+
+@blueprint.route('/password-reset', methods=['GET'])
+def password_reset():
+    return  render_template('dashboard/admin/password-reset.html')
+
