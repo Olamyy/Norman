@@ -10,16 +10,6 @@ def dashboard():
     return render_template('dashboard/admin/dashboard.html')
 
 
-@blueprint.route('/create-user', methods=['GET'])
-def create_user():
-    return render_template('dashboard/admin/create-user.html')
-
-
-@blueprint.route('/view-users', methods=['GET'])
-def view_users():
-    return render_template('dashboard/admin/view-users.html')
-
-
 @blueprint.route('/logout', methods=['GET'])
 def logout():
     return redirect('auth')
@@ -43,3 +33,17 @@ def edit_hospital_profile():
 @blueprint.route('/view-services', methods=['GET'])
 def view_services():
     return  render_template('dashboard/admin/view-services.html')
+
+
+@blueprint.route('/add-patient', methods=['GET'])
+def add_patient():
+    return render_template('dashboard/admin/add-patient.html')
+
+
+@blueprint.route('/view-patients', methods=['GET'])
+def view_patients():
+    return render_template('dashboard/admin/view-patient.html')
+
+@blueprint.route('/patient', methods=['GET'])
+def patient():
+    return render_template('dashboard/admin/single-patient.html')

@@ -1,0 +1,59 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+<div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-lg-8 col-lg-offset-2">
+                                <div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients</h4>
+
+                                    <div class="alert alert-info text-center">
+                                        This Platform allows you to only upload excel format of patients which includes
+                                        Patient's First Name, Last Name, Email, Mobile Number, Address, Date of Birth, Sex and File Number
+                                    </div>
+
+                                    <form action="#" data-parsley-validate novalidate>
+                                        <div class="form-group">
+                                            <label for="userName">User Name*</label>
+                                            <input type="text" name="nick" parsley-trigger="change" required
+                                                   placeholder="Enter user name" class="form-control" id="userName">
+                                        </div>
+
+                                          <div class="form-group">
+    <input type="file" name="img[]" class="file">
+    <div class="input-group col-xs-12">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+      <input type="text" class="form-control input-lg" disabled placeholder="Upload Image">
+      <span class="input-group-btn">
+        <button class="browse btn btn-primary input-lg" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+      </span>
+    </div>
+  </div>
+
+
+                                        <div class="form-group text-right m-b-0">
+                                            <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                                Upload
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="footer">
+                    2017 © Norman Bot
+                </footer>
+            </div>
+
+
+{% endblock %}
