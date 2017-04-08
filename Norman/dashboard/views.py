@@ -28,3 +28,13 @@ def logout():
 @blueprint.route('/profile', methods=['GET'])
 def profile():
     return render_template('dashboard/admin/profile.html')
+
+
+@blueprint.route('/view-hospital-profile', methods=['GET'])
+def view_hospital_profile():
+    return render_template('dashboard/admin/view-hospital-profile.html')
+
+
+@blueprint.route('/edit-hospital-profile', methods=['GET'])
+def edit_hospital_profile():
+    return render_template('dashboard/admin/edit-hospital-profile.html')
