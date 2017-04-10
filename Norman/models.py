@@ -45,7 +45,7 @@ class Hospital(db.Document):
     plan_id = db.StringField(required=True, max_length=200, min_length=3)
     reg_num = db.StringField(required=True, max_length=200, min_length=3, unique=True)
     active = db.BooleanField(default=False)
-    ver_id = db.StringField(required=True, max_length=200, min_length=3)
+    tempID = db.StringField(required=True, max_length=200, min_length=3)
     verificationID = db.StringField(required=True, max_length=4, min_length=4)
     has_sent_first_message = db.BooleanField(default=True)
     fb_id = db.StringField(max_length=200, min_length=3)

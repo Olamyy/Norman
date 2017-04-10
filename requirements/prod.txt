@@ -52,3 +52,4 @@ flask-mail
 
 #chat
 chatterbot
+apiai
