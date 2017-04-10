@@ -1,0 +1,81 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="text-center card-box">
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/icon.png') }}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-center">
+                                            <h2 class="text-info" data-plugin="counterup">Booking</h2>
+                                            <h5>Basic</h5>
+                                        </div>
+                                        <p class="text-muted font-13 m-b-30">
+                                            This gives a description of the service that is chosen here
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="text-center card-box">
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/icon-1.svg') }}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-center">
+                                            <h2 class="text-info" data-plugin="counterup">Emergency</h2>
+                                            <h5>Basic</h5>
+                                        </div>
+                                        <p class="text-muted font-13 m-b-30">
+                                            This gives a description of the service that is chosen here
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="text-center card-box">
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/icon-3.png') }}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-center">
+                                            <h2 class="text-info" data-plugin="counterup">Surgery</h2>
+                                            <h5>Premium</h5>
+                                        </div>
+                                        <p class="text-muted font-13 m-b-30">
+                                            This gives a description of the service that is chosen here
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="text-center card-box">
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/icon-4.png') }}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-center">
+                                            <h2 class="text-info" data-plugin="counterup">Ambulance</h2>
+                                            <h5>Premium</h5>
+                                        </div>
+                                        <p class="text-muted font-13 m-b-30">
+                                            This gives a description of the service that is chosen here
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                         </div>
+                    </div> <!-- container -->
+
+                </div>
+                <footer class="footer">
+                    2017 Norman Bot
+                </footer>
+
+            </div>
+
+
+{% endblock %}

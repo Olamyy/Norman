@@ -28,6 +28,11 @@ class FBConfig(Config):
     GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/messages?access_token={1}'.format(
         GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
 
+class ApiAIConfig:
+    CLIENT_ACCESS_TOKEN = '223fceac22164b419316b65979d86fdb'
+    DEVELOPER_ACCESS_TOKEN = '0796bc4020714af4a4d91255a31d5f33'
+
+
 
 class UIConfig:
     APP_NAME = "Norman"
@@ -113,3 +118,7 @@ class MailerConfig(Config):
     MAIL_DEFAULT_SENDER = None
     MAIL_MAX_EMAILS = None
     MAIL_ASCII_ATTACHMENTS = False
+
+
+class ErrorConfig(Config):
+    INVALID_LOGIN_ERROR = "Invalid Email or Password"

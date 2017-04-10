@@ -2,16 +2,16 @@ from flask import Blueprint, jsonify
 from flask import make_response
 from flask import request
 from flask_restful import Resource
-from pymessenger.bot import Bot
 
+from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.norman.user import NormanUser
-from Norman.settings import FBConfig
 from Norman.utils import response
+from Norman.messenger.sendAPI import Message, Template
 
-bot = Bot(FBConfig.FACEBOOK_SECRET_KEY)
-blueprint = Blueprint('api', __name__ , url_prefix='/api')
+
+blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -62,16 +62,19 @@ class WebHook(Resource):
             for action in messaging:
                 if action.get('message'):
                     recipient_id = action['sender']['id']
+                    message_text = action['message']['text']
                     if not self.user_view.validate_user(recipient_id):
-                        message = "Hello, {0}".format(recipient_id)
+                        message = ai_response(message_text)
                         user = NormanUser(recipient_id)
                         if user.first_message:
                             user.instantiate_user()
-                            bot.send_text_message(recipient_id, message)
+                            m = Message(recipient_id)
+                            m.send_message(message_type='text', message_text=message)
                             return response.response_ok('Success')
                         else:
-                            user = user.get_user_instance()
-                            bot.send_text_message(recipient_id, message)
+                            # user = user.get_user_instance()
+                            m = Message(recipient_id)
+                            m.send_message(message_type='text', message_text=message)
                             return response.response_ok('Success')
 
 
@@ -100,4 +103,11 @@ class TestAPI(Resource):
             return jsonify({'response': user.start_conversation(message, type="existing")})
 
 
-
+def ai_response(message_text):
+    ai = AI()  # create AI instance
+    ai.parse(message_text)
+    if ai.match_successful:
+        message = ai.text
+    else:
+        message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
+    return message

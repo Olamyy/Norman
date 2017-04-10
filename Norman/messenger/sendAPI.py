@@ -51,6 +51,7 @@ class Message(object):
         """
         - text must be UTF-8 and has a 640 character limit
         - You cannot send a text and an attachment together
+        :param quick_replies: a list of quick responses sent along with the message to the user
         :param message_type: text or attachment
         :param message_text: text to send
         :param attachment: a valid attachment object i.e dictionary

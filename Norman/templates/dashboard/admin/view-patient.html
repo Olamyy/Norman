@@ -1,0 +1,110 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+<div class="content-page">
+                <div class="content">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                 <a href="{{ url_for('dashboard.add_patient') }}" class="btn btn-success btn-md waves-effect waves-light m-b-30"><i class="md md-add"></i> Add Patients</a>
+                            </div><!-- end col -->
+                        </div>
+
+                        <div class="row">
+
+
+                            <div class="col-md-4">
+                                <div class="text-center card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delete</a></li>
+                                            <li><a href="#">Block</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-8.jpg')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+
+                                        <p class="text-muted font-13 m-b-30">
+This is where a brief decription of the user may come in.SSS
+                                        </p>
+
+                                        <div class="text-left">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Firstname Lastname</span></p>
+
+                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
+
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">patient@gmail.com</span></p>
+
+                                            <p class="text-muted font-13"><strong>Sex :</strong> <span class="m-l-15">Male</span></p>
+                                        </div>
+
+                                        <a href="{{ url_for('dashboard.patient') }}" class="btn btn-custom btn-rounded waves-effect waves-light">View More</a>
+                                        <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light">Remove Patient</button>
+                                    </div>
+
+                                </div>
+
+                            </div> <!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer">
+                    2017 © Norman Bot.
+                </footer>
+
+            </div>
+
+
+    <!-- Modal Add Category -->
+                                <div class="modal fade none-border" id="add-category">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title"><strong>Add a category </strong></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="custom-modal-text text-left">
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <label for="name">Name</label>
+                                                        <input type="text" class="form-control" id="name" placeholder="Enter name">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="position">Position</label>
+                                                        <input type="text" class="form-control" id="position" placeholder="Enter position">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="company">Company</label>
+                                                        <input type="text" class="form-control" id="company" placeholder="Enter company">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Email address</label>
+                                                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+{% endblock %}
