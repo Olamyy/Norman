@@ -14,6 +14,7 @@
         <!--Morris Chart CSS -->
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/morris/morris.css')}}">
 <link href="{{ url_for('static',filename='assets/plugins/custombox/dist/custombox.min.html') }}" rel="stylesheet">
+<link href="{{ url_for('static',filename='assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" />
 
         <!-- App css -->
 <link href="{{ url_for('static', filename='assets/plugins/fullcalendar/dist/fullcalendar.css') }}" rel="stylesheet" type="text/css"/>
@@ -113,7 +114,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ url_for('dashboard.logout') }}" class="text-custom">
+                                <a href="/dashboard/logout?verID={{ hospital.ver_id }}" class="text-custom">
                                     <i class="zmdi zmdi-power"></i>
                                 </a>
                             </li>
@@ -129,25 +130,36 @@
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-accounts"></i> <span> User </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-accounts"></i> <span> Patient </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a href="{{ url_for('dashboard.create_user') }}">Create User</a></li>
-                                    <li><a href="{{ url_for('dashboard.view_users') }}">View User</a></li>
+                                    <li><a href="{{ url_for('dashboard.add_patient') }}">Add Patient</a></li>
+                                    <li><a href="{{ url_for('dashboard.view_patients') }}">View Patients</a></li>
                                     <li><a href="">Edit User</a></li>
                                 </ul>
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-settings"></i> <span> Settings </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-seat"></i> <span> Services </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a href="">Change Plan</a></li>
-                                    <li><a href="">Request Service</a></li>
-                                    <li><a href="">Edit Hospital Details</a></li>
+                                    <li><a href="{{ url_for('dashboard.view_services') }}">View Services</a></li>
                                 </ul>
                             </li>
 
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-hospital-alt"></i> <span> Hospital </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ url_for('dashboard.view_hospital_profile') }}">View Hospital Details</a></li>
+                                    <li><a href="{{ url_for('dashboard.edit_hospital_profile') }}">Edit Hospital Details</a></li>
+                                    <li><a href="">Change Plan</a></li>
+                                </ul>
+                            </li>
+
+{#                            <li>#}
+{#                                <a href="{{ url_for('dashboard.profile') }}" class="waves-effect "><i class="zmdi zmdi-account"></i> <span> Profile </span> </a>#}
+{#                            </li>#}
+
                             <li>
-                                <a href="{{ url_for('dashboard.profile') }}" class="waves-effect "><i class="zmdi zmdi-account"></i> <span> Profile </span> </a>
+                                <a href="{{ url_for('dashboard.password_reset') }}" class="waves-effect "><i class="zmdi zmdi-pin-assistant"></i> <span> Password Reset</span> </a>
                             </li>
 
                             <li>
@@ -279,6 +291,7 @@
         <script src="{{ url_for('static', filename='assets/plugins/moment/moment.js') }}"></script>
                 <script src="{{ url_for('static', filename='assets/js/core.js') }}"></script>
                 <script src="{{ url_for('static', filename='assets/js/dentist.js') }}"></script>
+        <script src="{{ url_for('static', filename='assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')}}"></script>
 
         <!-- App js -->
         <script src="{{ url_for('static', filename='assets/js/jquery.core.html') }}"></script>

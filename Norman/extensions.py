@@ -10,7 +10,6 @@ from flask_restful import Api
 from flask_mail import Mail
 
 csrf_protect = CSRFProtect()
-login_manager = LoginManager()
 db = MongoEngine()
 migrate = Migrate()
 api = Api()
