@@ -60,7 +60,7 @@
 
                 var  register_url  = $('#register_url').val();
                 console.log(register_url);
-                console.log(payload)
+                console.log(payload);
 
                 $.ajax({
 
@@ -70,10 +70,15 @@
                            contentType: 'application/json',
                            dataType:"json",
                            success : function (response) {
-                                window.location.href = 'auth/dashboard?action=verify&id='+response.ver_id;
+                                console.log('response: '+ response);
+                                window.location.href = 'auth/dashboard?action=verify&id='+response.tempID;
                            },
                            error : function(xhr, errmsg, err){
-                                        window.location.href = window.location.replace('/plans', '');
+                                        console.log('wloc: '+window.location);
+                                        window.location.replace('register');
+                                        // console.log('a: '+a);
+                                        // window.location.replace('/plans', '');
+                                        // console.log('got here: '+ xhr.statusText);
                                         handle_error('Unable to create hospital', errmsg)
                            }
                             })
