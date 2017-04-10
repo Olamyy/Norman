@@ -8,7 +8,7 @@ from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.norman.user import NormanUser
 from Norman.utils import response
-from Norman.messenger.sendAPI import Message, Template
+from Norman.messenger.sendAPI import Message
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')

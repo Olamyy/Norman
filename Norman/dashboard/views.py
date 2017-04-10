@@ -19,7 +19,7 @@ def login():
         hospital_user = hospitalObj.validate_email(email)
         if hospital_user and validate_hashes(request.form["password"], hospital_user.password) and hospital_user.is_active:
             if hospitalObj.login_user_updates(hospital_user.id):
-                return redirect(url_for('dashboard.dashboard', verID=hospital_user.ver_id))
+                return redirect(url_for('dashboard.dashboard', verID=hospital_user.tempID))
             else:
                 return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
         else:

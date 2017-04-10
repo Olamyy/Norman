@@ -10,7 +10,7 @@ class HospitalUtil(UserMixin):
         self.active = active
         self.name = name
         self.isAdmin = False
-        self.ver_id = None
+        self.tempID = None
         self.id = None
 
     def validate_email(self, email):
@@ -22,7 +22,7 @@ class HospitalUtil(UserMixin):
                 self.password = hospital.password
                 self.name = hospital.name
                 self.id = hospital.id
-                self.ver_id = hospital.ver_id
+                self.tempID = hospital.tempID
                 return self
             else:
                 return None
@@ -41,21 +41,21 @@ class HospitalUtil(UserMixin):
             self.email = hospital.email
             self.active = hospital.active
             self.id = hospital.id
-            self.ver_id = hospital.ver_id
+            self.tempID = hospital.tempID
             return self
         else:
             return None
 
     def get_by_verID(self, verID):
         try:
-            hospital = Hospital.objects.get(ver_id=verID)
+            hospital = Hospital.objects.get(tempID=verID)
             if hospital:
                 self.email = hospital.email
                 self.active = hospital.active
                 self.password = hospital.password
                 self.name = hospital.name
                 self.id = hospital.id
-                self.ver_id = hospital.ver_id
+                self.tempID = hospital.tempID
                 return self
             else:
                 return None
@@ -69,7 +69,7 @@ class HospitalUtil(UserMixin):
             return False
 
     def logout_user_updates(self, verID):
-        if Hospital.objects.filter(ver_id=verID).update(is_logged_in=False):
+        if Hospital.objects.filter(tempID=verID).update(is_logged_in=False):
             return True
         else:
             return False
