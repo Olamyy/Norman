@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, redirect, url_for, request
-from Norman.models import Hospital
-from mongoengine.errors import DoesNotExist
 
 blueprint = Blueprint('auth', __name__, url_prefix='/auth', static_folder='../static')
 
@@ -24,12 +22,3 @@ def register():
 def plan():
     return render_template('dashboard/admin/plans.html')
 
-
-@blueprint.route('/hospital/verify', methods=['GET'])
-def verify():
-    verification_id = request.args.get('verID')
-    try:
-        hospital = Hospital.objects.get(ver_id=verification_id)
-        return render_template('dashboard/admin/verify.html', hospital=hospital)
-    except DoesNotExist as error:
-        return redirect(url_for('auth.login'))

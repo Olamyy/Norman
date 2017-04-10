@@ -56,6 +56,9 @@
                          handle_error('Your passwords should match.', 'error')
                      }
                      else{
+                         if(verify_password.length() < 5){
+                             handle_error('Your passwords should be more than 8 characters.', 'error')
+                         }
                          Cookies.set('payload', payload);
                          window.location.href = 'register/plans';
                          }

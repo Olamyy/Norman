@@ -1,7 +1,6 @@
-from flask import render_template, Blueprint, redirect
+from flask import render_template, Blueprint, redirect, jsonify
 from flask import request
 from flask import url_for
-
 from Norman.auth.auth_utils import HospitalUtil
 from Norman.auth.forms import LoginForm
 from Norman.settings import ErrorConfig
@@ -20,7 +19,7 @@ def login():
         hospital_user = hospitalObj.validate_email(email)
         if hospital_user and validate_hashes(request.form["password"], hospital_user.password) and hospital_user.is_active:
             if hospitalObj.login_user_updates(hospital_user.id):
-                return redirect(url_for('auth.verify', verID=hospital_user.ver_id))
+                return redirect(url_for('dashboard.dashboard', verID=hospital_user.ver_id))
             else:
                 return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
         else:
@@ -28,18 +27,18 @@ def login():
     return render_template('dashboard/admin/login.html', form=form)
 
 
-@blueprint.route('/', methods=['GET', 'POST'])
+@blueprint.route('/hospital', methods=['GET', 'POST'])
 def dashboard():
     verification_id = request.args.get('verID')
     hospital = hospitalObj.get_by_verID(verification_id)
     return render_template('dashboard/admin/dashboard.html', hospital=hospital)
 
 
-@blueprint.route('/logout?id', methods=['GET'])
+@blueprint.route('/logout', methods=['GET'])
 def logout():
-    hospitalID = request.args.get('id')
-    hospitalObj.logout_user_updates(hospitalID)
-    return render_template('dashboard/admin/login.html')
+    verID = request.args.get('verID')
+    hospitalObj.logout_user_updates(verID)
+    return redirect(url_for('dashboard.login'))
 
 
 @blueprint.route('/profile', methods=['GET'])
@@ -79,5 +78,14 @@ def patient():
 
 @blueprint.route('/password-reset', methods=['GET'])
 def password_reset():
-    return  render_template('dashboard/admin/password-reset.html')
+    return render_template('dashboard/admin/password-reset.html')
 
+
+@blueprint.route('/verify', methods=['GET'])
+def verify():
+    verification_id = request.args.get('verID')
+    hospital = hospitalObj.get_by_verID(verification_id)
+    if hospital:
+        return render_template('dashboard/admin/verify.html', hospital=hospital)
+    else:
+        return redirect(url_for('dashboard.login'))

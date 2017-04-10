@@ -46,21 +46,9 @@ class HospitalUtil(UserMixin):
         else:
             return None
 
-    def login_user_updates(self, user_id):
-        if Hospital.objects.filter(id=user_id).update(is_logged_in=True):
-            return True
-        else:
-            return False
-
-    def logout_user_updates(self, verID):
-        if Hospital.objects.filter(verID=verID).update(is_logged_in=False):
-            return True
-        else:
-            return False
-
     def get_by_verID(self, verID):
         try:
-            hospital = Hospital.objects.get(email=verID)
+            hospital = Hospital.objects.get(ver_id=verID)
             if hospital:
                 self.email = hospital.email
                 self.active = hospital.active
@@ -73,3 +61,16 @@ class HospitalUtil(UserMixin):
                 return None
         except DoesNotExist:
             return None
+
+    def login_user_updates(self, user_id):
+        if Hospital.objects.filter(id=user_id).update(is_logged_in=True):
+            return True
+        else:
+            return False
+
+    def logout_user_updates(self, verID):
+        if Hospital.objects.filter(ver_id=verID).update(is_logged_in=False):
+            return True
+        else:
+            return False
+
