@@ -72,7 +72,7 @@ class WebHook(Resource):
                             m.send_message(message_type='text', message_text=message)
                             return response.response_ok('Success')
                         else:
-                            # user = user.get_user_instance()
+                            user = user.get_user_instance()
                             m = Message(recipient_id)
                             m.send_message(message_type='text', message_text=message)
                             return response.response_ok('Success')
