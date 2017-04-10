@@ -1,7 +1,6 @@
 from flask_login import UserMixin
 from mongoengine import DoesNotExist
-
-from Norman.models import Hospital, UserModel
+from Norman.models import Hospital
 
 
 class HospitalUtil(UserMixin):
@@ -11,19 +10,10 @@ class HospitalUtil(UserMixin):
         self.active = active
         self.name = name
         self.isAdmin = False
+        self.ver_id = None
         self.id = None
-    
-    def get_by_email(self, email):
-        hospital = Hospital.objects.get(email=email)
-        if hospital:
-            self.email = hospital.email
-            self.active = hospital.active
-            self.id = hospital.id
-            return self
-        else:
-            return None
 
-    def get_by_email_w_password(self, email):
+    def validate_email(self, email):
         try:
             hospital = Hospital.objects.get(email=email)
             if hospital:
@@ -32,6 +22,7 @@ class HospitalUtil(UserMixin):
                 self.password = hospital.password
                 self.name = hospital.name
                 self.id = hospital.id
+                self.ver_id = hospital.ver_id
                 return self
             else:
                 return None
@@ -44,13 +35,41 @@ class HospitalUtil(UserMixin):
         else:
             return None
 
-    def get_by_id(self, id):
-        hospital = Hospital.objects.with_id(id)
+    def get_by_id(self, user_id):
+        hospital = Hospital.objects.with_id(user_id)
         if hospital:
             self.email = hospital.email
             self.active = hospital.active
             self.id = hospital.id
-    
+            self.ver_id = hospital.ver_id
             return self
         else:
+            return None
+
+    def login_user_updates(self, user_id):
+        if Hospital.objects.filter(id=user_id).update(is_logged_in=True):
+            return True
+        else:
+            return False
+
+    def logout_user_updates(self, verID):
+        if Hospital.objects.filter(verID=verID).update(is_logged_in=False):
+            return True
+        else:
+            return False
+
+    def get_by_verID(self, verID):
+        try:
+            hospital = Hospital.objects.get(email=verID)
+            if hospital:
+                self.email = hospital.email
+                self.active = hospital.active
+                self.password = hospital.password
+                self.name = hospital.name
+                self.id = hospital.id
+                self.ver_id = hospital.ver_id
+                return self
+            else:
+                return None
+        except DoesNotExist:
             return None

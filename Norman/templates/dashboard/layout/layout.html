@@ -107,7 +107,6 @@
                             <div class="user-status offline"><i class="zmdi zmdi-dot-circle"></i></div>
                         </div>
                         <h5>{{ hospital.name }} </h5>
-                        <h5>Hospital Name goes Here</h5>
                         <ul class="list-inline">
                             <li>
                                 <a href="{{ url_for('dashboard.profile') }}" >
@@ -115,7 +114,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ url_for('dashboard.logout') }}" class="text-custom">
+                                <a href="{{ url_for('dashboard.logout') }}{{ hospital.verID }}" class="text-custom">
                                     <i class="zmdi zmdi-power"></i>
                                 </a>
                             </li>

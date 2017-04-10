@@ -24,4 +24,5 @@ class Norman(object):
 
     def generate_response(self, input_statement):
         if not input_statement:
-            self.logic_adapter
+            # self.logic_adapter
+            pass

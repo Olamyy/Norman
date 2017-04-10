@@ -1,18 +1,45 @@
 from flask import render_template, Blueprint, redirect
+from flask import request
+from flask import url_for
 
-from flask_login import login_required
+from Norman.auth.auth_utils import HospitalUtil
+from Norman.auth.forms import LoginForm
+from Norman.settings import ErrorConfig
+from Norman.utils import validate_hashes
 
 blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_folder='../static')
 
+hospitalObj = HospitalUtil()
 
-@blueprint.route('/', methods=['GET'])
+
+@blueprint.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm(request.form)
+    if request.method == "POST" and "email" in request.form:
+        email = request.form["email"]
+        hospital_user = hospitalObj.validate_email(email)
+        if hospital_user and validate_hashes(request.form["password"], hospital_user.password) and hospital_user.is_active:
+            if hospitalObj.login_user_updates(hospital_user.id):
+                return redirect(url_for('auth.verify', verID=hospital_user.ver_id))
+            else:
+                return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
+        else:
+            return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
+    return render_template('dashboard/admin/login.html', form=form)
+
+
+@blueprint.route('/', methods=['GET', 'POST'])
 def dashboard():
-    return render_template('dashboard/admin/dashboard.html')
+    verification_id = request.args.get('verID')
+    hospital = hospitalObj.get_by_verID(verification_id)
+    return render_template('dashboard/admin/dashboard.html', hospital=hospital)
 
 
-@blueprint.route('/logout', methods=['GET'])
+@blueprint.route('/logout?id', methods=['GET'])
 def logout():
-    return redirect('auth')
+    hospitalID = request.args.get('id')
+    hospitalObj.logout_user_updates(hospitalID)
+    return render_template('dashboard/admin/login.html')
 
 
 @blueprint.route('/profile', methods=['GET'])

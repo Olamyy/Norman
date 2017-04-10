@@ -47,8 +47,7 @@ class Hospital(db.Document):
     active = db.BooleanField(default=False)
     ver_id = db.StringField(required=True, max_length=200, min_length=3)
     verificationID = db.StringField(required=True, max_length=4, min_length=4)
-    has_sent_first_message = db.BooleanField(default=True)
-    fb_id = db.StringField(max_length=200, min_length=3)
+    is_logged_in = db.BooleanField(default=False)
 
     def __repr__(self):
         """Represent instance as a unique string."""

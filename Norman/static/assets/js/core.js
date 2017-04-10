@@ -16,6 +16,19 @@
                                $('#'+error_id).html(error_text);
     };
 
+    var check_for_errors = function () {
+                  var errors = Cookies.get('error');
+                  if (errors){
+                      Cookies.remove('error');
+                      handle_error(errors)
+                  }
+    };
+
+    var handle_redirect = function (remove, replace) {
+                         var url = window.location.href.replace(remove, '');
+                         window.location.href = url+replace;
+    };
+
 	var generate_id = function (length)           {
                 var text = "";
                 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -59,9 +72,6 @@
                   payload['plan_id'] = plan_id;
 
                 var  register_url  = $('#register_url').val();
-                console.log(register_url);
-                console.log(payload)
-
                 $.ajax({
 
                            url : register_url,
@@ -70,11 +80,13 @@
                            contentType: 'application/json',
                            dataType:"json",
                            success : function (response) {
-                                window.location.href = 'auth/dashboard?action=verify&id='+response.ver_id;
+                               var ver_id = response[0].data.ver_id;
+                               var replace = '?action=verify&verID='+ver_id;
+                               handle_redirect('/plans', replace)
                            },
                            error : function(xhr, errmsg, err){
-                                        window.location.href = window.location.replace('/plans', '');
-                                        handle_error('Unable to create hospital', errmsg)
+                                        Cookies.set('current_error', err);
+                                        handle_redirect('/plans', '')
                            }
                             })
                 });
@@ -106,6 +118,8 @@
                             })
                 });
     };
+
+    check_for_errors();
 
     startRegistration();
 
