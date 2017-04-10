@@ -2,18 +2,16 @@ from flask import Blueprint, jsonify
 from flask import make_response
 from flask import request
 from flask_restful import Resource
-from pymessenger.bot import Bot
 
 from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.norman.user import NormanUser
-from Norman.settings import FBConfig
 from Norman.utils import response
 from Norman.messenger.sendAPI import Message, Template
 
-bot = Bot(FBConfig.FACEBOOK_SECRET_KEY)
-blueprint = Blueprint('api', __name__ , url_prefix='/api')
+
+blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
