@@ -75,12 +75,9 @@
                   payload['plan_id'] = plan_id;
 
                 var  register_url  = $('#register_url').val();
-<<<<<<< HEAD
                 console.log(register_url);
-                console.log(payload);;;;;;;;;;;;;;;;;;;;;;;;;;;
+                console.log(payload);
 
-=======
->>>>>>> goodnesskay
                 $.ajax({
 
                            url : register_url,
@@ -89,13 +86,10 @@
                            contentType: 'application/json',
                            dataType:"json",
                            success : function (response) {
-<<<<<<< HEAD
                                 window.location.href = 'auth/dashboard?action=verify&verID='+response.ver_id;
-=======
                                var ver_id = response[0].data.ver_id;
                                var replace = '?action=verify&verID='+ver_id;
                                handle_redirect('/plans', replace)
->>>>>>> goodnesskay
                            },
                            error : function(xhr, errmsg, err){
                                         Cookies.set('current_error', err);

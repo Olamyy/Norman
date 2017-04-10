@@ -4,6 +4,7 @@ import hashlib
 import random
 import string
 import uuid
+import json
 
 from flask import flash
 from flask import jsonify, make_response
@@ -50,7 +51,11 @@ class Response:
 
     @staticmethod
     def response_error(message, error=None):
-        response = jsonify({'status': 'fail', 'message': message, 'error': error})
+        # response = jsonify({'status': 'fail', 'message': message, 'error': error})
+        # response = jsonify(status='fail', message=message, error=error)
+        response = json.dumps({'status': 'fail', 'message': message, 'error': error})
+        print(response)
         return make_response(response, 400)
+        # return response
 
 response = Response()

@@ -125,6 +125,7 @@ class HospitalApi(Resource):
             return response.response_error("Unable to retrieve Hospital", error)
 
     def create_hospital(self, data):
+        print('i am attempting to create a hospital')
         hashed_password = hash_data(data['password'])
         create_hospital = Hospital(name=data['name'],
                                    email=data['email'],
@@ -136,10 +137,12 @@ class HospitalApi(Resource):
                                    verificationID=generate_id(4)
                                    )
         try:
-            if create_hospital.save():
-                return response.response_ok(create_hospital)
+            create_hospital.save()
+            return response.response_ok(create_hospital)
         except NotUniqueError as error:
-            return response.response_error('Unable to create hospital', error)
+            print("got here")
+            print('error:', error)
+            return response.response_error('Unable to create hospital', str(error))
 
     def disable_hospital(self, hospital_id):
         pass
