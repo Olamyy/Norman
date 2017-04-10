@@ -31,7 +31,7 @@ class NormanUser:
         return norman.get_response(message)
 
     def get_user_instance(self):
-        self.session_id = self.user.session_id
+        self.session_id = ''
 
     def get_user_info(self, fb_id=None):
         return self.user
