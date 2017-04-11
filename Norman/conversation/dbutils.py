@@ -88,8 +88,17 @@ class UserUtils(Utils):
 
     def is_first_message(self, fb_id):
         try:
-            user = self.userdb.objects.get(fb_id=fb_id)
+            user = self.userdb.objects.get(fb_id=fb_id, has_sent_first_message=True)
             if user:
                 return True
         except DoesNotExist:
             return False
+
+    def update_session(self, user_id, session_id):
+        pass
+
+    def update_session_with_fb_id(self, fb_id, session_id):
+        pass
+
+    def update_first_message(self, fb_id):
+        pass

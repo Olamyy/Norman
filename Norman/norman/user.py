@@ -8,11 +8,11 @@ from Norman.utils import generate_session_id
 class NormanUser:
     def __init__(self, user_id):
         self.fb_id = user_id
-        self.user_db = UserUtils()
-        self.first_message = self.user_db.is_first_message(self.fb_id)
+        self.user_utils = UserUtils()
+        self.first_message = self.user_utils.is_first_message(self.fb_id)
         self.instantiated_user = None
         self.session_id = None
-        self.user = self.user_db.get_one_from_fb_id(self.fb_id)
+        self.user = self.user_utils.get_one_from_fb_id(self.fb_id)
 
     def __str__(self):
         return self.user.username
@@ -22,13 +22,17 @@ class NormanUser:
 
     def instantiate_user(self):
         self.session_id = generate_session_id()
-        UserModel.objects.filter(fb_id=self.fb_id).update(session_ids=self.session_id)
-        UserModel.objects.filter(fb_id=self.fb_id).update(has_sent_first_message=True)
+        self.user_utils.update_session_with_fb_id(self.fb_id, self.session_id)
+        self.user_utils.update_first_message(self.fb_id)
         self.instantiated_user = True
 
-    def start_conversation(self, message):
-        norman = Norman(user=self.user, initialize=True)
-        return norman.get_response(message)
+    def start_conversation(self, message, is_new=False):
+        if is_new:
+            norman = Norman(user=self.user, initialize=True, is_new=True)
+            return norman.get_response(message)
+        else:
+            norman = Norman(user=self.user, initialize=False)
+            return norman.get_response(message)
 
     def get_user_instance(self):
         self.session_id = ''

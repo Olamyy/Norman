@@ -68,8 +68,7 @@ class WebHook(Resource):
                         user = NormanUser(recipient_id)
                         if user.first_message:
                             user.instantiate_user()
-                            m = Message(recipient_id)
-                            m.send_message(message_type='text', message_text=message)
+                            user.start_conversation(message)
                             return response.response_ok('Success')
                         else:
                             user = user.get_user_instance()
@@ -83,6 +82,16 @@ class WebHook(Resource):
 def test():
     view_class = TestAPI()
     return view_class.post()
+
+
+def ai_response(message_text):
+    ai = AI()  # create AI instance
+    ai.parse(message_text)
+    if ai.match_successful:
+        message = ai.text
+    else:
+        message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
+    return message
 
 
 class TestAPI(Resource):
@@ -101,13 +110,3 @@ class TestAPI(Resource):
             user = user.get_user_instance()
             print(user.start_conversation(message, type="existing"))
             return jsonify({'response': user.start_conversation(message, type="existing")})
-
-
-def ai_response(message_text):
-    ai = AI()  # create AI instance
-    ai.parse(message_text)
-    if ai.match_successful:
-        message = ai.text
-    else:
-        message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
-    return message
