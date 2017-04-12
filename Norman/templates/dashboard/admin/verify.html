@@ -20,12 +20,19 @@
                                                 below to verify your registration.
 											</p>
                                                     <div id="error"></div>
+                                                <form class="form-horizontal m-t-20" action="{{ url_for('dashboard.verify') + '?verID='+ hospital.tempID }}" method="POST">
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                        {% if error %}
+                                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                                          aria-hidden="true">&times;</span></button>{{ error }}</div>'
+                                                        {% endif %}
 	                                            <div class="form-group">
-	                                                <input type="text" class="form-control" id="verificationCode" placeholder="Enter code here">
+	                                                <input type="text" class="form-control" name="verificationCode" id="verificationCode" placeholder="Enter code here">
 	                                            </div>
-                                                <input type="hidden" value="{{ url_for('web.register') }}" id="verify_url">
-	                                            <button class="btn btn-purple waves-effect waves-light" id="verificationBtn">Verify Account</button>
+	                                            <button class="btn btn-purple waves-effect waves-light">Verify Account</button>
 	                                            <button  class="btn btn-success waves-effect waves-light" id="requestNewCode">Request new code</button>
+                                                    </form>
                         				</div><!-- end col -->
                                     </div><!-- end row -->
                         		</div>

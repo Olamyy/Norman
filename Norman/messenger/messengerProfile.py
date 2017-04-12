@@ -61,7 +61,6 @@ class GetStarted(ProfileAPI):
             raise HttpError('Unable to complete request.')
 
     def get_message(self):
-        print(self.graphAPIURLGET)
         request = base.exec_request('GET', self.graphAPIURLGET)
         if request:
             return request
@@ -78,7 +77,7 @@ class GetStarted(ProfileAPI):
 
 class GreetingText(ProfileAPI):
     """
-    Setting, Getting and Deleting Persistent Menu.
+    Setting, Getting and Deleting Get Greeting Text.
     Make sure you read and understand this very well for sending the data :
     https://developers.facebook.com/docs/messenger-platform/messenger-profile/greeting-text
     """

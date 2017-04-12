@@ -6,7 +6,7 @@ import os
 class Config:
     """Base configuration."""
 
-    SECRET_KEY = os.environ.get('NORMAN_SECRET', 'secret-key')  # TODO: Change me
+    SECRET_KEY = os.environ.get('NORMAN_SECRET', 'a9fb1b64-1f0f-11e7-95e2-7077816bf77d')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     BCRYPT_LOG_ROUNDS = 13
@@ -28,10 +28,10 @@ class FBConfig(Config):
     GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/messages?access_token={1}'.format(
         GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
 
+
 class ApiAIConfig:
     CLIENT_ACCESS_TOKEN = '223fceac22164b419316b65979d86fdb'
     DEVELOPER_ACCESS_TOKEN = '0796bc4020714af4a4d91255a31d5f33'
-
 
 
 class UIConfig:
@@ -121,4 +121,6 @@ class MailerConfig(Config):
 
 
 class ErrorConfig(Config):
+    INVALID_VER_ID_ERROR = "Invalid/Expired Verification ID"
+    INVALID_ROUTE_ERROR = "Looks like you do not have access to this page."
     INVALID_LOGIN_ERROR = "Invalid Email or Password"
