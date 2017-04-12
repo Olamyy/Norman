@@ -1,6 +1,7 @@
 from Norman.settings import FBConfig
 from Norman.api.base import base
 from Norman.errors import HttpError
+import json
 
 
 class ProfileAPI:
@@ -8,8 +9,8 @@ class ProfileAPI:
     def __init__(self, field_name):
         self.field_uri = 'messenger_profile'
         self.field_name = field_name
-        self.graphAPIURL = FBConfig.GRAPH_API_URL.replace('<field_uri>', self.field_uri).replace('?fields=[]', '')
-        self.graphAPIURLGET = FBConfig.GRAPH_API_URL.replace('<field_uri>', self.field_uri).replace('[]', self.field_name)
+        self.graphAPIURL = FBConfig.GRAPH_API_URL.replace('messages', self.field_uri).replace('?fields=[]', '')
+        self.graphAPIURLGET = FBConfig.GRAPH_API_URL.replace('messages', self.field_uri).replace('[]', self.field_name)
 
 
 class PersitentMenu(ProfileAPI):
@@ -53,7 +54,6 @@ class GetStarted(ProfileAPI):
         super().__init__('get_started')
 
     def set_message(self, payload):
-        print(self.graphAPIURL)
         request = base.exec_request('POST', self.graphAPIURL, data=payload)
         if request:
             print(request)
@@ -145,3 +145,9 @@ class TargetAudience(ProfileAPI):
     Not sure if we need this now but let's just leave it here.
     """
     pass
+
+
+if __name__ == '__main__':
+    test = GetStarted()
+    message = {'first_time_user': 'true', 'message': 'Hello World', 'action': 'get started'}
+    test.set_message(json.dumps(message))
