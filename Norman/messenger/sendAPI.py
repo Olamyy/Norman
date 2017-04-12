@@ -91,13 +91,13 @@ class Message(object):
 
     def handle_payload(self, action):
         postback = action.get('postback')
-        print("The postback is ", postback)
+        print(action)
         payload = postback['payload']
-        print()
         if payload == 'GET_STARTED_PAYLOAD':
             self.handle_get_started()
 
     def handle_get_started(self):
+        print("I think I got here.")
         self.send_message("text", message_text="Hello, I'm Norman")
         return response.response_ok('Success')
 
