@@ -90,7 +90,23 @@ class WebHook(Resource):
                         try:
                             payload_action = action['postback']['payload']['action']
                         except KeyError:
-                            pass
+                            if not self.user_view.validate_user(recipient_id):
+                                message = ai_response(message_text)
+                                user = NormanUser(recipient_id)
+                                if user.first_message:
+                                    user.instantiate_user()
+                                    user.start_conversation(message)
+                                    return response.response_ok('Success')
+                                else:
+                                    user = user.get_user_instance()
+                                    m = Message(recipient_id)
+                                    m.send_message(message_type='text', message_text=message)
+                                    return response.response_ok('Success')
+
+                            message = ai_response(message_text)
+                            m = Message(recipient_id)
+                            m.send_message(message_type='text', message_text=message)
+                            return response.response_ok('Success')
                         if payload_action:
                             user_profile = Profile.get_user_details(recipient_id)
                             message = 'Hello! Welcome {}. I am Norman, your personal health assistant'.format(
@@ -98,24 +114,6 @@ class WebHook(Resource):
                             m = Message(recipient_id)
                             m.send_message(message_type='text', message_text=message)
                             return response.response_ok('Success')
-
-                    if not self.user_view.validate_user(recipient_id):
-                        message = ai_response(message_text)
-                        user = NormanUser(recipient_id)
-                        if user.first_message:
-                            user.instantiate_user()
-                            user.start_conversation(message)
-                            return response.response_ok('Success')
-                        else:
-                            user = user.get_user_instance()
-                            m = Message(recipient_id)
-                            m.send_message(message_type='text', message_text=message)
-                            return response.response_ok('Success')
-
-                    message = ai_response(message_text)
-                    m = Message(recipient_id)
-                    m.send_message(message_type='text', message_text=message)
-                    return response.response_ok('Success')
 
 
 def ai_response(message_text):
