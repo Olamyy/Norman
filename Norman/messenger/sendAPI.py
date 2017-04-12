@@ -89,6 +89,15 @@ class Message(object):
         else:
             raise HttpError('Unable to complete request.')
 
+    def handle_payload(self, action):
+        postback = action.get('postback')
+        payload = postback['payload']
+        if payload == 'GET_STARTED_PAYLOAD':
+            self.handle_get_started()
+
+    def handle_get_started(self):
+        self.send_message("text", message_text="Hello, I'm Norman")
+
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
