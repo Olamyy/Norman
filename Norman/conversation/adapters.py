@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from chatterbot.adapters import Adapter
 from chatterbot.logic import LogicAdapter
 
+from Norman.conversation.conversation import CommandConversation, EmptyCommandConversation
 from Norman.conversation.message_types import Command, NormalMessage, ServiceResponse
 
 
@@ -64,6 +65,14 @@ class NormanInputAdapter(InputAdapter):
 class NormanLogicAdapter(LogicAdapter):
     def __init__(self, **kwargs):
         super(NormanLogicAdapter, self).__init__(**kwargs)
+        self.empty_command_convo = EmptyCommandConversation()
+        self.command_convo = CommandConversation()
+
+    def initialize_adapter(self):
+        pass
+
+    def handle_empty_command(self, statement):
+        pass
 
 
 class NormanStorageAdapter(LogicAdapter):

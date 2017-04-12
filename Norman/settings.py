@@ -118,3 +118,7 @@ class MailerConfig(Config):
     MAIL_DEFAULT_SENDER = None
     MAIL_MAX_EMAILS = None
     MAIL_ASCII_ATTACHMENTS = False
+
+
+class ErrorConfig(Config):
+    INVALID_LOGIN_ERROR = "Invalid Email or Password"

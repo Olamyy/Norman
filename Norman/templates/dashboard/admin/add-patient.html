@@ -1,0 +1,66 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+<div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-lg-8 col-lg-offset-2">
+                                <div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients</h4>
+
+                                    <div class="alert alert-info text-center">
+                                        This Platform allows you to only upload excel format of patients which includes
+                                        Patient's First Name, Last Name, Email, Mobile Number, Address, Date of Birth, Sex and File Number
+                                    </div>
+
+                                    <form action="#" data-parsley-validate novalidate>
+                                        <div class="form-group">
+                                            <label class="btn btn-info btn-file">
+                                                Select Excel File <input type="file" name="" style="display: none;">
+                                            </label>
+                                        </div>
+
+                                        <div class="form-group text-right m-b-0">
+                                            <button class="btn btn-primary waves-effect waves-light" type="submit">
+                                                Upload
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <footer class="footer">
+                    2017 © Norman Bot
+                </footer>
+            </div>
+
+
+  <script>
+   $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+
+   $(document).ready( function() {
+    $(':file').on('fileselect', function(event, numFiles, label) {
+        console.log(numFiles);
+        console.log(label);
+    });
+});
+
+  </script>
+
+
+{% endblock %}
