@@ -1,8 +1,7 @@
-import json
-
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.settings import FBConfig
+import json
 
 
 class Profile:
@@ -20,3 +19,7 @@ class Profile:
             return json.loads(request.decode(encoding='UTF-8'))
         else:
             raise HttpError('Unable to complete request.')
+
+if __name__ == '__main__':
+    test = Profile.get_user_details('1280106375410348')
+    print(test)
