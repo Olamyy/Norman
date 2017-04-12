@@ -124,3 +124,9 @@ class ErrorConfig(Config):
     INVALID_VER_ID_ERROR = "Invalid/Expired Verification ID"
     INVALID_ROUTE_ERROR = "Looks like you do not have access to this page."
     INVALID_LOGIN_ERROR = "Invalid Email or Password"
+
+
+class MessageConfig(Config):
+    GET_STARTED_MESSAGE = """Hello {{username}}, My name is {0}.\n I an artificial intelligence
+                            medical assistance bot that helps you keep track of your health while syncing them seamlessly \n
+                            with your hospital.""".format(UIConfig.APP_NAME)

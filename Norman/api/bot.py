@@ -71,6 +71,7 @@ class WebHook(Resource):
                 else:
                     print(action)
                     self.message.handle_payload(action)
+                    return response.response_ok('Success')
 
 
 def ai_response(message_text):
