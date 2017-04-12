@@ -69,6 +69,7 @@ class WebHook(Resource):
                     m.send_message(message_type='text', message_text=message)
                     return response.response_ok('Success')
                 else:
+                    print(action)
                     self.message.handle_payload(action)
 
 

@@ -1,7 +1,7 @@
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.settings import FBConfig
-
+from Norman.utils import response
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -96,7 +96,9 @@ class Message(object):
             self.handle_get_started()
 
     def handle_get_started(self):
-        self.send_message("text", message_text="Hello, I'm Norman")
+        print("I think I got here.")
+        self.send_message("text", message_text="Do you know me?")
+        return response.response_ok('Success')
 
 
 class Template(Message):
