@@ -9,6 +9,7 @@ from Norman.extensions import csrf_protect
 from Norman.norman.user import NormanUser
 from Norman.utils import response
 from Norman.messenger.sendAPI import Message, Template
+from Norman.messenger.userProfile import Profile
 
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -57,12 +58,28 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_json()
+        print('data')
         for event in data['entry']:
             messaging = event['messaging']
             for action in messaging:
                 if action.get('message'):
                     recipient_id = action['sender']['id']
-                    message_text = action['message']['text']
+                    try:
+                        message_text = action['message']['text']
+                    except KeyError:
+                        payload_action = None
+                        try:
+                            payload_action = action['postback']['payload']['action']
+                        except KeyError:
+                            pass
+                        if payload_action:
+                            user_profile = Profile.get_user_details(recipient_id)
+                            message = 'Hello! Welcome {}. I am Norman, your personal health assistant'.format(
+                                user_profile['first_name'])
+                            m = Message(recipient_id)
+                            m.send_message(message_type='text', message_text=message)
+                            return response.response_ok('Success')
+
                     if not self.user_view.validate_user(recipient_id):
                         message = ai_response(message_text)
                         user = NormanUser(recipient_id)

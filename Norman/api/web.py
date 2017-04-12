@@ -7,9 +7,11 @@ from flask_restful import Resource
 from mongoengine.errors import NotUniqueError
 
 from Norman.extensions import csrf_protect, db
+from Norman.logger import Logger
 from Norman.models import Service, Hospital, UserModel
-from Norman.utils import Response as response
 from Norman.utils import generate_id, hash_data
+from Norman.utils import Response as response
+
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 
@@ -98,6 +100,9 @@ class UserAPI:
 
 
 class HospitalApi(Resource):
+    def __init__(self):
+        self.log = Logger()
+
     def post(self):
         data = request.get_json()
         action, hospital_id = data.get('action', '').lower(), data.get('hospital_id', None)
@@ -122,6 +127,7 @@ class HospitalApi(Resource):
             else:
                 return response.response_ok(hospital_details)
         except errors.InvalidId as error:
+            self.log.log_error("Unable to retrieve Hospital: " + str(error))
             return response.response_error("Unable to retrieve Hospital", error)
 
     def create_hospital(self, data):
@@ -142,6 +148,7 @@ class HospitalApi(Resource):
         except NotUniqueError as error:
             print("got here")
             print('error:', error)
+            self.log.log_error('Unable to create hospital: ' + str(error))
             return response.response_error('Unable to create hospital', str(error))
 
     def disable_hospital(self, hospital_id):
