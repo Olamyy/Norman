@@ -144,16 +144,8 @@ class HospitalApi(Resource):
         try:
             create_hospital.save()
             return response.response_ok(create_hospital)
-<<<<<<< HEAD
         except NotUniqueError:
             return response.response_error('Unable to create hospital', 'Hospital already exists')
-=======
-        except NotUniqueError as error:
-            print("got here")
-            print('error:', error)
-            self.log.log_error('Unable to create hospital: ' + str(error))
-            return response.response_error('Unable to create hospital', str(error))
->>>>>>> ed0db0b44aa290528da8d337005696cc2bda6933
 
     def disable_hospital(self, hospital_id):
         pass

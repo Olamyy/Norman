@@ -11,7 +11,8 @@ from Norman.utils import response
 from Norman.messenger.sendAPI import Message
 from Norman.messenger.sendAPI import Message, Template
 from Norman.messenger.userProfile import Profile
-
+from Norman.messenger.sendAPI import Message, Template
+from Norman.messenger.userProfile import Profile
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
@@ -81,18 +82,24 @@ class WebHook(Resource):
                             m.send_message(message_type='text', message_text=message)
                             return response.response_ok('Success')
 
-                    if not self.user_view.validate_user(recipient_id):
-                        message = ai_response(message_text)
-                        user = NormanUser(recipient_id)
-                        if user.first_message:
-                            user.instantiate_user()
-                            user.start_conversation(message)
-                            return response.response_ok('Success')
-                        else:
-                            user = user.get_user_instance()
-                            m = Message(recipient_id)
-                            m.send_message(message_type='text', message_text=message)
-                            return response.response_ok('Success')
+                    ### LEKAN! FIX YOUR USER INSTANCE, IT KEEPS BREAKING THE WEBHOOK!!!!
+                    # if not self.user_view.validate_user(recipient_id):
+                    #     message = ai_response(message_text)
+                    #     user = NormanUser(recipient_id)
+                    #     if user.first_message:
+                    #         user.instantiate_user()
+                    #         user.start_conversation(message)
+                    #         return response.response_ok('Success')
+                    #     else:
+                    #         user = user.get_user_instance()
+                    #         m = Message(recipient_id)
+                    #         m.send_message(message_type='text', message_text=message)
+                    #         return response.response_ok('Success')
+
+                    message = ai_response(message_text)
+                    m = Message(recipient_id)
+                    m.send_message(message_type='text', message_text=message)
+                    return response.response_ok('Success')
 
 
 def ai_response(message_text):
