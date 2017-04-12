@@ -70,7 +70,7 @@ class WebHook(Resource):
                     return response.response_ok('Success')
                 else:
                     print(action)
-                    self.message.handle_payload(action)
+                    self.message.handle_payload(action, recipient_id)
                     return response.response_ok('Success')
 
 

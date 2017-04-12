@@ -1,5 +1,6 @@
 from Norman.api.base import base
 from Norman.errors import HttpError
+from Norman.messenger.userProfile import Profile
 from Norman.settings import FBConfig, MessageConfig
 from Norman.utils import response
 
@@ -29,6 +30,7 @@ class Message(object):
                                   'sender_action': '',
                                   'notification_type': ''
                                 }
+        self.user_profile = Profile()
 
     def send_action(self, action):
         """
@@ -89,14 +91,15 @@ class Message(object):
         else:
             raise HttpError('Unable to complete request.')
 
-    def handle_payload(self, action):
+    def handle_payload(self, action, recipient_id):
         postback = action.get('postback')
         payload = postback['payload']
         if payload == 'GET_STARTED_PAYLOAD':
-            self.handle_get_started()
+            self.handle_get_started(recipient_id)
 
-    def handle_get_started(self):
-        message_text = MessageConfig.GET_STARTED_MESSAGE
+    def handle_get_started(self, recipient_id):
+        user_details = self.user_profile.get_user_details(recipient_id)
+        message_text = MessageConfig.GET_STARTED_MESSAGE.replace(' {{username}}', user_details['first_name'])
         self.send_message("text", message_text=message_text)
         return response.response_ok('Success')
 
