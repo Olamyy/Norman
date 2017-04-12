@@ -1,7 +1,7 @@
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.settings import FBConfig
-
+from Norman.utils import response
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -40,12 +40,14 @@ class Message(object):
         self.payload_structure['sender_action'] = action
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
+
+    def is_get_started(self, action):
+            pass
 
     def send_message(self, message_type, message_text=None, attachment=None, notification_type=None, quick_replies=None):
         """
@@ -86,6 +88,17 @@ class Message(object):
             return request
         else:
             raise HttpError('Unable to complete request.')
+
+    def handle_payload(self, action):
+        postback = action.get('postback')
+        payload = postback['payload']
+        if payload == 'GET_STARTED_PAYLOAD':
+            self.handle_get_started()
+
+    def handle_get_started(self):
+        print("I think I got here.")
+        self.send_message("text", message_text="Do you know me?")
+        return response.response_ok('Success')
 
 
 class Template(Message):

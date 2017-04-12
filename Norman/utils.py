@@ -8,6 +8,7 @@ import json
 
 from flask import flash
 from flask import jsonify, make_response
+import os
 
 
 def flash_errors(form, category='warning'):
@@ -36,6 +37,12 @@ def validate_hashes(new_password, old):
 
 def generate_session_id():
     return str(uuid.uuid1())
+
+
+def handle_relative_path(path):
+    dir = os.path.dirname(__file__)
+    filename = os.path.join(dir, path)
+    return filename
 
 
 class Response:
