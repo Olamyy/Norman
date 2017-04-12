@@ -6,13 +6,10 @@ from flask_restful import Resource
 from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
+from Norman.messenger.sendAPI import Message
+from Norman.messenger.userProfile import Profile
 from Norman.norman.user import NormanUser
 from Norman.utils import response
-from Norman.messenger.sendAPI import Message
-from Norman.messenger.sendAPI import Message, Template
-from Norman.messenger.userProfile import Profile
-from Norman.messenger.sendAPI import Message, Template
-from Norman.messenger.userProfile import Profile
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
@@ -57,10 +54,30 @@ class WebHook(Resource):
             return make_response(args.get('hub.challenge').strip("\n\""))
         else:
             return response.response_error('Failed validation. Make sure the validation tokens match', args)
+    #
+    # def post(self):
+    #     data = request.get_json()
+    #     for event in data['entry']:
+    #         messaging = event['messaging']
+    #         for action in messaging:
+    #             if action.get('message'):
+    #                 recipient_id = action['sender']['id']
+    #                 try:
+    #
+    #                 if not self.user_view.validate_user(recipient_id):
+    #                     message = "Hello, {0}".format(recipient_id)
+    #                     user = NormanUser(recipient_id)
+    #                     if user.first_message:
+    #                         user.instantiate_user()
+    #                         bot.send_text_message(recipient_id, message)
+    #                         return response.response_ok('Success')
+    #                     else:
+    #                         user = user.get_user_instance()
+    #                         bot.send_text_message(recipient_id, message)
+    #                         return response.response_ok('Success')
 
     def post(self):
         data = request.get_json()
-        print('data')
         for event in data['entry']:
             messaging = event['messaging']
             for action in messaging:
