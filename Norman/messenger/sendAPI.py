@@ -40,12 +40,14 @@ class Message(object):
         self.payload_structure['sender_action'] = action
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
+
+    def is_get_started(self, action):
+            pass
 
     def send_message(self, message_type, message_text=None, attachment=None, notification_type=None, quick_replies=None):
         """

@@ -27,9 +27,9 @@ class NormanUser:
 
     def start_conversation(self, message, is_new=False):
         if is_new:
-            norman = Norman(user=self.user, initialize=True, is_new=True)
+            norman = Norman(user=self.user, is_new=True)
             return norman.get_response(message)
-        norman = Norman(user=self.user, initialize=False)
+        norman = Norman(user=self.user, is_new=False)
         return norman.get_response(message, session_id=self.session_id)
 
     def get_user_instance(self):

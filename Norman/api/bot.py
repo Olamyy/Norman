@@ -60,16 +60,19 @@ class WebHook(Resource):
             for action in messaging:
                 if action.get('message'):
                     recipient_id = action['sender']['id']
-                    if not self.user_view.validate_user(recipient_id):
-                        message = "Hello, {0}".format(recipient_id)
-                        user = NormanUser(recipient_id)
-                        if user.first_message:
-                            user.instantiate_user()
-                            norman = NormanUser(recipient_id)
-                            return response.response_ok('Success')
-                        else:
-                            user = user.get_user_instance()
-                            return response.response_ok('Success')
+
+
+                    # if not self.user_view.validate_user(recipient_id):
+                    #     message = "Hello, {0}".format(recipient_id)
+                    #     user = NormanUser(recipient_id)
+                    #     if user.first_message:
+                    #         user.instantiate_user()
+                    #         norman = NormanUser(recipient_id)
+                    #         norman.start_conversation(message)
+                    #         return response.response_ok('Success')
+                    #     else:
+                    #         user = user.get_user_instance()
+                    #         return response.response_ok('Success')
 
 
 def ai_response(message_text):
