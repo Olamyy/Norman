@@ -98,7 +98,7 @@ class Message(object):
 
     def handle_get_started(self):
         print("I think I got here.")
-        self.send_message("text", message_text="Hello, I'm Norman")
+        self.send_message("text", message_text="Do you know me?")
         return response.response_ok('Success')
 
 
