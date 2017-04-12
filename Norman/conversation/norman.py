@@ -10,10 +10,11 @@ class Norman(object):
         self.logic_adapter = NormanLogicAdapter()
         self.input_adapter = NormanInputAdapter()
         self.user_utils = UserUtils()
+        if self.is_new:
+            self.initialize()
 
     def initialize(self):
-        if self.is_new:
-            self.do_init_convo()
+            self.load_init_convo()
 
     def get_response(self, statement, session_id=None):
         if not session_id:
@@ -33,5 +34,13 @@ class Norman(object):
             # self.logic_adapter
             pass
 
-    def do_init_convo(self):
-        pass
+    def load_init_convo(self):
+        import yaml
+        path = utils.handle_relative_path('Norman/conversation_data/intro_convo.yaml')
+        with open('Norman/conversation_data/intro_convo.yaml', 'r') as stream:
+            try:
+                print(yaml.load(stream))
+            except yaml.YAMLError as exc:
+                print(exc)
+a = Norman()
+a.load_init_convo()

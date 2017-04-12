@@ -40,12 +40,14 @@ class Message(object):
         self.payload_structure['sender_action'] = action
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
+
+    def is_get_started(self, action):
+            pass
 
     def send_message(self, message_type, message_text=None, attachment=None, notification_type=None, quick_replies=None):
         """
@@ -86,6 +88,15 @@ class Message(object):
             return request
         else:
             raise HttpError('Unable to complete request.')
+
+    def handle_payload(self, action):
+        postback = action.get('postback')
+        payload = postback['payload']
+        if payload == 'GET_STARTED_PAYLOAD':
+            self.handle_get_started()
+
+    def handle_get_started(self):
+        self.send_message("text", message_text="Hello, I'm Norman")
 
 
 class Template(Message):
