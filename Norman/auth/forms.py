@@ -31,3 +31,9 @@ class LoginForm(Form):
         except DoesNotExist:
                 return False
 
+
+class VerificationForm(Form):
+    """
+    Verification Specific Form
+    """
+    verficationID = StringField('email', validators=[DataRequired()])

@@ -56,6 +56,7 @@ class UserUtils(Utils):
         self.email = None
         self.fb_id = None
         self.username = None
+        self.session_id = None
 
     def get_one_from_mongo_id(self, user_id):
         try:
@@ -79,6 +80,7 @@ class UserUtils(Utils):
                 self.email = user.email
                 self.fb_id = user.fb_id
                 self.username = user.username
+                self.session_id = user.session_id
                 return self
         except DoesNotExist:
                 return False

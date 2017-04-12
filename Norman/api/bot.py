@@ -77,13 +77,6 @@ class WebHook(Resource):
                             return response.response_ok('Success')
 
 
-@blueprint.route('/test', methods=['POST'])
-@csrf_protect.exempt
-def test():
-    view_class = TestAPI()
-    return view_class.post()
-
-
 def ai_response(message_text):
     ai = AI()  # create AI instance
     ai.parse(message_text)
@@ -92,6 +85,13 @@ def ai_response(message_text):
     else:
         message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
     return message
+
+
+@blueprint.route('/test', methods=['POST'])
+@csrf_protect.exempt
+def test():
+    view_class = TestAPI()
+    return view_class.post()
 
 
 class TestAPI(Resource):

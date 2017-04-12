@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from mongoengine import DoesNotExist
-from Norman.models import Hospital
+from Norman.models import Hospital, Service
 
 
 class HospitalUtil(UserMixin):
@@ -12,6 +12,8 @@ class HospitalUtil(UserMixin):
         self.isAdmin = False
         self.tempID = None
         self.id = None
+        self.active = None
+        self.has_selected_services = False
 
     def validate_email(self, email):
         try:
@@ -46,9 +48,26 @@ class HospitalUtil(UserMixin):
         else:
             return None
 
-    def get_by_verID(self, verID):
+    def get_by_tempID(self, tempID):
         try:
-            hospital = Hospital.objects.get(tempID=verID)
+            hospital = Hospital.objects.get(tempID=tempID)
+            if hospital:
+                self.email = hospital.email
+                self.active = hospital.active
+                self.password = hospital.password
+                self.name = hospital.name
+                self.id = hospital.id
+                self.tempID = hospital.tempID
+                self.has_selected_services = hospital.has_selected_services
+                return self
+            else:
+                return None
+        except DoesNotExist:
+            return None
+
+    def get_by_verID(self, verification_id):
+        try:
+            hospital = Hospital.objects.get(verificationID=verification_id)
             if hospital:
                 self.email = hospital.email
                 self.active = hospital.active
@@ -74,3 +93,31 @@ class HospitalUtil(UserMixin):
         else:
             return False
 
+    def update_active(self, verificationID):
+        return True if Hospital.objects.filter(verificationID=verificationID).update(active=True) else False
+
+
+class ServiceUtil(UserMixin):
+    def __init__(self):
+        self.name = None
+        self.long_description = None
+        self.short_description = False
+        self.service_id = None
+
+    def get_by_id(self, user_id):
+        service = Service.objects.with_id(user_id)
+        if service:
+            self.name = service.name
+            self.long_description = service.long_description
+            self.short_description = service.short_description
+            self.service_id = service.service_id
+            return self
+        else:
+            return None
+
+    def get_all_services(self):
+        services = Service.objects.all()
+        if services:
+            return services
+        else:
+            return False
