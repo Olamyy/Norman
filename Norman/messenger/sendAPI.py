@@ -99,9 +99,13 @@ class Message(object):
 
     def handle_get_started(self, recipient_id):
         user_details = self.user_profile.get_user_details(recipient_id)
-        print(user_details)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
-        self.send_message("text", message_text=message_text)
+        quick_replies = [
+            {"content_type": "text", "title": "What does that mean?", "payload": "MEANING"},
+            {"content_type": "text", "title": "What can you do", "payload": "SERVICES"}
+        ]
+
+        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
 
