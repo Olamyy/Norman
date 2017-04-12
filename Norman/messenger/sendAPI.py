@@ -99,7 +99,8 @@ class Message(object):
 
     def handle_get_started(self, recipient_id):
         user_details = self.user_profile.get_user_details(recipient_id)
-        message_text = MessageConfig.GET_STARTED_MESSAGE.replace(' {{username}}', user_details['first_name'])
+        print(user_details)
+        message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
         self.send_message("text", message_text=message_text)
         return response.response_ok('Success')
 

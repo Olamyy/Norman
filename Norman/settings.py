@@ -127,6 +127,6 @@ class ErrorConfig(Config):
 
 
 class MessageConfig(Config):
-    GET_STARTED_MESSAGE = "Hello {{username}}, My name is {0}. \n " \
+    GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. \n " \
                           "I am artificial intelligence medical assistance bot that helps you keep track of your health \n" \
                           " while syncing them seamlessly with your hospital.".format(UIConfig.APP_NAME)
