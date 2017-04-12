@@ -16,13 +16,25 @@
                                $('#'+error_id).html(error_text);
     };
 
-    var check_for_errors = function () {
-                  var errors = Cookies.get('error');
-                  if (errors){
-                      Cookies.remove('error');
-                      handle_error(errors)
-                  }
+    var handle_alerts = function (uri, title, message) {
+        if(uri){
+            var current_uri = window.location.pathname;
+            if(current_uri == uri){
+                sweetAlert(title, message)
+            }
+        }else{
+              swal(title, message)
+        }
     };
+
+    //Todo: Fix this.
+    // var check_for_errors = function () {
+    //               var errors = Cookies.get('error');
+    //               if (errors){
+    //                   Cookies.remove('error');
+    //                   handle_error(errors)
+    //               }
+    // };
 
     var handle_redirect = function (remove, replace) {
                          var url = window.location.href.replace(remove, '');
@@ -56,11 +68,14 @@
                          handle_error('Your passwords should match.', 'error')
                      }
                      else{
-                         if(verify_password.length() < 5){
+                         if(payload['password'].length < 5){
                              handle_error('Your passwords should be more than 8 characters.', 'error')
                          }
-                         Cookies.set('payload', payload);
-                         window.location.href = 'register/plans';
+                         else{
+                             Cookies.set('payload', payload);
+                             window.location.href = 'register/plans';
+                         }
+
                          }
             }
             else
@@ -75,9 +90,6 @@
                   payload['plan_id'] = plan_id;
 
                 var  register_url  = $('#register_url').val();
-                console.log(register_url);
-                console.log(payload);
-
                 $.ajax({
 
                            url : register_url,
@@ -86,52 +98,27 @@
                            contentType: 'application/json',
                            dataType:"json",
                            success : function (response) {
-                                window.location.href = 'auth/dashboard?action=verify&verID='+response.ver_id;
-                               var ver_id = response[0].data.ver_id;
+                               console.log(response[0].data);
+                               var ver_id = response[0].data.tempID;
                                var replace = '?action=verify&verID='+ver_id;
                                handle_redirect('/plans', replace)
                            },
                            error : function(xhr, errmsg, err){
-                                        Cookies.set('current_error', err);
-                                        handle_redirect('/plans', '')
+                                        Cookies.set('errors', 'Hospital already exists');
+                                        console.log(xhr)
+                                        // handle_redirect('/plans', '')
                            }
                             })
                 });
     };
 
-    var verifyHospital = function () {
-               $("#verificationBtn").on('click', function() {
-                var currentURL = document.URL;
-                var params = currentURL.extract();
-                var payload = {"ver_id": params.verID,
-                               "verificationCode": $('#verificationCode').val(),
-                                'action': "verify"
-                                    };
 
-                var  verify_url  = $('#verify_url').val();
-                   $.ajax({
+    // check_for_errors();Todo: Uncomment this when function is fixed.
 
-                           url : verify_url,
-                           type:  "POST",
-                           data : JSON.stringify(payload),
-                           contentType: 'application/json',
-                           dataType:"json",
-                           success : function (response) {
-                                window.location.href = 'auth/dashboard?action=verify&id='+response.id;
-                           },
-                           error : function(xhr, errmsg, err){
-                                        handle_error('Unable to create hospital', errmsg)
-                           }
-                            })
-                });
-    };
-
-    check_for_errors();
+    handle_alerts('/dashboard/service-info', 'Choose Services', 'Choose the services of your choice to move on.');
 
     startRegistration();
 
     finishRegistration();
-
-    verifyHospital();
 
 })(window.jQuery);

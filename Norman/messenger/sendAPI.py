@@ -138,9 +138,6 @@ class Template(Message):
             self.payload_structure['notification_type'] = notification_type
         else:
             self.payload_structure.pop('notification_type')
-
-        # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request

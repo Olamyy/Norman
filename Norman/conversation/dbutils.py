@@ -56,6 +56,7 @@ class UserUtils(Utils):
         self.email = None
         self.fb_id = None
         self.username = None
+        self.session_id = None
 
     def get_one_from_mongo_id(self, user_id):
         try:
@@ -79,6 +80,7 @@ class UserUtils(Utils):
                 self.email = user.email
                 self.fb_id = user.fb_id
                 self.username = user.username
+                self.session_id = user.session_id
                 return self
         except DoesNotExist:
                 return False
@@ -88,8 +90,17 @@ class UserUtils(Utils):
 
     def is_first_message(self, fb_id):
         try:
-            user = self.userdb.objects.get(fb_id=fb_id)
+            user = self.userdb.objects.get(fb_id=fb_id, has_sent_first_message=True)
             if user:
                 return True
         except DoesNotExist:
             return False
+
+    def update_session(self, user_id, session_id):
+        pass
+
+    def update_session_with_fb_id(self, fb_id, session_id):
+        pass
+
+    def update_first_message(self, fb_id):
+        pass

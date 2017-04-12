@@ -14,7 +14,7 @@ def register():
     action, verification_id = request.args.get('action'), request.args.get('verID')
     if action:
         if action == "verify":
-            return redirect(url_for('auth.verify', action=action, verID=verification_id))
+            return redirect(url_for('dashboard.verify', action=action, verID=verification_id))
     return render_template('dashboard/admin/register.html')
 
 
