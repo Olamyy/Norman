@@ -60,6 +60,7 @@ class WebHook(Resource):
         for event in data['entry']:
             messaging = event['messaging']
             for action in messaging:
+                print(action)
                 recipient_id = action['sender']['id']
                 self.message = Message(recipient_id)
                 if action.get('message'):
@@ -70,8 +71,10 @@ class WebHook(Resource):
                     return response.response_ok('Success')
                 else:
                     print(action)
-                    self.message.handle_payload(action)
+                    self.message.handle_payload(action, recipient_id)
                     return response.response_ok('Success')
+            return response.response_ok('Success')
+        return response.response_ok('Success')
 
 
 def ai_response(message_text):
