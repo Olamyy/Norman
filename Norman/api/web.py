@@ -155,5 +155,3 @@ class HospitalApi(Resource):
 
     def verify_hospital(self, hospital_id, code):
         pass
-
-
