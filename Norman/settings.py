@@ -130,3 +130,8 @@ class MessageConfig(Config):
     GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am medical assistance " \
                           "bot that helps you keep track of your health while syncing it " \
                           "seamlessly with your hospital.".format(UIConfig.APP_NAME)
+    GET_STARTED_MEANING = "It means I help you keep track of vital personal health information. " \
+                          "I then update your hospital with this information to help you treat you better"
+    GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
+                      "hospitals assigns me to monitor on you."
+    GET_STARTED_SERVICE_LIST = ""
