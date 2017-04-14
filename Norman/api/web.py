@@ -26,20 +26,22 @@ def isItUp():
     return ()
 
 
-@blueprint.route('/hospital', methods=['GET', 'POST'])
+@blueprint.route('/service', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def register():
-    view_class = HospitalApi()
+    view_class = ServiceAPI()
     if request.method == "GET":
-        return view_class.get_hospital()
+        return view_class.get()
     else:
         return view_class.post()
 
 
 class ServiceAPI(Resource):
     def get(self, service_id=None):
+        print(Service.objects)
         service_id = request.args.get('service_id', service_id)
         service_details = Service.objects.filter(service_id=service_id)
+        print(service_details)
         if not service_details:
             return response.response_error("Unable to retrieve service", "Invalid Service ID")
         else:
@@ -99,6 +101,16 @@ class UserAPI:
             return True
 
 
+@blueprint.route('/hospital', methods=['GET', 'POST'])
+@csrf_protect.exempt
+def register():
+    view_class = HospitalApi()
+    if request.method == "GET":
+        return view_class.get_hospital()
+    else:
+        return view_class.post()
+
+
 class HospitalApi(Resource):
     def __init__(self):
         self.log = Logger()
@@ -109,13 +121,13 @@ class HospitalApi(Resource):
         if not action:
             return response.response_error('Unable to handle action', 'No action specified.')
         else:
-            if action == "get":
+            if action == "GET":
                 return self.get_hospital(hospital_id)
-            elif action == "create":
+            elif action == "CREATE":
                 return self.create_hospital(data)
-            elif action == "update":
+            elif action == "UPDATE":
                 return self.update_hospital(hospital_id)
-            elif action == "verify":
+            elif action == "VERIFY":
                     return self.verify_hospital(data['verID'], data['verificationCode'])
             return self.disable_hospital(data)
 
@@ -145,6 +157,7 @@ class HospitalApi(Resource):
             create_hospital.save()
             return response.response_ok(create_hospital)
         except NotUniqueError:
+            self.log.log_error('Unable to create hospital')
             return response.response_error('Unable to create hospital', 'Hospital already exists')
 
     def disable_hospital(self, hospital_id):
