@@ -1,12 +1,11 @@
 from datetime import datetime
 
-from bson import ObjectId, errors
 from flask import Blueprint, jsonify
 from flask import request
 from flask_restful import Resource
 from mongoengine.errors import NotUniqueError
 
-from Norman.extensions import csrf_protect, db
+from Norman.extensions import csrf_protect
 from Norman.logger import Logger
 from Norman.models import Service, Hospital, UserModel
 from Norman.utils import generate_id, hash_data
@@ -28,7 +27,7 @@ def isItUp():
 
 @blueprint.route('/service', methods=['GET', 'POST'])
 @csrf_protect.exempt
-def register():
+def register_service():
     view_class = ServiceAPI()
     if request.method == "GET":
         return view_class.get()
@@ -38,10 +37,8 @@ def register():
 
 class ServiceAPI(Resource):
     def get(self, service_id=None):
-        print(Service.objects)
         service_id = request.args.get('service_id', service_id)
         service_details = Service.objects.filter(service_id=service_id)
-        print(service_details)
         if not service_details:
             return response.response_error("Unable to retrieve service", "Invalid Service ID")
         else:
@@ -49,7 +46,7 @@ class ServiceAPI(Resource):
 
     def post(self):
         data = request.get_json()
-        action, service_id = data.get('action', None), data.get('service_id', None)
+        action, service_id = data.pop('action', None), data.get('service_id', None)
         if not action:
             return response.response_error('Unable to handle action', 'No action specified.')
         else:
@@ -57,6 +54,8 @@ class ServiceAPI(Resource):
                 return self.get(service_id)
             elif action == "CREATE":
                 return self.create_service(data)
+            elif action == "UPDATE":
+                return self.update_service(data)
             else:
                 return self.disable_service(service_id)
 
@@ -71,6 +70,15 @@ class ServiceAPI(Resource):
             return response.response_ok(create_service)
         except NotUniqueError:
             return response.response_error('Unable to create service', 'Service name already exists')
+
+    def update_service(self, data):
+        service_id = data.pop('service_id', None)
+        service_details = Service.objects.filter(service_id=service_id)
+        if not service_details:
+            return response.response_error("Unable to retrieve service", "Invalid Service ID")
+        else:
+            Service.objects(service_id=service_id).update(**data)
+            return response.response_ok(service_details)
 
     def disable_service(self, service_id):
         pass
@@ -103,7 +111,7 @@ class UserAPI:
 
 @blueprint.route('/hospital', methods=['GET', 'POST'])
 @csrf_protect.exempt
-def register():
+def register_hospital():
     view_class = HospitalApi()
     if request.method == "GET":
         return view_class.get_hospital()
@@ -117,7 +125,7 @@ class HospitalApi(Resource):
 
     def post(self):
         data = request.get_json()
-        action, hospital_id = data.get('action', '').lower(), data.get('hospital_id', None)
+        action, hospital_id = data.pop('action', None), data.get('hospital_id', None)
         if not action:
             return response.response_error('Unable to handle action', 'No action specified.')
         else:
@@ -126,21 +134,17 @@ class HospitalApi(Resource):
             elif action == "CREATE":
                 return self.create_hospital(data)
             elif action == "UPDATE":
-                return self.update_hospital(hospital_id)
-            elif action == "VERIFY":
-                    return self.verify_hospital(data['verID'], data['verificationCode'])
-            return self.disable_hospital(data)
+                return self.update_hospital(hospital_id, data)
 
     def get_hospital(self, hospital_id=None):
-        try:
-            hospital_details = db.find_one({"_id": ObjectId(hospital_id)})
-            if not hospital_details:
-                return response.response_error("Unable to retrieve Hospital", "Invalid Hospital ID")
-            else:
-                return response.response_ok(hospital_details)
-        except errors.InvalidId as error:
-            self.log.log_error("Unable to retrieve Hospital: " + str(error))
-            return response.response_error("Unable to retrieve Hospital", error)
+        if not hospital_id:
+            return response.response_error("Unable to retrieve Hospital", "Invalid Hospital ID")
+        else:
+            hospital_details = Hospital.objects.filter(hospital_id=hospital_id)
+            return response.response_ok(hospital_details)
+        # except errors.InvalidId as error:
+        #     self.log.log_error("Unable to retrieve Hospital: " + str(error))
+        #     return response.response_error("Unable to retrieve Hospital", error)
 
     def create_hospital(self, data):
         hashed_password = hash_data(data['password'])
@@ -148,10 +152,11 @@ class HospitalApi(Resource):
                                    email=data['email'],
                                    reg_num=data['reg_num'],
                                    created_at=datetime.now(),
+                                   hospital_id=generate_id(10),
                                    plan_id=data['plan_id'],
                                    password=hashed_password,
                                    tempID=data['temp_id'],
-                                   verificationID=generate_id(4)
+                                   verificationID=generate_id(4),
                                    )
         try:
             create_hospital.save()
@@ -161,10 +166,16 @@ class HospitalApi(Resource):
             return response.response_error('Unable to create hospital', 'Hospital already exists')
 
     def disable_hospital(self, hospital_id):
-        pass
+        hospital_details = Hospital.objects.filter(hospital_id=hospital_id)
+        if not hospital_details:
+            return response.response_error("Unable to retrieve hospital", "Invalid Hospital ID")
+        else:
+            Hospital.objects(hospital_id=hospital_id).update(disabled=True)
 
-    def update_hospital(self, hospital_id):
-        pass
-
-    def verify_hospital(self, hospital_id, code):
-        pass
+    def update_hospital(self, hospital_id, data):
+        hospital_details = Hospital.objects.filter(hospital_id=hospital_id)
+        if not hospital_details:
+            return response.response_error("Unable to retrieve hospital", "Invalid Hospital ID")
+        else:
+            Hospital.objects(hospital_id=hospital_id).update(**data)
+            return response.response_ok(hospital_details)
