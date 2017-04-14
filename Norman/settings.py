@@ -39,32 +39,30 @@ class UIConfig:
     BASE_PATH = "https://www.norman.ai"
     COMPANY_EMAIL = "info@normanbot.com"
     COMPANY_PHONE = "9036671876"
-    COMPANY_ADDRESS = "Ilab, Department of Electronics Electrical Engineering, Obafemi Awolowo University, "\
+    COMPANY_ADDRESS = "Ilab, Department of Electronics Electrical Engineering, Obafemi Awolowo University, " \
                       "Ile-Ife, Osun State"
 
-    NORMAN_FEATURES_TEXT = {"feature1": "feature1desc",
-                            "feature2": "feature2desc",
-                            "feature3": "feature2desc",
-                            "feature4": "feature2desc",
-                            "feature5": "feature2desc",
-                            "feature6": "feature2desc"
+    NORMAN_FEATURES_LEFT = {"Your Data In Cloud": "Norman seamlessly syncs your patient data between\
+                                their social media account and your hospital portal",
+                            "Security": "The core Norman philosophy is security.\
+                                Norman keeps whatever data its getting, retrieving and saving between you and your\
+                            patients completely secure.",
+                            "AI inspired Design": "Norman was designed with a core AI enabled technology."
+                                                  "As such, it has been designed to converse with your <br>\
+                            patients in all the standard medical ways.",
                             }
+    NORMAN_FEATURES_RIGHT = {"Human Readable Data Format": "Every data collected by Norman about\
+                                your patient is formatted in a well structured human readable table.",
 
-    # @Todo:Stats format would be a dict of the format {stats:{"value":value, "text":text}}
-    NORMAN_STATS = {
+                             "Excellent Performance": "Norman has a 100% response rate and as such\
+                                is always there for your patients..",
 
-                    }
-    NORMAN_DEMO_VIDEO_TEXT = """Watch a quick short video explaining the ideology behind Norman.\n
-                                It demonstrates how Norman works and how you can use it.""".replace('\n', '<br />')
-    # @Todo:FAQ format would be a dict of the format {faq_short_description:answer}
-    # NORMAN_FAQ_TEXT = {}
-
-
-class PricingConfig:
-    pass
+                             "Machine Learning": "Norman uses machine learning to continuously learn from each\
+                                conversation it has with your patient. As such, it provides better, faster help everytime.",
+                             }
 
 
-class ProdConfig(Config, UIConfig, PricingConfig):
+class ProdConfig(Config, UIConfig):
     """Production configuration."""
 
     ENV = 'prod'
@@ -81,7 +79,7 @@ class ProdConfig(Config, UIConfig, PricingConfig):
     }
 
 
-class DevConfig(Config, UIConfig, PricingConfig):
+class DevConfig(Config, UIConfig):
     ENV = 'dev'
     DEBUG = True
     # Put the db file in project root

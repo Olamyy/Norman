@@ -57,6 +57,7 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_json()
+        print(data)
         for event in data['entry']:
             messaging = event['messaging']
             for action in messaging:
@@ -64,10 +65,8 @@ class WebHook(Resource):
                 recipient_id = action['sender']['id']
                 self.message = Message(recipient_id)
                 if action.get('message'):
-                    message_text = action['message']['text']
-                    message = ai_response(message_text)
-                    m = Message(recipient_id)
-                    m.send_message(message_type='text', message_text=message)
+                    print(action)
+                    self.message.send_message(message_type='text', message_text='Hello')
                     return response.response_ok('Success')
                 else:
                     print(action)

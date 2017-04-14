@@ -93,7 +93,9 @@ class Message(object):
 
     def handle_payload(self, action, recipient_id):
         postback = action.get('postback')
+        print('The postback is', postback)
         payload = postback['payload']
+        print("The payload is", payload)
         if payload == 'GET_STARTED_PAYLOAD':
             self.handle_get_started(recipient_id)
         elif payload == 'GET_STARTED_MEANING':

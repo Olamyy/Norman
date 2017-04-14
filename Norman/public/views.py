@@ -7,6 +7,7 @@ blueprint = Blueprint('public', __name__, static_folder='../static')
 
 @blueprint.route('/', methods=['GET'])
 def home():
+
     return render_template('landingpage/indexed.html')
 
 
