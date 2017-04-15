@@ -11,6 +11,7 @@ class Service(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now())
     short_description = db.StringField(required=True, max_length=2000, min_length=3)
     service_id = db.StringField(required=True, max_length=10, min_length=3)
+    questions = db.ListField(db.StringField(max_length=2000))
 
     def __repr__(self):
         """Represent instance as a unique string."""

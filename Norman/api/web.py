@@ -64,6 +64,7 @@ class ServiceAPI(Resource):
                                  long_description=data['long_description'],
                                  created_at=datetime.now(),
                                  short_description=data['short_description'],
+                                 questions=data.get('questions', []),
                                  service_id=generate_id(10))
         try:
             create_service.save()
@@ -77,6 +78,9 @@ class ServiceAPI(Resource):
         if not service_details:
             return response.response_error("Unable to retrieve service", "Invalid Service ID")
         else:
+            questions = data.pop('questions', None)
+            if questions:
+                Service.objects(service_id=service_id).update(add_to_set__questions=questions)
             Service.objects(service_id=service_id).update(**data)
             return response.response_ok(service_details)
 
@@ -107,6 +111,10 @@ class UserAPI:
             return False
         else:
             return True
+
+    def update_user(self, id):
+        pass
+
 
 
 @blueprint.route('/hospital', methods=['GET', 'POST'])
@@ -142,9 +150,6 @@ class HospitalApi(Resource):
         else:
             hospital_details = Hospital.objects.filter(hospital_id=hospital_id)
             return response.response_ok(hospital_details)
-        # except errors.InvalidId as error:
-        #     self.log.log_error("Unable to retrieve Hospital: " + str(error))
-        #     return response.response_error("Unable to retrieve Hospital", error)
 
     def create_hospital(self, data):
         hashed_password = hash_data(data['password'])
