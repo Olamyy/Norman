@@ -59,13 +59,13 @@ class Hospital(db.Document):
 
 
 class UserModel(db.Document):
-    username = db.StringField(required=True, max_length=200, min_length=3)
-    first_name = db.StringField(max_length=200, min_length=3)
-    last_name = db.StringField(max_length=200, min_length=3)
-    user_id = db.StringField(max_length=20, min_length=3)
+    # username = db.StringField(required=True, max_length=200, min_length=3)
+    first_name = db.StringField(required=True, max_length=200, min_length=3)
+    last_name = db.StringField(required=True, max_length=200, min_length=3)
+    email = db.EmailField(required=True, max_length=200, min_length=10, unique=True)
+    user_id = db.StringField(required=True, max_length=20, min_length=3, unique=True)
     fb_id = db.StringField(max_length=200, min_length=3)
     hospital_id = db.StringField(max_length=200, min_length=3)
-    email = db.EmailField(max_length=200, min_length=10)
     plan_id = db.StringField(max_length=200, min_length=3)
     is_verified = db.BooleanField(default=False)
     is_active = db.BooleanField(default=False)
