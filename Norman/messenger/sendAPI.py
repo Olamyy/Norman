@@ -93,33 +93,31 @@ class Message(object):
 
     def handle_payload(self, action, recipient_id):
         postback = action.get('postback')
-        print('The postback is', postback)
         payload = postback['payload']
-        print("The payload is", payload)
-        if payload == 'GET_STARTED_PAYLOAD':
+        if payload == 'NORMAN_GET_STARTED_PAYLOAD':
             self.handle_get_started(recipient_id)
-        elif payload == 'GET_STARTED_MEANING':
+        elif payload == 'NORMAN_GET_STARTED_MEANING':
             self.handle_get_started_meaning()
-        elif payload == 'GET_STARTED_HOW':
+        elif payload == 'NORMAN_GET_STARTED_HOW':
             self.handle_get_started_how()
-        elif payload == 'GET_ALL_SERVICE_LIST':
+        elif payload == 'NORMAN_GET_ALL_SERVICE_LIST':
             self.get_started_service_list()
         else:
-            self.get_started_user_service_list(recipient_id)
+            self.get_started_user_service_list()
 
     def handle_get_started(self, recipient_id):
         user_details = self.user_profile.get_user_details(recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
         quick_replies = [
-            {"content_type": "text", "title": "What does that mean?", "payload": "GET_STARTED_MEANING"},
-            {"content_type": "text", "title": "How do you do that?", "payload": "GET_STARTED_HOW"},
-            {"content_type": "text", "title": "What services do you offer", "payload": "GET_SERVICE_LIST"}
-        ]
+            {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
+            {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
+            {"content_type": "text", "title": "What services do you offer", "payload": "NORMAN_GET_SERVICE_LIST"}
+                        ]
 
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
-    def handle_get_started_meaning(self,):
+    def handle_get_started_meaning(self):
         message_text = MessageConfig.GET_STARTED_MEANING
         quick_replies = [
             {"content_type": "text", "title": "How do you do that?", "payload": "GET_STARTED_HOW"},
@@ -138,8 +136,9 @@ class Message(object):
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
-    def get_started_user_service_list(self, recipient_id):
-        pass
+    def get_started_user_service_list(self):
+        message_text = MessageConfig.GET_STARTED_MEANING
+        self.send_message("text", message_text=message_text)
 
     def get_started_service_list(self):
         message_text = MessageConfig.GET_STARTED_HOW

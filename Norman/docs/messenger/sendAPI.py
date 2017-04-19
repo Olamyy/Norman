@@ -57,6 +57,35 @@ def class_template(recipient):
 
     # send a list_template
 
+    curl -X GET "https://graph.facebook.com/v2.6/me/messenger_profile?fields=get_started&access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
+
+    curl -X GET "https://graph.facebook.com/v2.6/me/messenger_profile?fields=greeting&access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
+
+
+    curl -X POST -H "Content-Type: application/json" -d '{
+  "greeting":[
+    {
+      "locale":"default",
+      "text":"Hello!"
+    }, {
+      "locale":"en_US",
+      "text":"Timeless apparel for the masses."
+    }
+  ]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
+
+    curl -X DELETE -H "Content-Type: application/json" -d '{
+  "fields":[
+    "get_started"
+  ]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "get_started":{
+    "payload":"GET_STARTED_PAYLOAD"
+  }
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
+
     >>> list_item_one = {
                     "title": "Classic White T-Shirt",
                     "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",

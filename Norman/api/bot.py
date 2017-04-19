@@ -59,21 +59,20 @@ class WebHook(Resource):
         data = request.get_json()
         print(data)
         for event in data['entry']:
+            print(event)
             messaging = event['messaging']
+            print(messaging)
             for action in messaging:
                 print(action)
                 recipient_id = action['sender']['id']
                 self.message = Message(recipient_id)
                 if action.get('message'):
-                    print(action)
                     self.message.send_message(message_type='text', message_text='Hello')
                     return response.response_ok('Success')
                 else:
-                    print(action)
                     self.message.handle_payload(action, recipient_id)
                     return response.response_ok('Success')
             return response.response_ok('Success')
-        return response.response_ok('Success')
 
 
 def ai_response(message_text):
