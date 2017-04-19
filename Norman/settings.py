@@ -133,3 +133,5 @@ class MessageConfig(Config):
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
                       "hospitals assigns me to monitor on you."
     GET_STARTED_SERVICE_LIST = ""
+
+    GET_HELP_MESSAGE = ""

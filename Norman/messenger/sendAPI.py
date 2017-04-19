@@ -1,14 +1,13 @@
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
-from Norman.settings import FBConfig, MessageConfig
-from Norman.utils import response
+from Norman.settings import FBConfig
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
 
 class Message(object):
-    def __init__(self, recipient_id, **kwargs):
+    def __init__(self, recipient_id=None, **kwargs):
         self.recipient_id = recipient_id
         self.notification_type = None
         self.payload_structure = {
@@ -32,11 +31,12 @@ class Message(object):
                                 }
         self.user_profile = Profile()
 
-    def send_action(self, action):
+    def send_action(self, action, recipient_id=None):
         """
         :param action: - typing_on, typing_off, mark_as_read
         """
         # clean up payload
+        self.recipient_id = recipient_id
         self.payload_structure.pop('message')
         self.payload_structure.pop('notification_type')
         self.payload_structure['sender_action'] = action
@@ -51,7 +51,7 @@ class Message(object):
     def is_get_started(self, action):
             pass
 
-    def send_message(self, message_type, message_text=None, attachment=None, notification_type=None, quick_replies=None):
+    def send_message(self, message_type, recipient_id=None, message_text=None, attachment=None, notification_type=None, quick_replies=None):
         """
         - text must be UTF-8 and has a 640 character limit
         - You cannot send a text and an attachment together
@@ -62,6 +62,7 @@ class Message(object):
         :param notification_type: REGULAR, SILENT_PUSH, or NO_PUSH
         :return: json response object
         """
+        self.recipient_id = recipient_id
         notification_type = notification_type
         quick_replies = quick_replies
 
@@ -84,71 +85,11 @@ class Message(object):
             self.payload_structure.pop('notification_type')
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
-
-    def handle_payload(self, action, recipient_id):
-        postback = action.get('postback')
-        payload = postback['payload']
-        if payload == 'NORMAN_GET_STARTED_PAYLOAD':
-            self.handle_get_started(recipient_id)
-        elif payload == 'NORMAN_GET_STARTED_MEANING':
-            self.handle_get_started_meaning()
-        elif payload == 'NORMAN_GET_STARTED_HOW':
-            self.handle_get_started_how()
-        elif payload == 'NORMAN_GET_ALL_SERVICE_LIST':
-            self.get_started_service_list()
-        else:
-            self.get_started_user_service_list()
-
-    def handle_get_started(self, recipient_id):
-        user_details = self.user_profile.get_user_details(recipient_id)
-        message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
-        quick_replies = [
-            {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
-            {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
-            {"content_type": "text", "title": "What services do you offer", "payload": "NORMAN_GET_SERVICE_LIST"}
-                        ]
-
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
-
-    def handle_get_started_meaning(self):
-        message_text = MessageConfig.GET_STARTED_MEANING
-        quick_replies = [
-            {"content_type": "text", "title": "How do you do that?", "payload": "GET_STARTED_HOW"},
-            {"content_type": "text", "title": "What services do you offer?", "payload": "GET_SERVICE_LIST"}
-        ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
-
-    def handle_get_started_how(self):
-        message_text = MessageConfig.GET_STARTED_HOW
-        quick_replies = [
-            {"content_type": "text", "title": "What services do you offer?", "payload": "GET_ALL_SERVICE_LIST"},
-            {"content_type": "text", "title": "What are the services am I registered to?",
-             "payload": "GET_USER_SERVICE_LIST"}
-        ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
-
-    def get_started_user_service_list(self):
-        message_text = MessageConfig.GET_STARTED_MEANING
-        self.send_message("text", message_text=message_text)
-
-    def get_started_service_list(self):
-        message_text = MessageConfig.GET_STARTED_HOW
-        quick_replies = [
-            {"content_type": "text", "title": "What services do you offer?", "payload": "GET_ALL_SERVICE_LIST"},
-            {"content_type": "text", "title": "What are the services am I registered to?",
-             "payload": "GET_USER_SERVICE_LIST"}
-        ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
 
 
 class Template(Message):
