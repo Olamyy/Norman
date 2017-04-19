@@ -134,4 +134,4 @@ class MessageConfig(Config):
                       "hospitals assigns me to monitor on you."
     GET_STARTED_SERVICE_LIST = ""
 
-    GET_HELP_MESSAGE = ""
+    GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"

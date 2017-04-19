@@ -3,7 +3,6 @@ from flask import make_response
 from flask import request
 from flask_restful import Resource
 
-from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, handle_help, handle_get_started, \
@@ -93,12 +92,12 @@ class WebHook(Resource):
         #     return response.response_ok('Success')
 
 
-def ai_response(message_text):
-    ai = AI()  # create AI instance
-    ai.parse(message_text)
-    if ai.match_successful:
-        message = ai.text
-    else:
-        message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
-    return message
+# def ai_response(message_text):
+#     ai = AI()  # create AI instance
+#     ai.parse(message_text)
+#     if ai.match_successful:
+#         message = ai.text
+#     else:
+#         message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
+#     return message
 
