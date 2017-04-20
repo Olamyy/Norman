@@ -49,18 +49,22 @@ class ServiceAPI(Resource):
 
     def post(self):
         data = request.get_json()
-        action, service_id = data.pop('action', None), data.get('service_id', None)
-        if not action:
-            return Response.response_error('Unable to handle action', 'No action specified.')
-        else:
-            if action == "GET":
-                return self.get(service_id)
-            elif action == "CREATE":
-                return self.create_service(data)
-            elif action == "UPDATE":
-                return self.update_service(data)
+        if data:
+            action, service_id = data.pop('action', None), data.get('service_id', None)
+            if not action:
+                return Response.response_error('Unable to handle action', 'No action specified.')
             else:
-                return self.disable_service(service_id)
+                if action == "GET":
+                    return self.get(service_id)
+                elif action == "CREATE":
+                    return self.create_service(data)
+                elif action == "UPDATE":
+                    return self.update_service(data)
+                else:
+                    return Response.response_error('Unable to handle action', 'Invalid action.')
+        else:
+            data = ExcelRequest(request.environ)
+            self.add_questions(data)
 
     @staticmethod
     def create_service(data):
@@ -89,8 +93,13 @@ class ServiceAPI(Resource):
             Service.objects(service_id=service_id).update(**data)
             return Response.response_ok(service_details)
 
-    def disable_service(self, service_id):
-        pass
+    @staticmethod
+    def add_questions(data):
+        service_id = data.form.get('service_id')
+        questions = data.get_array(field_name='file')
+        service_details = Service.objects.filter(service_id=service_id)
+        Service.objects(service_id=service_id).update(add_to_set__questions=questions)
+        return Response.response_ok(service_details)
 
 
 @blueprint.route('/user', methods=['GET', 'POST'])
@@ -126,12 +135,11 @@ class UserAPI:
                 if action == "GET":
                     return self.get(user_id)
                 elif action == "CREATE":
-                    return self.add_user()
+                    return self.add_user(data)
                 elif action == "UPDATE":
                     return self.update_user(user_id, data)
                 else:
-                    # return self.disable_user(user_id)
-                    pass
+                    return Response.response_error('Unable to handle action', 'Invalid action')
         else:
             data = ExcelRequest(request.environ)
             action = data.form.get('action')
@@ -172,25 +180,15 @@ class UserAPI:
             entries.append(new_user)
         return Response.response_ok(entries)
 
-        # return response
-        # return jsonify({"result": data.get_records(field_name='file')})
-        # f = request.files['file']
-        # f = excel.ExcelRequest.get_sheet(field_name='file')
-        # return excel.
-        # data = excel.get_records()
-        # Response.response_ok(data)
-        # return jsonify({"result": request.get_array(field_name='file')})
-        # return jsonify({"result": file.get_records(field_name='file')})
-        # print(file_t.get_records(field_name='file'))
-        # hospital_id = request.form.get('hospital_id')
-        # print('hospital id: ', hospital_id)
-        # print('got here!!!!!!!!!!!! ')
-        # response = jsonify({"result": file_t.get_records(field_name='file')})
-        # print(response)
-        # return response
-
-    def add_user(self):
-        pass
+    @staticmethod
+    def add_user(data):
+        data['user_id'] = generate_id(10)
+        user_details = UserModel(**data)
+        try:
+            user_details.save()
+        except NotUniqueError as e:
+            return Response.response_error('Unable to add user', str(e))
+        return Response.response_ok(user_details)
 
     def update_user(self, user_id, data):
         user_details = self.user_object.objects.filter(user_id=user_id)
