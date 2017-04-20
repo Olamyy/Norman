@@ -1,0 +1,177 @@
+{% include 'header.html' %}
+
+<section style=" height:0%;" class="main-slider" id="banner">
+        <div class="tp-banner-container">
+            <div class="tp-banner">
+                <ul>
+                    <li data-transition="fade" data-slotamount="1" data-masterspeed="1000" data-thumb="images/main-slider/medical-image.jpg"  data-saveperformance="off"  data-title="Awesome Title Here">
+                    <img src="{{ url_for('static', filename='landing/images/medical-image.jpg') }}"  alt=""  data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                     <div class="tp-caption sfl sfb tp-resizeme col-sm-12 col-xs-12"
+                    data-x="center" data-hoffset="15"
+                    data-y="center" data-voffset="30"
+                    data-speed="1500"
+                    data-start="500"
+                    data-easing="easeOutExpo"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.3"
+                    data-endspeed="1200"
+                    data-endeasing="Power4.easeIn"><div class="text">
+                    <h2 style="text-align-all:center;" class="text-center">SERVICES</h2>
+                </div></div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+  	<!--End Main Slider-->
+
+    <!--Features Section--->
+    <section class="features-section-one" id="features-section">
+    	<div class="auto-container">
+        	<!--Title-->
+        	<div class="sec-title centered">
+            	<h2>Amazing Features</h2>
+                <div class="desc-text">Your patients health are the primary focus of Norman.<br>
+                                       Norman has the following features to help you keep track of it.</div>
+            </div>
+
+            <div class="row clearfix">
+            	<!--Column-->
+                <div class="column pull-left col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <!--Info BLock-->
+                    {% for feature, description in config.NORMAN_FEATURES_LEFT.items() %}
+                    <div class="info-block-two wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="inner-box">
+                            <h3>{{ feature }}</h3>
+                            <div class="text">{{ description }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    </div>
+                        <!--Image Column-->
+                <div class="image-column col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                	<figure class="image-box wow slideInUp" data-wow-delay="0ms" data-wow-duration="1500ms"><img src="{{ url_for('static', filename='landing/images/norman-android.png') }}" height="600px;" alt=""></figure>
+                </div>
+                <div class="column pull-right col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                    <!--Info BLock-->
+                    {% for feature, description in config.NORMAN_FEATURES_RIGHT.items() %}
+                    <div class="info-block-two wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="inner-box">
+                            <h3>{{ feature }}</h3>
+                            <div class="text">{{ description }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!--Fullwidth Section Two-->
+    <section class="fullwidth-section-two" id="how-it-works">
+    	<div class="outer clearfix">
+        	<!--Image Column-->
+            <div class="image-column">
+            	<figure class="image"><img src="{{ url_for('static', filename='landing/images/resource/fluid-image-2.jpg') }}" alt=""></figure>
+                <a href="https://www.youtube.com/watch?v=IcsQ4PfnqCo" class="lightbox-image video-link">
+                	<div class="inner">
+                    	<div class="icon"></div><div class="text">Play the Video</div>
+                    </div>
+                </a>
+            </div>
+
+            <!--Content Column-->
+            <div class="content-column">
+            	<div class="clearfix">
+                	<div class="content-box">
+                    	<div class="sec-title"><h2>How Norman works</h2></div>
+                        <div class="text-content">
+                        	<div class="text">Curious how it all works? <br> Watch this video to understand more.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Pricing Section-->
+    <section class="pricing-section" id="pricing-section">
+    	<div class="auto-container">
+        	<!--Title-->
+        	<div class="sec-title centered">
+            	<h2>Pricing Table</h2>
+                <div class="desc-text">Norman currently offers 3 plans which are detailed below</div>
+            </div>
+
+            <div class="row clearfix">
+            	<!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                        	<h3 class="plan-title">Demo</h3>
+                            <div class="price"> &#8358;0</div>
+                            <div class="duration">for 2 weeks</div>
+                        </div>
+                        <ul class="specs-list">
+                                                <li>2 Free Services</li>
+                                                <li>2 Paid Services</li>
+                                                <li>Data Analysis For 1 patient</li>
+                                                <li>Data Monitoring For 1 patients</li>
+                                                <li>24x7 Support</li>
+                        </ul>
+                        <div class="link-box"><a href="#" class="theme-btn btn-style-two">More Information</a></div>
+                    </div>
+                </div>
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="300ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                        	<h3 class="plan-title">Professional</h3>
+                            <div class="price"> &#8358;10000</div>
+                            <div class="duration">per month</div>
+                        </div>
+                        <ul class="specs-list">
+                                                <li>All Free Services</li>
+                                                <li>All Paid Services</li>
+                                                <li>Data Analysis For all patients</li>
+                                                <li>Data Monitoring For all patients</li>
+                                                <li>24x7 Support</li>
+                        </ul>
+                        <div class="link-box"><a href="#" class="theme-btn btn-style-two">More Information</a></div>
+                    </div>
+                </div>
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="600ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                        	<h3 class="plan-title">Starter</h3>
+                            <div class="price"> &#8358;5000</div>
+                            <div class="duration">per month</div>
+                        </div>
+                        <ul class="specs-list">
+                                                <li>5 Free Services</li>
+                                                <li>5 Paid Services</li>
+                                                <li>Data Analysis For 5 patients</li>
+                                                <li>Data Monitoring For all patients</li>
+                                                <li>24x7 Support</li>
+                        </ul>
+                        <div class="link-box"><a href="#" class="theme-btn btn-style-two">More Information</a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+
+{% include 'footer.html' %}

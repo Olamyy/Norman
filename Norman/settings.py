@@ -48,7 +48,7 @@ class UIConfig:
                                 Norman keeps whatever data its getting, retrieving and saving between you and your\
                             patients completely secure.",
                             "AI inspired Design": "Norman was designed with a core AI enabled technology."
-                                                  "As such, it has been designed to converse with your <br>\
+                                                  "As such, it has been designed to converse with your \
                             patients in all the standard medical ways.",
                             }
     NORMAN_FEATURES_RIGHT = {"Human Readable Data Format": "Every data collected by Norman about\
