@@ -43,5 +43,3 @@ class CommandConversation(Conversation):
 
 class EmptyCommandConversation(CommandConversation):
     pass
-
-

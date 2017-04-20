@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 """Helper utilities and decorators."""
 import hashlib
+import json
+import os
 import random
 import string
 import uuid
-import json
 
+from flask import current_app
 from flask import flash
 from flask import jsonify, make_response
-import os
+from flask import redirect
 
 
 def flash_errors(form, category='warning'):
@@ -27,10 +29,6 @@ def hash_data(data):
     return hashlib.sha256(data.encode('utf-8')).hexdigest()
 
 
-# def sleep_for(duration):
-#     time
-
-
 def validate_hashes(new_password, old):
     return True if hash_data(new_password) == old else False
 
@@ -43,6 +41,13 @@ def handle_relative_path(path):
     dir = os.path.dirname(__file__)
     filename = os.path.join(dir, path)
     return filename
+
+
+def cookie_insertion(redirect_to, cookie_name, cookie_value):
+    redirect_to_index = redirect(redirect_to)
+    response = current_app.make_response(redirect_to_index)
+    response.set_cookie(cookie_name, cookie_value)
+    return response
 
 
 class Response:

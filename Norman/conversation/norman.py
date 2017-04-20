@@ -42,5 +42,3 @@ class Norman(object):
                 print(yaml.load(stream))
             except yaml.YAMLError as exc:
                 print(exc)
-a = Norman()
-a.load_init_convo()

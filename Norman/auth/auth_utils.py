@@ -1,10 +1,12 @@
+from flask import session
 from flask_login import UserMixin
 from mongoengine import DoesNotExist
+
 from Norman.models import Hospital, Service
 
 
 class HospitalUtil(UserMixin):
-    def __init__(self, email=None, password=None, active=True, id=None, name=None):
+    def __init__(self, email=None, password=None, active=True, name=None):
         self.email = email
         self.password = password
         self.active = active
@@ -14,6 +16,9 @@ class HospitalUtil(UserMixin):
         self.id = None
         self.active = None
         self.has_selected_services = False
+
+    def __repr__(self):
+        return self.tempID
 
     def validate_email(self, email):
         try:
@@ -59,6 +64,7 @@ class HospitalUtil(UserMixin):
                 self.id = hospital.id
                 self.tempID = hospital.tempID
                 self.has_selected_services = hospital.has_selected_services
+                print(self.email)
                 return self
             else:
                 return None
@@ -89,12 +95,29 @@ class HospitalUtil(UserMixin):
 
     def logout_user_updates(self, verID):
         if Hospital.objects.filter(tempID=verID).update(is_logged_in=False):
+            session.clear()
             return True
         else:
             return False
 
     def update_active(self, verificationID):
         return True if Hospital.objects.filter(verificationID=verificationID).update(active=True) else False
+
+    def write_to_session(self, name, value):
+        session[name] = value
+        return True
+
+    def retrieve_from_session(self, name):
+        try:
+            data = session[name]
+            return data
+        except KeyError:
+            return False
+
+    def get_current_user_instance(self):
+        verification_id = self.retrieve_from_session('current_user')
+        hospital = self.get_by_tempID(verification_id)
+        return hospital
 
 
 class ServiceUtil(UserMixin):

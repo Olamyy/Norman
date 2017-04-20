@@ -6,8 +6,8 @@ from flask_restful import Resource
 from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
-from Norman.messenger.sendAPI import Message
-from Norman.norman.user import NormanUser
+from Norman.messenger.Utils import get_request_type, postback_events, handle_help, handle_get_started, \
+    handle_get_started_meaning, handle_get_started_how, get_started_user_service_list, get_started_service_list
 from Norman.utils import response
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -56,25 +56,41 @@ class WebHook(Resource):
             return response.response_error('Failed validation. Make sure the validation tokens match', args)
 
     def post(self):
-        data = request.get_json()
-        for event in data['entry']:
-            messaging = event['messaging']
-            for action in messaging:
-                print(action)
-                recipient_id = action['sender']['id']
-                self.message = Message(recipient_id)
-                if action.get('message'):
-                    message_text = action['message']['text']
-                    message = ai_response(message_text)
-                    m = Message(recipient_id)
-                    m.send_message(message_type='text', message_text=message)
-                    return response.response_ok('Success')
-                else:
-                    print(action)
-                    self.message.handle_payload(action, recipient_id)
-                    return response.response_ok('Success')
-            return response.response_ok('Success')
+        data = request.get_data()
+        request_type = get_request_type(data)
+        if request_type == 'postback':
+            for recipient_id, postback_payload in postback_events(data):
+                if postback_payload == 'NORMAN_GET_HELP':
+                    handle_help(recipient_id)
+                elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
+                    handle_get_started(recipient_id)
+                elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
+                    handle_get_started_meaning(recipient_id)
+                elif postback_payload == 'NORMAN_GET_STARTED_HOW':
+                    handle_get_started_how(recipient_id)
+                elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
+                    get_started_user_service_list(recipient_id)
+                elif postback_payload == 'NORMAN_GET_SERVICE_LIST':
+                    get_started_service_list(recipient_id)
+
+        elif request_type == "message":
+            pass
         return response.response_ok('Success')
+        # for event in data['entry']:
+        #     print(event)
+        #     messaging = event['messaging']
+        #     print(messaging)
+        #     for action in messaging:
+        #         print(action)
+        #         recipient_id = action['sender']['id']
+        #         self.message = Message(recipient_id)
+        #         if action.get('message'):
+        #             self.message.send_message(message_type='text', message_text='Hello')
+        #             return response.response_ok('Success')
+        #         else:
+        #             self.message.handle_payload(action, recipient_id)
+        #             return response.response_ok('Success')
+        #     return response.response_ok('Success')
 
 
 def ai_response(message_text):
@@ -86,27 +102,3 @@ def ai_response(message_text):
         message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
     return message
 
-
-@blueprint.route('/test', methods=['POST'])
-@csrf_protect.exempt
-def test():
-    view_class = TestAPI()
-    return view_class.post()
-
-
-class TestAPI(Resource):
-    def __init__(self):
-        self.user_view = UserAPI()
-
-    def post(self):
-        data = request.get_json()
-        recipient_id = data['id']
-        message = data['message']
-        user = NormanUser(recipient_id)
-        if user.first_message:
-            user.instantiate_user()
-            return jsonify({'response': user.start_conversation(message)})
-        else:
-            user = user.get_user_instance()
-            print(user.start_conversation(message, type="existing"))
-            return jsonify({'response': user.start_conversation(message, type="existing")})

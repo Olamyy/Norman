@@ -86,7 +86,3 @@ class Session(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now())
     message_count = db.IntField()
     session_id = db.StringField(required=True, max_length=200, min_length=3)
-
-
-
-
