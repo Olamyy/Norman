@@ -56,7 +56,10 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_data()
+        print('The data is', data)
         request_type = get_request_type(data)
+        print('The request type is', data)
+        print(request_type)
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
                 if postback_payload == 'NORMAN_GET_HELP':
