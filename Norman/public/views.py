@@ -7,7 +7,6 @@ blueprint = Blueprint('public', __name__, static_folder='../static')
 
 @blueprint.route('/', methods=['GET'])
 def home():
-
     return render_template('landingpage/indexed.html')
 
 
@@ -15,3 +14,7 @@ def home():
 def privacy():
     return render_template('landingpage/privacy.html')
 
+
+@blueprint.route('/services', methods=['GET'])
+def services():
+    return render_template('landingpage/services.html')
