@@ -1,4 +1,4 @@
-# Everything needed in production
+pi# Everything needed in production
 
 # Flask
 Flask==0.12
@@ -39,3 +39,6 @@ Flask-DebugToolbar==0.10.1
 
 #Facebook
 pymessenger
+
+#chat
+pyyaml

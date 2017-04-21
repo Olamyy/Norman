@@ -50,6 +50,10 @@ pyyaml
 #Mail
 flask-mail
 
-#chat
+# chat
 chatterbot
 apiai
+
+# files
+Flask-Excel
+pyexcel-xls
