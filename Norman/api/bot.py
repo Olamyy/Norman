@@ -6,8 +6,8 @@ from flask_restful import Resource
 from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
-from Norman.messenger.Utils import get_request_type, postback_events, handle_help, handle_get_started, \
-    handle_get_started_meaning, handle_get_started_how, get_started_user_service_list, get_started_service_list
+from Norman.messenger.Utils import get_request_type, postback_events
+from Norman.messenger.sendAPI import PostBackMessages
 from Norman.utils import response
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -57,24 +57,33 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_data()
+        print("The data is", data)
         request_type = get_request_type(data)
+        print("The request_type is", request_type)
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
+                postbackmessages = PostBackMessages(recipient_id)
                 if postback_payload == 'NORMAN_GET_HELP':
-                    handle_help(recipient_id)
+                    print("NORMAN_GET_HELP")
+                    postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
-                    handle_get_started(recipient_id)
+                    print("NORMAN_GET_STARTED_PAYLOAD")
+                    postbackmessages.handle_get_started(recipient_id)
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
-                    handle_get_started_meaning(recipient_id)
+                    print("NORMAN_GET_STARTED_MEANING")
+                    postbackmessages.handle_get_started_meaning()
                 elif postback_payload == 'NORMAN_GET_STARTED_HOW':
-                    handle_get_started_how(recipient_id)
+                    print("NORMAN_GET_STARTED_HOW")
+                    postbackmessages.handle_get_started_how()
                 elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
-                    get_started_user_service_list(recipient_id)
+                    print("NORMAN_GET_USER_SERVICE_LIST")
+                    postbackmessages.get_started_user_service_list()
                 elif postback_payload == 'NORMAN_GET_SERVICE_LIST':
-                    get_started_service_list(recipient_id)
+                    print("NORMAN_GET_SERVICE_LIST")
+                    postbackmessages.get_started_service_list()
 
         elif request_type == "message":
-            pass
+            print("I got to message.")
         return response.response_ok('Success')
         # for event in data['entry']:
         #     print(event)
