@@ -1,29 +1,24 @@
 # from Norman.conversation.norman import norman
+from datetime import datetime
+
 from Norman.conversation.dbutils import UserUtils
 from Norman.conversation.norman import Norman
-from Norman.utils import generate_session_id
+from Norman.utils import last_five_minute
 
 
 class NormanUser:
     def __init__(self, fb_id):
         self.fb_id = fb_id
-        self.user_utils = UserUtils()
-        self.first_message = self.user_utils.is_first_message(self.fb_id)
+        self.first_message = UserUtils(self.fb_id).is_first_message()
         self.instantiated_user = None
         self.session_id = None
-        self.user = self.user_utils.get_one_from_fb_id(self.fb_id)
+        self.user = UserUtils(self.fb_id).get_one_from_fb_id()
 
     def __str__(self):
         return self.user.username
 
     def __repr__(self):
         return '<NormanUser name:%s>' % self.user.username
-
-    def instantiate_user(self):
-        self.session_id = generate_session_id()
-        self.user_utils.update_session_with_fb_id(self.fb_id, self.session_id)
-        self.user_utils.update_first_message(self.fb_id)
-        self.instantiated_user = True
 
     def start_conversation(self, message, is_new=False):
         if is_new:
@@ -37,5 +32,20 @@ class NormanUser:
 
     def get_user_info(self, fb_id=None):
         return self.user
+
+    def process_message(self, message, recipient_id):
+        global current_user
+        if self.user.is_new_user(recipient_id):
+            pass
+        else:
+            current_user = self.user.get_one_from_fb_id()
+
+        current_user.last_seen = datetime.strptime(current_user.last_seen ,"%Y-%m-%d %H:%M:%S")
+        if current_user.last_seen < last_five_minute:
+            self.user.update_last_seen()
+
+        contexts = current_user.contexts
+
+
 
 

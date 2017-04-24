@@ -82,7 +82,7 @@ def class_template(recipient):
 
 curl -X POST -H "Content-Type: application/json" -d '{
   "get_started":{
-    "payload":"GET_STARTED_PAYLOAD"
+    "payload":"NORMAN_GET_STARTED_PAYLOAD"
   }
 }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
 

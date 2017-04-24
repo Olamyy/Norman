@@ -1,6 +1,7 @@
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
+from Norman.norman.user import UserUtils
 from Norman.settings import FBConfig, MessageConfig
 from Norman.utils import response
 
@@ -81,7 +82,6 @@ class Message(object):
             self.payload_structure.pop('notification_type')
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
@@ -149,14 +149,11 @@ class Template(Message):
 class PostBackMessages(Message):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
-
-    # if not Mongo.user_exists(users, sender_id):
-    #     g.user = Mongo.get_user_mongo(users, sender_id)
-    #     return handle_first_time_user(users, g.user)
-    #             self.get_started_user_service_list()
+        self.current_user = UserUtils(recipient_id)
 
     def handle_get_started(self, recipient_id):
-        print("I got to handle_get_started ")
+        if self.current_user.is_first_message():
+            self.current_user.update_first_message()
         user_details = self.user_profile.get_user_details(recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
         quick_replies = [
@@ -168,14 +165,12 @@ class PostBackMessages(Message):
         return response.response_ok('Success')
 
     def handle_get_started_meaning(self):
-        print("I got to handle_get_started_meaning ")
         message_text = MessageConfig.GET_STARTED_MEANING
         quick_replies = [
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
         ]
-        self.send_message("text", message_text=message_text,
-                               quick_replies=quick_replies)
+        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
     def handle_get_started_how(self):

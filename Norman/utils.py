@@ -6,6 +6,7 @@ import os
 import random
 import string
 import uuid
+from datetime import datetime, timedelta
 
 from flask import current_app
 from flask import flash
@@ -50,6 +51,10 @@ def cookie_insertion(redirect_to, cookie_name, cookie_value):
     return response
 
 
+def last_five_minute():
+    return datetime.now() - timedelta(minutes=5)
+
+
 class Response:
 
     def __init__(self):
@@ -62,8 +67,8 @@ class Response:
         return make_response(response)
 
     @staticmethod
-    def response_error(message, error=None):
-        response = json.dumps({'status': 'fail', 'message': message, 'error': error})
+    def response_error(message, error=None, error_code=None):
+        response = json.dumps({'status': 'fail', 'message': message, 'error': error, 'error_code': error_code})
         return make_response(response, 400)
 
 response = Response()

@@ -1,30 +1,19 @@
 from datetime import datetime
 
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask import request
 from flask_excel import ExcelRequest
 from flask_restful import Resource
-
 from mongoengine.errors import NotUniqueError
 
 from Norman.extensions import csrf_protect
 from Norman.logger import Logger
 from Norman.models import Service, Hospital, UserModel
-from Norman.utils import generate_id, hash_data
 from Norman.utils import Response
+from Norman.utils import generate_id, hash_data
 
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
-
-
-@blueprint.route('/isItUp', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def is_it_up():
-    test = UserModel(name="Olamilekan", fb_id='HYDSJJ', email='olamyy58222222222222222@gmail.com').save()
-    # test = Toga(name="Hello").save()
-    if test:
-        return jsonify({'hi': 'hello'})
-    return ()
 
 
 @blueprint.route('/service', methods=['GET', 'POST'])
@@ -215,15 +204,16 @@ class HospitalApi(Resource):
 
     def post(self):
         data = request.get_json()
-        action, hospital_id = data.pop('action', None), data.get('hospital_id', None)
+        action, hospital_id = data.pop('action', None).lower(), data.get('hospital_id', None)
         if not action:
             return Response.response_error('Unable to handle action', 'No action specified.')
         else:
-            if action == "GET":
+            if action == "get":
+                print(action, data)
                 return self.get_hospital(hospital_id)
-            elif action == "CREATE":
+            elif action == "create":
                 return self.create_hospital(data)
-            elif action == "UPDATE":
+            elif action == "update":
                 return self.update_hospital(hospital_id, data)
 
     @staticmethod
@@ -250,8 +240,8 @@ class HospitalApi(Resource):
             create_hospital.save()
             return Response.response_ok(create_hospital)
         except NotUniqueError:
-            self.log.log_error('Unable to create hospital')
-            return Response.response_error('Unable to create hospital', 'Hospital already exists')
+            # self.log.log_error('Unable to create hospital')
+            return Response.response_error('Unable to create hospital', 'Hospital already exists', 'HOSPEXISTS')
 
     @staticmethod
     def disable_hospital(hospital_id):
