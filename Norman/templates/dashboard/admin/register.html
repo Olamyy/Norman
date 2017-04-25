@@ -69,6 +69,7 @@
                     <form class="form-horizontal m-t-20">
                         <div class="form-group ">
                             <input type="hidden" value="{{ config.BASE_URL }}" id="base_url">
+                            <input type="hidden" value="{{ url_for('web.register') }}" id="register_url">
                             <div class="col-xs-12">
                                 <input class="form-control" type="email" id="email" name="email" required="" placeholder="Email">
                             </div>

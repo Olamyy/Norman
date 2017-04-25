@@ -4,6 +4,7 @@ from flask import url_for
 
 from Norman.auth.auth_utils import HospitalUtil, ServiceUtil
 from Norman.auth.forms import LoginForm, VerificationForm
+from Norman.mailer.mail import NormanMailer
 from Norman.settings import ErrorConfig
 from Norman.utils import validate_hashes
 
@@ -39,8 +40,8 @@ def dashboard():
     hospital = hospitalObj.get_current_user_instance()
     if not hospital.active:
         return redirect(url_for('dashboard.verify'))
-    if not hospital.has_selected_services:
-        return redirect(url_for('dashboard.choose_services'))
+    # mailer = NormanMailer('omodara145@gmail.com')
+    # mailer.send_mail('Hello Ismail')
     return render_template('dashboard/admin/dashboard.html', hospital=hospital)
 
 

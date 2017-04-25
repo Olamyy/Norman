@@ -44,14 +44,14 @@ class Hospital(db.Document):
     hospital_id = db.StringField(required=True, max_length=10, min_length=3, unique=True)
     image = db.StringField(required=False, max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
-    plan_id = db.StringField(required=True, max_length=200, min_length=3)
+    # plan_id = db.StringField(required=True, max_length=200, min_length=3)
     reg_num = db.StringField(required=True, max_length=200, min_length=3, unique=True)
     active = db.BooleanField(default=False)
     tempID = db.StringField(required=True, max_length=200, min_length=3)
     verificationID = db.StringField(required=True, max_length=4, min_length=4)
     disabled = db.BooleanField(default=False)
     is_logged_in = db.BooleanField(default=False)
-    has_selected_services = db.BooleanField(default=False)
+    # has_selected_services = db.BooleanField(default=False)
 
     def __repr__(self):
         """Represent instance as a unique string."""

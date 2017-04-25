@@ -38,7 +38,7 @@ class Message(object):
         :param action: - typing_on, typing_off, mark_as_read
         """
         # clean up payload
-        self.payload_structure.pop('message')
+        # self.payload_structure.pop('message')
         self.payload_structure.pop('notification_type')
         self.payload_structure['sender_action'] = action
 
@@ -161,16 +161,35 @@ class PostBackMessages(Message):
         self.current_user = UserUtils(recipient_id)
 
     def handle_get_started(self, recipient_id):
+        template = Template(recipient_id)
         if self.current_user.is_first_message():
             self.current_user.update_first_message()
         user_details = self.user_profile.get_user_details(recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
-        quick_replies = [
-            {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
-            {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
-            {"content_type": "text", "title": "What services do you offer", "payload": "NORMAN_GET_SERVICE_LIST"}
-        ]
-        self.send_message("text", message_text=message_text,  quick_replies=quick_replies)
+        norman_get_started_meaning = {
+            "title": "Quick Help",
+            "image_url": "https://ca858b96.ngrok.io/static/landing/images/",
+            "subtitle": "View a list of FAQs on our site",
+            "default_action": {
+                "type": "web_url",
+                "url": "https://ca858b96.ngrok.io#faqs-section",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://ca858b96.ngrok.io/"
+            },
+            "buttons": [
+                {
+                    "title": "Shop Now",
+                    "type": "web_url",
+                    "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
+                    "messenger_extensions": True,
+                    "webview_height_ratio": "tall",
+                    "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                }
+            ]
+        }
+        self.send_message("text", message_text=message_text)
+        template.send_template_message(template_type='list', list_info=[norman_get_started_meaning])
         return response.response_ok('Success')
 
     def handle_get_started_meaning(self):

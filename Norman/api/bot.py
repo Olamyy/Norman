@@ -58,13 +58,16 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_data()
+        print('The data is', data)
         request_type = get_request_type(data)
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
+                print("I got a payload")
                 postbackmessages = PostBackMessages(recipient_id)
                 if postback_payload == 'NORMAN_GET_HELP':
                     postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
+                    print("I got to get started")
                     postbackmessages.handle_get_started(recipient_id)
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
                     postbackmessages.handle_get_started_meaning()
@@ -81,9 +84,10 @@ class WebHook(Resource):
                     return response.response_ok('Success')
                 messenger = Message(recipient_id)
                 norman = NormanUser(recipient_id)
-                messenger.send_action('typing_on')
+
+                # messenger.send_action('typing_on')
                 message_response = norman.process_message(message, recipient_id)
-                messenger.send_action('typing_off')
+                # messenger.send_action('typing_off')
         return response.response_ok('Success')
 
 
