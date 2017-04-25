@@ -16,16 +16,6 @@ from Norman.utils import Response as response
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 
 
-@blueprint.route('/isItUp', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def isItUp():
-    test = UserModel(name="Olamilekan", fb_id='HYDSJJ', email='olamyy58222222222222222@gmail.com').save()
-    # test = Toga(name="Hello").save()
-    if test:
-        return jsonify({'hi': 'hello'})
-    return ()
-
-
 @blueprint.route('/hospital', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def register():
