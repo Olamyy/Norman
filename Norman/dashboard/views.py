@@ -145,4 +145,5 @@ def verify():
 
 @blueprint.route('/records', methods=['GET'])
 def records():
-    return render_template('dashboard/admin/records.html')
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/records.html', hospital=hospital)
