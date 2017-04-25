@@ -1,0 +1,164 @@
+{% include 'header.html' %}
+
+<section style=" height:0%;" class="main-slider" id="banner">
+        <div class="tp-banner-container">
+            <div class="tp-banner">
+                <ul>
+                    <li data-transition="fade" data-slotamount="1" data-masterspeed="1000" data-thumb="images/main-slider/medical-image.jpg"  data-saveperformance="off"  data-title="Awesome Title Here">
+                    <img src="{{ url_for('static', filename='landing/images/medical-image.jpg') }}"  alt=""  data-bgposition="center top" data-bgfit="cover" data-bgrepeat="no-repeat">
+                     <div class="tp-caption sfl sfb tp-resizeme col-sm-12 col-xs-12"
+                    data-x="center" data-hoffset="15"
+                    data-y="center" data-voffset="30"
+                    data-speed="1500"
+                    data-start="500"
+                    data-easing="easeOutExpo"
+                    data-splitin="none"
+                    data-splitout="none"
+                    data-elementdelay="0.01"
+                    data-endelementdelay="0.3"
+                    data-endspeed="1200"
+                    data-endeasing="Power4.easeIn"><div class="text">
+                    <h2 style="text-align-all:center;" class="text-center">SERVICES</h2>
+                </div></div>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+  	<!--End Main Slider-->
+
+
+    <!--Pricing Section-->
+    <section class="pricing-section" id="pricing-section">
+    	<div class="auto-container">
+        	<!--Title-->
+        	<div class="sec-title centered">
+            	<h2>Norman Services</h2>
+                <div class="desc-text">Norman currently offers the following services.</div>
+            </div>
+
+            <div class="row clearfix">
+            	<!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                            <div class="price">Reminder</div>
+                        </div>
+                        <div class="text-center">
+                        <p>
+                            This service handles all reminder related events.
+It tries to unburden your patient from excessively remembering some things by providing the following features:
+                        </p>
+                        </div>
+                        <ul class="specs-list">
+                                <li>Drug use Reminder</li>
+                                <li>Appointment Reminders</li>
+                                <li>User Specific Reminders</li>
+                            </ul>
+                    </div>
+                </div>
+
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                            <div class="price">Appointment/ <br>Scheduling</div>
+                        </div>
+                        <div class="text-center">
+                        <p>
+                          This service allows patients to fix appointment at hospital.
+                        </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                            <div class="price">Real-Time <br>Messaging</div>
+                        </div>
+                        <div class="text-center">
+                        <p>
+This service provides a real time messaging interface between your patient's social media platform and you.
+You can get in real time all messages a user sends in your registered email and also your Norman Dashboard.
+                        </p>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                            <div class="price">Inventory</div>
+                        </div>
+                        <div class="text-center">
+                        <p>
+                          This services allows hospital keep track of patients registered under them.
+                        </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                            <div class="price">Emergency</div>
+                        </div>
+                        <div class="text-center">
+                        <p>
+                            The emergency service handles all emergency related activities.
+It helps by providing a platform for:
+                        </p>
+                        </div>
+                        <ul class="specs-list">
+                            <li>Patients to alert hospitals in times of emergencies.</li>
+                        <li> Patients to get  emergency real-time help from their hospitals(if its available).
+</li>
+                            <li>Hospitals to serve patients better</li>
+                        </ul>
+                    </div>
+                </div>
+
+{#                <!--Price COlumn-->#}
+{#                <div class="price-column col-md-4 col-sm-6 col-xs-12">#}
+{#                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">#}
+{#                    	<div class="price-header">#}
+{#                            <div class="price">Diagnosis</div>#}
+{#                        </div>#}
+{#                        <div class="text-center">#}
+{#                        <p>#}
+{#                          This service allows for users to book appointment for diagnosis.#}
+{#                        </p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+
+                <!--Price COlumn-->
+                <div class="price-column col-md-4 col-sm-6 col-xs-12">
+                	<div class="inner-box wow fadeIn" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    	<div class="price-header">
+                            <div class="price">Payment</div>
+                        </div>
+                        <div class="text-center">
+                        <p>
+                          This service allows for users to make painless and stress-free payment.
+                        </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+
+
+{% include 'footer.html' %}

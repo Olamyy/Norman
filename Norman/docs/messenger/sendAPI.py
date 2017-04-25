@@ -1,4 +1,4 @@
-from Norman.messenger.sendAPI import Message
+from Norman.messenger.sendAPI import Message, Template
 
 """
     Examples on how to you sendAPI class in your code
@@ -93,7 +93,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
                     "default_action": {
                         "type": "web_url",
                         "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-                        "messenger_extensions": true,
+                        "messenger_extensions": True,
                         "webview_height_ratio": "tall",
                         "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
                                      },
@@ -102,14 +102,14 @@ curl -X POST -H "Content-Type: application/json" -d '{
                             "title": "Shop Now",
                             "type": "web_url",
                             "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
-                            "messenger_extensions": true,
+                            "messenger_extensions": True,
                             "webview_height_ratio": "tall",
                             "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
                         }
                     ]
                 }
 
-    t.send_template_message('template_type=list', list_info=[list_item_one])
+    t.send_template_message(template_type='list', list_info=[list_item_one])
 
     """
 
@@ -142,3 +142,29 @@ curl -X POST -H "Content-Type: application/json" -d '{
 # }
 #
 #
+
+if __name__ == '__main__':
+    t = Template('1458692752478')
+    list_item_one = {
+        "title": "Classic White T-Shirt",
+        "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
+        "subtitle": "100% Cotton, 200% Comfortable",
+        "default_action": {
+            "type": "web_url",
+            "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+            "messenger_extensions": True,
+            "webview_height_ratio": "tall",
+            "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+        },
+        "buttons": [
+            {
+                "title": "Shop Now",
+                "type": "web_url",
+                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+            }
+        ]
+    }
+    print(t.send_template_message(template_type='list', list_info=[list_item_one]))
