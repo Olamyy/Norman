@@ -27,15 +27,6 @@
         }
     };
 
-    //Todo: Fix this.
-    // var check_for_errors = function () {
-    //               var errors = Cookies.get('error');
-    //               if (errors){
-    //                   Cookies.remove('error');
-    //                   handle_error(errors)
-    //               }
-    // };
-
     var handle_redirect = function (remove, replace) {
                          var url = window.location.href.replace(remove, '');
                          window.location.href = url+replace;
@@ -72,8 +63,30 @@
                              handle_error('Your passwords should be more than 8 characters.', 'error')
                          }
                          else{
-                             Cookies.set('payload', payload);
-                             window.location.href = 'register/plans';
+                             var  register_url  = $('#register_url').val();
+                             console.log(register_url);
+                             $.ajax({
+                                   url : register_url,
+                                   type:  "POST",
+                                   data : JSON.stringify(payload),
+                                   contentType: 'application/json',
+                                   dataType:"json",
+                                   success : function (response) {
+                                       var ver_id = response[0].data.tempID;
+                                       var replace = '?action=verify&verID='+ver_id;
+                                       handle_redirect('/register', replace)
+                                   },
+                                   error : function(xhr, errmsg, err){
+                                                console.log(xhr);
+                                                if (xhr.responseJSON.error_code == 'HOSPEXISTS'){
+                                                    localStorage.setItem('errors', 'Hospital already exists');
+                                                    handle_redirect('/plans', '')
+                                                }
+                                                // handle_redirect('/plans', '')
+                           }
+                            })
+
+
                          }
 
                          }
@@ -83,42 +96,52 @@
          })
     };
 
-    var finishRegistration = function () {
-                $("button[type=submit]").on('click', function() {
-                  var plan_id = this.id;
-                  var payload = Cookies.getJSON('payload');
-                  payload['plan_id'] = plan_id;
-
-                var  register_url  = $('#register_url').val();
-                $.ajax({
-
-                           url : register_url,
-                           type:  "POST",
-                           data : JSON.stringify(payload),
-                           contentType: 'application/json',
-                           dataType:"json",
-                           success : function (response) {
-                               console.log(response[0].data);
-                               var ver_id = response[0].data.tempID;
-                               var replace = '?action=verify&verID='+ver_id;
-                               handle_redirect('/plans', replace)
-                           },
-                           error : function(xhr, errmsg, err){
-                                        Cookies.set('errors', 'Hospital already exists');
-                                        console.log(xhr)
-                                        // handle_redirect('/plans', '')
-                           }
-                            })
-                });
-    };
+    // var finishRegistration = function () {
+    //             $("button[type=submit]").on('click', function() {
+    //               var plan_id = this.id;
+    //               var payload = Cookies.getJSON('payload');
+    //               payload['plan_id'] = plan_id;
+    //
+    //             var  register_url  = $('#register_url').val();
+    //             console.log(register_url);
+    //             $.ajax({
+    //
+    //                        url : register_url,
+    //                        type:  "POST",
+    //                        data : JSON.stringify(payload),
+    //                        contentType: 'application/json',
+    //                        dataType:"json",
+    //                        success : function (response) {
+    //                            var ver_id = response[0].data.tempID;
+    //                            var replace = '?action=verify&verID='+ver_id;
+    //                            handle_redirect('/plans', replace)
+    //                        },
+    //                        error : function(xhr, errmsg, err){
+    //                                     if (xhr.responseJSON.error_code == 'HOSPEXISTS'){
+    //                                         localStorage.setItem('errors', 'Hospital already exists');
+    //                                         handle_redirect('/plans', '')
+    //                                     }
+    //                                     // handle_redirect('/plans', '')
+    //                        }
+    //                         })
+    //             });
+    // };
 
 
     // check_for_errors();Todo: Uncomment this when function is fixed.
 
+    var check_for_errors = function () {
+                 var  errors = localStorage.getItem('errors');
+                  if (errors){
+                      localStorage.removeItem('errors');
+                      handle_error(errors)
+                  }
+    };
+
+    check_for_errors();
+
     handle_alerts('/dashboard/service-info', 'Choose Services', 'Choose the services of your choice to move on.');
 
     startRegistration();
-
-    finishRegistration();
 
 })(window.jQuery);

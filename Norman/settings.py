@@ -105,19 +105,6 @@ class TestConfig(Config):
     MONGOALCHEMY_DATABASE = "norman"
 
 
-class MailerConfig(Config):
-    MAIL_SERVER = ''
-    MAIL_PORT = 25
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_DEBUG = True
-    MAIL_USERNAME = None
-    MAIL_PASSWORD = None
-    MAIL_DEFAULT_SENDER = None
-    MAIL_MAX_EMAILS = None
-    MAIL_ASCII_ATTACHMENTS = False
-
-
 class ErrorConfig(Config):
     INVALID_VER_ID_ERROR = "Invalid/Expired Verification ID"
     INVALID_ROUTE_ERROR = "Looks like you do not have access to this page."
@@ -133,5 +120,17 @@ class MessageConfig(Config):
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
                       "hospitals assigns me to monitor on you."
     GET_STARTED_SERVICE_LIST = ""
-
     GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"
+
+
+class MailConfig(Config):
+    # email server
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'olamyy53@gmail.com')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'haleeyah')
+
+    # administrator list
+    ADMINS = "olamyy53@gmail.com"

@@ -60,13 +60,16 @@
                     <h4 class="text-muted font-bold m-b-0">Create an Hospital Account</h4>
                 </div>
                 <br>
-                <div id="error">
-
-                </div>
+                  {% if error %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                              aria-hidden="true">&times;</span></button>{{ error }}</div>'
+                  {% endif %}
                 <div class="panel-body">
                     <form class="form-horizontal m-t-20">
                         <div class="form-group ">
                             <input type="hidden" value="{{ config.BASE_URL }}" id="base_url">
+                            <input type="hidden" value="{{ url_for('web.register') }}" id="register_url">
                             <div class="col-xs-12">
                                 <input class="form-control" type="email" id="email" name="email" required="" placeholder="Email">
                             </div>

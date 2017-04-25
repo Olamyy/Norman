@@ -21,7 +21,7 @@ class Utils:
         """
         pass 
     
-    def get_one_from_fb_id(self, id):
+    def get_one_from_fb_id(self):
         """
         Get a single  instance of a user or hospital
         :param id:
@@ -50,11 +50,11 @@ class Utils:
 
 
 class UserUtils(Utils):
-    def __init__(self):
+    def __init__(self, fb_id):
         self.userdb = UserModel
         self.id = None
         self.email = None
-        self.fb_id = None
+        self.fb_id = fb_id
         self.username = None
         self.session_id = None
         self.hospital_id = None
@@ -73,9 +73,9 @@ class UserUtils(Utils):
         except DoesNotExist:
                 return None  
     
-    def get_one_from_fb_id(self, fb_id):
+    def get_one_from_fb_id(self):
         try:
-            user = self.userdb.objects.get(fb_id=fb_id)
+            user = self.userdb.objects.get(fb_id=self.fb_id)
             if user:
                 self.id = user.id
                 self.email = user.email
@@ -87,12 +87,9 @@ class UserUtils(Utils):
         except DoesNotExist:
                 return False
 
-    def update(self, match, updates, match_field_name, update_field_name):
-        return True if self.userdb.objects.filter(match_field_name=match).update(update_field_name=updates) else False
-
-    def is_first_message(self, fb_id):
+    def is_first_message(self):
         try:
-            user = self.userdb.objects.get(fb_id=fb_id, has_sent_first_message=True)
+            user = self.userdb.objects.get(fb_id=self.fb_id, has_sent_first_message=True)
             if user:
                 return True
         except DoesNotExist:
@@ -104,5 +101,5 @@ class UserUtils(Utils):
     def update_session_with_fb_id(self, fb_id, session_id):
         pass
 
-    def update_first_message(self, fb_id):
-        pass
+    def update_first_message(self):
+        self.userdb.objects.filter(fb_id=self.fb_id).update(has_sent_first_message=True)
