@@ -164,12 +164,17 @@
                                 </ul>
                             </li>
 
-{#                            <li>#}
-{#                                <a href="{{ url_for('dashboard.profile') }}" class="waves-effect "><i class="zmdi zmdi-account"></i> <span> Profile </span> </a>#}
-{#                            </li>#}
-
                             <li>
-                                <a href="{{ url_for('dashboard.password_reset') }}" class="waves-effect "><i class="zmdi zmdi-pin-assistant"></i> <span> Password Reset</span> </a>
+                                <a href="{{ url_for('dashboard.records') }}" class="waves-effect "><i class="zmdi zmdi-view-list"></i> <span> Records </span> </a>
+                            </li>
+
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-hospital-alt"></i> <span> Settings </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                   <li>
+                                <a href="{{ url_for('dashboard.password_reset') }}">Password Reset</a>
+                            </li>
+                                </ul>
                             </li>
 
                             <li>

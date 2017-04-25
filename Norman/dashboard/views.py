@@ -21,16 +21,17 @@ def login():
     if action == "invalidRoute":
         error = ErrorConfig.INVALID_ROUTE_ERROR
     if request.method == "POST" and "email" in request.form:
-            email = request.form["email"]
-            hospital_user = hospitalObj.validate_email(email)
-            if hospital_user and validate_hashes(request.form["password"], hospital_user.password) and hospital_user.is_active:
-                if hospitalObj.login_user_updates(hospital_user.id):
-                    hospitalObj.write_to_session('current_user', str(hospital_user))
-                    return redirect(url_for('dashboard.dashboard'))
-                else:
-                    return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
+        email = request.form["email"]
+        hospital_user = hospitalObj.validate_email(email)
+        if hospital_user and validate_hashes(request.form["password"],
+                                             hospital_user.password) and hospital_user.is_active:
+            if hospitalObj.login_user_updates(hospital_user.id):
+                hospitalObj.write_to_session('current_user', str(hospital_user))
+                return redirect(url_for('dashboard.dashboard'))
             else:
                 return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
+        else:
+            return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
     return render_template('dashboard/admin/login.html', form=form, error=error)
 
 
@@ -135,7 +136,13 @@ def verify():
                 hospital.update_active(verificationID)
                 return redirect(url_for('dashboard.dashboard'))
             else:
-                return render_template('dashboard/admin/verify.html', hospital=hospital, error=ErrorConfig.INVALID_VER_ID_ERROR , form=form)
+                return render_template('dashboard/admin/verify.html', hospital=hospital,
+                                       error=ErrorConfig.INVALID_VER_ID_ERROR, form=form)
         return render_template('dashboard/admin/verify.html', hospital=hospital, form=form)
     else:
         return redirect(url_for('dashboard.login', action="invalidRoute"))
+
+
+@blueprint.route('/records', methods=['GET'])
+def records():
+    return render_template('dashboard/admin/records.html')
