@@ -121,11 +121,11 @@ class UserAPI:
             if not action:
                 return Response.response_error('Unable to handle action', 'No action specified.')
             else:
-                if action == "GET":
+                if action.upper() == "GET":
                     return self.get(user_id)
-                elif action == "CREATE":
+                elif action.upper() == "CREATE":
                     return self.add_user(data)
-                elif action == "UPDATE":
+                elif action.upper() == "UPDATE":
                     return self.update_user(user_id, data)
                 else:
                     return Response.response_error('Unable to handle action', 'Invalid action')
@@ -133,7 +133,7 @@ class UserAPI:
             data = ExcelRequest(request.environ)
             action = data.form.get('action')
             if action:
-                if action == 'CREATE':
+                if action.upper() == 'CREATE':
                     return self.add_users(data)
             else:
                 return Response.response_error('Unable to handle action', 'No action specified.')

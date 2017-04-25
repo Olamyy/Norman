@@ -130,7 +130,10 @@ class Template(Message):
         if kwargs.get("buttons"):
             self.payload_structure['message']["attachment"]["payload"]['buttons'] = [kwargs.get('buttons')]
         else:
-            self.payload_structure.pop('buttons')
+            try:
+                self.payload_structure.pop('buttons')
+            except KeyError:
+                pass
 
         # clean up payload
         self.payload_structure.pop('sender_action')
@@ -139,6 +142,12 @@ class Template(Message):
             self.payload_structure['notification_type'] = notification_type
         else:
             self.payload_structure.pop('notification_type')
+        quick_replies = kwargs.get('notification_type')
+        if quick_replies:
+            self.payload_structure['quick_replies'] = quick_replies
+        else:
+            self.payload_structure['message'].pop('quick_replies')
+        self.payload_structure['message'].pop('text')
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
