@@ -63,7 +63,7 @@ class HospitalUtil(UserMixin):
                 self.name = hospital.name
                 self.id = hospital.id
                 self.tempID = hospital.tempID
-                self.has_selected_services = hospital.has_selected_services
+                # self.has_selected_services = hospital.has_selected_services
                 print(self.email)
                 return self
             else:
