@@ -6,8 +6,6 @@ from flask_excel import ExcelRequest
 from flask_restful import Resource
 
 from mongoengine.errors import NotUniqueError
-
-
 from Norman.auth.auth_utils import HospitalUtil
 from Norman.extensions import csrf_protect
 from Norman.logger import Logger
@@ -167,7 +165,9 @@ class UserAPI:
         data['user_id'] = generate_id(10)
         user_details = UserModel(**data)
         try:
-            user_details.save()
+            if user_details.save():
+                # @Todo: Handle Link Generation and Patient Email Handling here
+                pass
         except NotUniqueError as e:
             return Response.response_error('Unable to add user', str(e))
         return Response.response_ok(user_details)
@@ -224,6 +224,7 @@ class HospitalApi(Resource):
                                    reg_num=data['reg_num'],
                                    created_at=datetime.now(),
                                    hospital_id=generate_id(10),
+                                   plan_id=data['plan_id'],
                                    password=hashed_password,
                                    tempID=data['temp_id'],
                                    verificationID=generate_id(4),
