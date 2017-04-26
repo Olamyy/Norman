@@ -4,9 +4,8 @@ from flask import Blueprint, jsonify
 from flask import request
 from flask_excel import ExcelRequest
 from flask_restful import Resource
-
 from mongoengine.errors import NotUniqueError
-
+from Norman.auth.auth_utils import HospitalUtil
 from Norman.extensions import csrf_protect
 from Norman.logger import Logger
 from Norman.models import Service, Hospital, UserModel
@@ -15,16 +14,6 @@ from Norman.utils import Response
 
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
-
-
-@blueprint.route('/isItUp', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def is_it_up():
-    test = UserModel(name="Olamilekan", fb_id='HYDSJJ', email='olamyy58222222222222222@gmail.com').save()
-    # test = Toga(name="Hello").save()
-    if test:
-        return jsonify({'hi': 'hello'})
-    return ()
 
 
 @blueprint.route('/service', methods=['GET', 'POST'])
@@ -115,7 +104,6 @@ def users():
 class UserAPI:
     def __init__(self):
         self.user_object = UserModel
-        pass
 
     def get(self, user_id=None):
         user_id = request.args.get('user_id', user_id)
@@ -149,25 +137,6 @@ class UserAPI:
             else:
                 return Response.response_error('Unable to handle action', 'No action specified.')
 
-    def validate_fb_id(self, fb_id):
-        if not self.user_object.objects.get(fb_id=fb_id):
-            return False
-        else:
-            return True
-
-    def validate_user_id(self, user_id):
-        if not self.user_object.objects.filter(username=user_id):
-            return False
-        else:
-            return True
-
-    def validate_user(self, _id):
-        if self.user_object.objects.filter(is_verified=False, fb_id=_id) or not \
-                self.user_object.objects.filter(is_verified=False, user_id=_id):
-            return False
-        else:
-            return True
-
     @staticmethod
     def add_users(data):
         hospital_id = data.form.get('hospital_id')
@@ -185,7 +154,9 @@ class UserAPI:
         data['user_id'] = generate_id(10)
         user_details = UserModel(**data)
         try:
-            user_details.save()
+            if user_details.save():
+                ##@Todo: Handle Link Generation and Patient Email Handling here
+                pass
         except NotUniqueError as e:
             return Response.response_error('Unable to add user', str(e))
         return Response.response_ok(user_details)
@@ -201,7 +172,7 @@ class UserAPI:
 
 @blueprint.route('/hospital', methods=['GET', 'POST'])
 @csrf_protect.exempt
-def register_hospital():
+def hospital():
     view_class = HospitalApi()
     if request.method == "GET":
         return view_class.get_hospital()
@@ -212,6 +183,7 @@ def register_hospital():
 class HospitalApi(Resource):
     def __init__(self):
         self.log = Logger()
+        self.hospital_util = HospitalUtil()
 
     def post(self):
         data = request.get_json()
@@ -241,14 +213,14 @@ class HospitalApi(Resource):
                                    reg_num=data['reg_num'],
                                    created_at=datetime.now(),
                                    hospital_id=generate_id(10),
-                                   plan_id=data['plan_id'],
                                    password=hashed_password,
                                    tempID=data['temp_id'],
                                    verificationID=generate_id(4),
                                    )
         try:
-            create_hospital.save()
-            return Response.response_ok(create_hospital)
+            if create_hospital.save():
+                self.hospital_util.write_to_session('current_user', data['temp_id'])
+                return Response.response_ok(create_hospital)
         except NotUniqueError:
             self.log.log_error('Unable to create hospital')
             return Response.response_error('Unable to create hospital', 'Hospital already exists')

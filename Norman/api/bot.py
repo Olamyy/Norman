@@ -3,11 +3,11 @@ from flask import make_response
 from flask import request
 from flask_restful import Resource
 
-from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
-from Norman.messenger.Utils import get_request_type, postback_events
-from Norman.messenger.sendAPI import PostBackMessages
+from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
+from Norman.messenger.sendAPI import PostBackMessages, Message
+from Norman.norman.user import NormanUser
 from Norman.utils import response
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
@@ -57,57 +57,36 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_data()
-        print("The data is", data)
         request_type = get_request_type(data)
-        print("The request_type is", request_type)
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
                 postbackmessages = PostBackMessages(recipient_id)
+                print(postback_payload)
                 if postback_payload == 'NORMAN_GET_HELP':
-                    print("NORMAN_GET_HELP")
                     postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
-                    print("NORMAN_GET_STARTED_PAYLOAD")
                     postbackmessages.handle_get_started(recipient_id)
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
-                    print("NORMAN_GET_STARTED_MEANING")
                     postbackmessages.handle_get_started_meaning()
                 elif postback_payload == 'NORMAN_GET_STARTED_HOW':
-                    print("NORMAN_GET_STARTED_HOW")
                     postbackmessages.handle_get_started_how()
                 elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
-                    print("NORMAN_GET_USER_SERVICE_LIST")
                     postbackmessages.get_started_user_service_list()
                 elif postback_payload == 'NORMAN_GET_SERVICE_LIST':
-                    print("NORMAN_GET_SERVICE_LIST")
                     postbackmessages.get_started_service_list()
 
         elif request_type == "message":
-            print("I got to message.")
-        return response.response_ok('Success')
-        # for event in data['entry']:
-        #     print(event)
-        #     messaging = event['messaging']
-        #     print(messaging)
-        #     for action in messaging:
-        #         print(action)
-        #         recipient_id = action['sender']['id']
-        #         self.message = Message(recipient_id)
-        #         if action.get('message'):
-        #             self.message.send_message(message_type='text', message_text='Hello')
-        #             return response.response_ok('Success')
-        #         else:
-        #             self.message.handle_payload(action, recipient_id)
-        #             return response.response_ok('Success')
-        #     return response.response_ok('Success')
+            for recipient_id, message in messaging_events(data):
+                if not message:
+                    return response.response_ok('Success')
+                messenger = Message(recipient_id)
+                norman = NormanUser(recipient_id)
 
-
-def ai_response(message_text):
-    ai = AI()  # create AI instance
-    ai.parse(message_text)
-    if ai.match_successful:
-        message = ai.text
-    else:
-        message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
-    return message
-
+                messenger.show_typing(recipient_id, 'typing_on')
+                message_response = norman.process_message(message, recipient_id)
+                messenger.show_typing(recipient_id, 'typing_off')
+                if message_response is not None and message_response != 'pseudo':
+                    messenger.send_message(recipient_id, message_response)
+                elif response != 'pseudo':
+                    pass
+                return response.response_ok('Success')

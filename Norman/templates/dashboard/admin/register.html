@@ -51,6 +51,7 @@
                     <form class="form-horizontal m-t-20">
                         <div class="form-group ">
                             <input type="hidden" value="{{ config.BASE_URL }}" id="base_url">
+                            <input type="hidden" value="{{ url_for('web.hospital') }}" id="register_url">
                             <div class="col-xs-12">
                                 <input class="form-control" type="email" id="email" name="email" required="" placeholder="Email">
                             </div>
@@ -61,13 +62,11 @@
                                 <input class="form-control" type="text" id="name" name="name" required="" placeholder="Name of Hospital">
                             </div>
                         </div>
-
                         <div class="form-group ">
                             <div class="col-xs-12">
                                 <input class="form-control" type="text" id="reg_num" name="reg_no_hospital" required="" placeholder="Enter your Hospital Registered Number">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <input class="form-control" name="password" id="password" type="password" required="" placeholder="Password">

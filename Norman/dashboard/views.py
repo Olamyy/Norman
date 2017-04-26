@@ -40,8 +40,8 @@ def dashboard():
     hospital = hospitalObj.get_current_user_instance()
     if not hospital.active:
         return redirect(url_for('dashboard.verify'))
-    if not hospital.has_selected_services:
-        return redirect(url_for('dashboard.choose_services'))
+    # mailer = NormanMailer('omodara145@gmail.com')
+    # mailer.send_mail('Hello Ismail')
     return render_template('dashboard/admin/dashboard.html', hospital=hospital)
 
 
