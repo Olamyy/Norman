@@ -105,10 +105,33 @@ class TestConfig(Config):
     MONGOALCHEMY_DATABASE = "norman"
 
 
+class MailerConfig(Config):
+    MAIL_SERVER = ''
+    MAIL_PORT = 25
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    MAIL_DEBUG = True
+    MAIL_USERNAME = None
+    MAIL_PASSWORD = None
+    MAIL_DEFAULT_SENDER = None
+    MAIL_MAX_EMAILS = None
+    MAIL_ASCII_ATTACHMENTS = False
+
+
 class ErrorConfig(Config):
     INVALID_VER_ID_ERROR = "Invalid/Expired Verification ID"
     INVALID_ROUTE_ERROR = "Looks like you do not have access to this page."
     INVALID_LOGIN_ERROR = "Invalid Email or Password"
+    INVALID_ID_ERROR = "The provided ID is invalid"
+    UNABLE_TO_SET_PASSWORD_ERROR = "Unable to set the provided password"
+
+    @classmethod
+    def get_error_by_code(cls, error_code):
+        error_dict = {'invalidRoute': 'Looks like you do not have access to this page.',
+                      'somethingWrong': 'Ooops. Something wrong happened.',
+                      'UnableToSetPassword': 'Unable to set the provided password'
+                      }
+        return [message for action, message in error_dict.items() if action == error_code]
 
 
 class MessageConfig(Config):
@@ -121,17 +144,4 @@ class MessageConfig(Config):
                       "hospitals assigns me to monitor on you."
     GET_STARTED_SERVICE_LIST = ""
 
-    GET_HELP_MESSAGE = ""
-
-
-class MailConfig(Config):
-    # email server
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'olamyy53@gmail.com')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'haleeyah')
-
-    # administrator list
-    ADMINS = "olamyy53@gmail.com"
+    GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"

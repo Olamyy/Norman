@@ -3,11 +3,15 @@ from flask import json
 
 def get_request_type(payload):
     data = json.loads(payload)
+    print(data["entry"][0]["messaging"][0])
     if "postback" in data["entry"][0]["messaging"][0]:
         return "postback"
 
-    elif "message" in data["entry"][0]["messaging"][0]:
-        return "message"
+    elif "referral" in data["entry"][0]["messaging"][0]:
+        return "referral"
+
+    elif "messaging" in data["entry"][0]["messaging"][0]:
+        return "referral"
 
 
 def postback_events(payload):

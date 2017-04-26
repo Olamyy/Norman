@@ -27,30 +27,25 @@
                            };
 
             if(payload['password'].length < 5){
-                             handle_error('Your passwords should be more than 8 characters.', 'error')
+                             handle_error('Your passwords should be more than 5 characters.', 'error')
                          }
             else{
 
-                var  register_url  = $('#register_url').val();
+                var  user_api_url  = $('#use_api_url').val();
 
                 $.ajax({
-                    url : register_url,
+                    url : user_api_url,
                     type:  "POST",
                     data : JSON.stringify(payload),
                     contentType: 'application/json',
                     dataType: "json",
                     success : function (response) {
-                                       var ver_id = response[0].data.tempID;
-                                       var replace = '?action=verify&verID='+ver_id;
-                                       handle_redirect('/register', replace)
-                                   },
-                    error : function(xhr, errmsg, err){
-                                     console.log(xhr);
-                                     if (xhr.responseJSON.error_code == 'HOSPEXISTS'){
-                                         localStorage.setItem('errors', 'Hospital already exists');
-                                         handle_redirect('/plans', '')
-                                     }
-                                                // handle_redirect('/plans', '')
+                               console.log(response[0].data);
+                               alert("Your Data has been saved");
+                               //handle_redirect('/plans', replace)
+                           },
+                    error : function(){
+                               alert("An issue occurred");
                            }
                 })
             }

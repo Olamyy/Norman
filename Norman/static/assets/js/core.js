@@ -128,6 +128,35 @@
     // };
 
 
+    var updateHospitalDetails = function () {
+        $("#updateHospital").on('click', function (event) {
+            var payload = {
+                'name': $('#name').val(),
+                'email': $('#email').val(),
+                'address': $('#address').val(),
+                'description': $('#description').val()
+            };
+            var hospital_url= 'api/web/hospital';
+            $.ajax({
+                           url : hospital_url,
+                           type:  "POST",
+                           data : JSON.stringify(payload),
+                           contentType: 'application/json',
+                           dataType:"json",
+                           success : function (response) {
+                               console.log(response[0].data);
+                               alert("Your Data has been saved");
+                               //handle_redirect('/plans', replace)
+                           },
+                           error : function(){
+                               alert("An issue occurred");
+                           }
+            })
+        });
+
+    };
+
+
     // check_for_errors();Todo: Uncomment this when function is fixed.
 
     var check_for_errors = function () {
