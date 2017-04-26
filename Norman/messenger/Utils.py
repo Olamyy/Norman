@@ -3,6 +3,7 @@ from flask import json
 
 def get_request_type(payload):
     data = json.loads(payload)
+    print(data["entry"][0]["messaging"])
     print(data["entry"][0]["messaging"][0])
     if "postback" in data["entry"][0]["messaging"][0]:
         return "postback"

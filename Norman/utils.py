@@ -63,7 +63,7 @@ class Response:
 
     @staticmethod
     def response_ok(data):
-        response = jsonify({'status': 'success', 'data': data}, 201)
+        response = jsonify({'status': 'success', 'data': data}, 200)
         return make_response(response)
 
     @staticmethod

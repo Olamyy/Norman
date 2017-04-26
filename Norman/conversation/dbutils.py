@@ -1,63 +1,21 @@
+import datetime
+
 from bson import ObjectId
 from mongoengine import DoesNotExist
 
 from Norman.models import UserModel
 
 
-class Utils:
-
-    def save(self):
-        """
-
-        :return:
-        """
-        pass
-
-    def get_one_from_mongo_id(self, id):
-        """
-        Get a single  instance of a user or hospital
-        :param id:
-        :return:
-        """
-        pass 
-    
-    def get_one_from_fb_id(self):
-        """
-        Get a single  instance of a user or hospital
-        :param id:
-        :return:
-        """
-        pass
-
-    def get_multiple(self, condition):
-        """
-        Get multiple instances of user or hospital
-        :param condition:
-        :return:
-        """
-        pass
-
-    def update(self,  match,  update, match_field_name, update_field_name):
-        """
-        Update user or user data
-        :param update_field_name:
-        :param match_field_name:
-        :param update:
-        :param match:
-        :return:
-        """
-        pass
-
-
-class UserUtils(Utils):
-    def __init__(self, fb_id):
+class UserUtils:
+    def __init__(self, recipient_id=None):
         self.userdb = UserModel
+        # self.is_temp_user = True if self.userdb.objects.get(fb_id=recipient_id, has_hospital=False, is_temp_user=True) else False
+        self.is_temp_user = True
+        # self.is_hospital_user = True if self.userdb.objects.get(fb_id=recipient_id, has_hospital=True, is_temp_user=False) else False
         self.id = None
         self.email = None
-        self.fb_id = fb_id
+        self.fb_id = None
         self.username = None
-        self.session_id = None
-        self.hospital_id = None
 
     def get_one_from_mongo_id(self, user_id):
         try:
@@ -73,33 +31,37 @@ class UserUtils(Utils):
         except DoesNotExist:
                 return None  
     
-    def get_one_from_fb_id(self):
+    def get_one_from_fb_id(self, fb_id=None):
+        fb_id = self.fb_id if not fb_id else fb_id
         try:
-            user = self.userdb.objects.get(fb_id=self.fb_id)
+            user = self.userdb.objects.get(fb_id=fb_id)
             if user:
                 self.id = user.id
                 self.email = user.email
                 self.fb_id = user.fb_id
                 self.username = user.username
-                self.session_id = user.session_id
-                self.hospital_id = user.hospital_id
+                self.contexts = user.contexts
                 return self
         except DoesNotExist:
                 return False
 
-    def is_first_message(self):
+    def update(self, match, updates, match_field_name, update_field_name):
+        return True if self.userdb.objects.filter(match_field_name=match).update(update_field_name=updates) else False
+
+    def is_first_message(self, fb_id=None):
+        fb_id = self.fb_id if not fb_id else fb_id
         try:
-            user = self.userdb.objects.get(fb_id=self.fb_id, has_sent_first_message=True)
+            user = self.userdb.objects.get(fb_id=fb_id, has_sent_first_message=False)
             if user:
                 return True
         except DoesNotExist:
             return False
 
-    def update_session(self, user_id, session_id):
+    def update_last_seen(self, user):
+        now = datetime.datetime.now()
+        timestamp = datetime.datetime.strftime(now, "%Y-%m-%d %H:%M:%S")
+        self.userdb.update({"user_id": user.id}, {"$set": {"last_seen": timestamp}})
+
+    def create_temp_user(self, recipient_id):
         pass
 
-    def update_session_with_fb_id(self, fb_id, session_id):
-        pass
-
-    def update_first_message(self):
-        self.userdb.objects.filter(fb_id=self.fb_id).update(has_sent_first_message=True)
