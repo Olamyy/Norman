@@ -172,7 +172,6 @@
       });
     };
 
-
     // check_for_errors();Todo: Uncomment this when function is fixed.
 
     handle_alerts('/dashboard/service-info', 'Choose Services', 'Choose the services of your choice to move on.');
