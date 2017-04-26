@@ -147,3 +147,15 @@ def verify():
 def records():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/records.html', hospital=hospital)
+
+
+@blueprint.route('/patient-settings', methods=['GET'])
+def patient_settings():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/patient-settings.html', hospital=hospital)
+
+
+@blueprint.route('/security-settings', methods=['GET'])
+def security_settings():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/security-settings.html', hospital=hospital)

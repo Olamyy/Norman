@@ -171,9 +171,11 @@
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-hospital-alt"></i> <span> Settings </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
-                                   <li>
-                                <a href="{{ url_for('dashboard.password_reset') }}">Password Reset</a>
-                            </li>
+                                    <li>
+                                        <a href="{{ url_for('dashboard.patient_settings') }}">Patient Settings</a>
+                                        <a href="{{ url_for('dashboard.security_settings') }}">Security Settings</a>
+                                        <a href="{{ url_for('dashboard.password_reset') }}">Password Reset</a>
+                                    </li>
                                 </ul>
                             </li>
 
