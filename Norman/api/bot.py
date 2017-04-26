@@ -3,7 +3,6 @@ from flask import make_response
 from flask import request
 from flask_restful import Resource
 
-from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
@@ -58,16 +57,14 @@ class WebHook(Resource):
 
     def post(self):
         data = request.get_data()
-        print('The data is', data)
         request_type = get_request_type(data)
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
-                print("I got a payload")
                 postbackmessages = PostBackMessages(recipient_id)
+                print(postback_payload)
                 if postback_payload == 'NORMAN_GET_HELP':
                     postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
-                    print("I got to get started")
                     postbackmessages.handle_get_started(recipient_id)
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
                     postbackmessages.handle_get_started_meaning()
@@ -85,18 +82,11 @@ class WebHook(Resource):
                 messenger = Message(recipient_id)
                 norman = NormanUser(recipient_id)
 
-                # messenger.send_action('typing_on')
+                messenger.show_typing(recipient_id, 'typing_on')
                 message_response = norman.process_message(message, recipient_id)
-                # messenger.send_action('typing_off')
-        return response.response_ok('Success')
-
-
-def ai_response(message_text):
-    ai = AI()  # create AI instance
-    ai.parse(message_text)
-    if ai.match_successful:
-        message = ai.text
-    else:
-        message = 'Sorry I can\'t handle such requests for now. Services are coming soon'
-    return message
-
+                messenger.show_typing(recipient_id, 'typing_off')
+                if message_response is not None and message_response != 'pseudo':
+                    messenger.send_message(recipient_id, message_response)
+                elif response != 'pseudo':
+                    pass
+                return response.response_ok('Success')

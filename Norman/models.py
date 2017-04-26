@@ -36,7 +36,7 @@ class Plan(db.Document):
 
 class Hospital(db.Document):
     name = db.StringField(required=True, max_length=200, min_length=3, unique=True)
-    password = db.StringField(required=True, max_length=200, min_length=5)
+    password = db.StringField(required=True, max_length=50, min_length=5)
     address = db.StringField(required=False, max_length=1000, min_length=3)
     description = db.StringField(required=False, max_length=1000, min_length=3)
     specialty = db.StringField(required=False, max_length=1000, min_length=3)
@@ -44,7 +44,6 @@ class Hospital(db.Document):
     hospital_id = db.StringField(required=True, max_length=10, min_length=3, unique=True)
     image = db.StringField(required=False, max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
-    # plan_id = db.StringField(required=True, max_length=200, min_length=3)
     reg_num = db.StringField(required=True, max_length=200, min_length=3, unique=True)
     active = db.BooleanField(default=False)
     tempID = db.StringField(required=True, max_length=200, min_length=3)
@@ -59,7 +58,7 @@ class Hospital(db.Document):
 
 
 class UserModel(db.Document):
-    # username = db.StringField(required=True, max_length=200, min_length=3)
+    username = db.StringField(max_length=200, min_length=3)
     first_name = db.StringField(required=True, max_length=200, min_length=3)
     last_name = db.StringField(required=True, max_length=200, min_length=3)
     email = db.EmailField(required=True, max_length=200, min_length=10, unique=True)
@@ -67,12 +66,18 @@ class UserModel(db.Document):
     fb_id = db.StringField(max_length=200, min_length=3)
     hospital_id = db.StringField(max_length=200, min_length=3)
     plan_id = db.StringField(max_length=200, min_length=3)
+    contexts = db.ListField()
     is_verified = db.BooleanField(default=False)
     is_active = db.BooleanField(default=False)
     is_on_plan = db.BooleanField(default=False)
     created_at = db.DateTimeField(default=datetime.datetime.now())
     session_ids = db.ListField()
     has_sent_first_message = db.BooleanField(default=False)
+    is_temp_user = db.BooleanField(default=True)
+    has_hospital = db.BooleanField(default=False)
+    temp_id = db.StringField(max_length=20, min_length=3)
+    password = db.StringField(max_length=50, min_length=3)
+    reg_num = db.StringField(max_length=50, min_length=3)
 
 
 class Conversation(db.Document):

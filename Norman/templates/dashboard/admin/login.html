@@ -53,7 +53,7 @@
         <div class="clearfix"></div>
         <div class="wrapper-page">
             <div class="text-center">
-                <a href="{{ url_for('public.home') }}" class="logo"><span>Norman<span>Bot</span></span></a>
+                <a href="{{ url_for('public.home') }}" class="logo"><span>Norman</span></a>
                 <h5 class="text-muted m-t-0 font-600">Continue with Norman</h5>
             </div>
             <div class="m-t-40 card-box">
@@ -66,7 +66,7 @@
                             {% if error %}
                                 <div class="alert alert-danger alert-dismissible" role="alert">
                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                              aria-hidden="true">&times;</span></button>{{ error }}</div>'
+                              aria-hidden="true">&times;</span></button>{% for error_msg in error %}{{ error_msg }}{% endfor  %}</div>'
                             {% endif %}
                         <div class="form-group ">
                             <div class="col-xs-12">
