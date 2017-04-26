@@ -34,18 +34,17 @@ class NormanUser:
         return self.user
 
     def process_message(self, message, recipient_id):
-        return
-        # global current_user
-        # if self.user.is_new_user(recipient_id):
-        #     pass
-        # else:
-        #     current_user = self.user.get_one_from_fb_id()
-        #
-        # current_user.last_seen = datetime.strptime(current_user.last_seen ,"%Y-%m-%d %H:%M:%S")
-        # if current_user.last_seen < last_five_minute:
-        #     self.user.update_last_seen()
-        #
-        # contexts = current_user.contexts
+        global current_user
+        if self.user.is_new_user(recipient_id):
+            pass
+        else:
+            current_user = self.user.get_one_from_fb_id()
+
+        current_user.last_seen = datetime.strptime(current_user.last_seen ,"%Y-%m-%d %H:%M:%S")
+        if current_user.last_seen < last_five_minute:
+            self.user.update_last_seen()
+
+        contexts = current_user.contexts
 
 
 
