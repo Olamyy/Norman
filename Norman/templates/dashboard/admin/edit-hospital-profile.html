@@ -28,41 +28,41 @@
 	                                            <div class="form-group col-lg-6">
 	                                                <label class="col-md-2 control-label">Hospital Name</label>
 	                                                <div class="col-md-10">
-	                                                    <input type="text" class="form-control" name="name" placeholder="Hospital Name" ">
+	                                                    <input type="text" class="form-control" value="{{ hospital.name }}" id="name" name="name" placeholder="Hospital Name" >
 	                                                </div>
 	                                            </div>
 	                                            <div class="form-group col-lg-6">
 	                                                <label class="col-md-2 control-label" for="example-email">Email</label>
 	                                                <div class="col-md-10">
-	                                                    <input type="email" id="example-email" name="email" class="form-control" placeholder="Hospital Email">
+	                                                    <input type="email" id="email" name="email" class="form-control" value="{{ hospital.email }}" placeholder="Hospital Email">
 	                                                </div>
 	                                            </div>
 	                                            <div class="form-group col-lg-12">
 	                                                <label class="col-md-2 control-label">Specialties Of Hospital</label>
 	                                                <div class="col-md-10">
-	                                                    <input type="text" value="Surgery,Ambulance,Emergency" name="speciality[]" data-role="tagsinput" placeholder="Add specialty" >
+	                                                    <input type="text" value="Surgery,Ambulance,Emergency" name="speciality[]" data-role="tagsinput" placeholder="Add specialty">
 	                                                </div>
 	                                            </div>
 
                                                 <div class="form-group col-lg-6">
 	                                                <label class="col-md-2 control-label">Address</label>
 	                                                <div class="col-md-10">
-	                                                    <textarea name="address" class="form-control" rows="5" placeholder="Hospital Address"></textarea>
+	                                                    <textarea name="address" class="form-control" id="address" rows="5" placeholder="Hospital Address">{{ hospital.address }}</textarea>
 	                                                </div>
 	                                            </div>
                                                 <div class="form-group col-lg-6">
 	                                                <label class="col-md-2 control-label">Description</label>
 	                                                <div class="col-md-10">
-	                                                    <textarea name="description" class="form-control" placeholder="Hospital Description" rows="5"></textarea>
+	                                                    <textarea name="description" id="description" class="form-control" placeholder="Hospital Description" rows="5">{{ hospital.description }}</textarea>
 	                                                </div>
 	                                            </div>
                                                 <div class="attached-files m-t-30">
                                                     <div class="row">
                                                         <div class="col-sm-12">
                                                             <div class="text-right m-t-30">
-                                                                <a href="{{ url_for('dashboard.edit_hospital_profile') }}" class="btn btn-success waves-effect waves-light">
+                                                                <button id="updateHospital" class="btn btn-success waves-effect waves-light">
                                                                     UPDATE
-                                                                </a>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>

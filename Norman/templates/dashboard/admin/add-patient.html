@@ -8,10 +8,10 @@
                     <div class="container">
 
                         <div class="row">
-                            <div class="col-lg-8 col-lg-offset-2">
+                            <div class="col-lg-12 col-lg-offset-">
                                 <div class="card-box">
 
-                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients</h4>
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients in Batch</h4>
 
                                     <div class="alert alert-info text-center">
                                         This Platform allows you to only upload excel format of patients which includes
@@ -36,8 +36,61 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+                    <div class="container">
+
+                        <div class="row">
+                        	<div class="col-sm-12">
+                        		<div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add A Single Patient</h4>
+
+                        			<div class="row">
+                        				<div class="col-lg-12">
+                        					<form class="form-horizontal" role="form">
+	                                            <div class="form-group col-lg-6">
+	                                                <label class="col-md-2 control-label">First Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="first_name" placeholder="First Name" >
+	                                                </div>
+	                                            </div>
+                                                <div class="form-group col-lg-6">
+	                                                <label class="col-md-2 control-label">Last Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+	                                                </div>
+	                                            </div>
+	                                            <div class="form-group col-lg-6">
+	                                                <label class="col-md-2 control-label" for="example-email">Email</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="email" id="example-email" name="email" class="form-control" placeholder="Patient Email">
+	                                                </div>
+	                                            </div>
+
+                                                <div class="form-group col-lg-6">
+	                                                <label class="col-md-2 control-label" for="example-email">Patient Hospital ID</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="email" id="example-email" name="hospital_id" class="form-control" placeholder="Patient Hospital ID">
+	                                                </div>
+	                                            </div>
+                                                <div class="attached-files m-t-30">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="text-right m-t-30">
+                                                                <a href="/dashboard/edit-hospital-profile" class="btn btn-success waves-effect waves-light">
+                                                                    ADD PATIENT
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+	                                        </form>
+                        				</div>
+                        			</div>
+                        		</div>
+                        	</div>
+                        </div>
                 <footer class="footer">
                     2017 © Norman Bot
                 </footer>

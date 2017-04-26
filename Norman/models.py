@@ -44,7 +44,6 @@ class Hospital(db.Document):
     hospital_id = db.StringField(required=True, max_length=10, min_length=3, unique=True)
     image = db.StringField(required=False, max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
-    # plan_id = db.StringField(required=True, max_length=200, min_length=3)
     reg_num = db.StringField(required=True, max_length=200, min_length=3, unique=True)
     active = db.BooleanField(default=False)
     tempID = db.StringField(required=True, max_length=200, min_length=3)
