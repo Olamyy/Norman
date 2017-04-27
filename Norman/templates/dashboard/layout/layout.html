@@ -118,7 +118,7 @@
                         <h5>{{ hospital.name }} </h5>
                         <ul class="list-inline">
                             <li>
-                                <a href="{{ url_for('dashboard.profile') }}" >
+                                <a href="{{ url_for('dashboard.edit_hospital_profile') }}" >
                                     <i class="zmdi zmdi-settings"></i>
                                 </a>
                             </li>
@@ -143,16 +143,15 @@
                                 <ul class="list-unstyled">
                                     <li><a href="{{ url_for('dashboard.add_patient') }}">Add Patient</a></li>
                                     <li><a href="{{ url_for('dashboard.view_patients') }}">View Patients</a></li>
-                                    <li><a href="">Edit User</a></li>
                                 </ul>
                             </li>
 
                               <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-accounts"></i> <span> Services </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-view-list"></i> <span> Services </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="{{ url_for('dashboard.view_services') }}">View Services</a></li>
                                     <li><a href="{{ url_for('dashboard.edit_services') }}">Edit Services</a></li>
-                                    <li><a href="{{ url_for('dashboard.edit_services') }}">Request <Service></Service></a></li>
+                                    <li><a href="{{ url_for('dashboard.view_services') }}">Request Services</a></li>
                                 </ul>
                             </li>
 
@@ -161,8 +160,7 @@
                                 <ul class="list-unstyled">
                                     <li><a href="{{ url_for('dashboard.view_hospital_profile') }}">View Hospital Details</a></li>
                                     <li><a href="{{ url_for('dashboard.edit_hospital_profile') }}">Edit Hospital Details</a></li>
-                                    <li><a href="">Change Plan</a></li>
-                                </ul>
+                                    </ul>
                             </li>
 
                             <li>

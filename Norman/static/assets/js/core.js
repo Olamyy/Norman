@@ -148,6 +148,7 @@
                 success:function(response){
                        console.log(response[0].data);
                        console.log("Your Patient has been added");
+                       window.history.back();
                 },
                 error:function(xhr, errmsg,err){
                     console.log(xhr);
