@@ -40,8 +40,6 @@ def dashboard():
     hospital = hospitalObj.get_current_user_instance()
     if not hospital.active:
         return redirect(url_for('dashboard.verify'))
-    # mailer = NormanMailer('omodara145@gmail.com')
-    # mailer.send_mail('Hello Ismail')
     return render_template('dashboard/admin/dashboard.html', hospital=hospital)
 
 
@@ -109,8 +107,8 @@ def add_patient():
 @blueprint.route('/view-patients', methods=['GET'])
 def view_patients():
     hospital = hospitalObj.get_current_user_instance()
-    service_list = serviceObj.get_all_services()
-    return render_template('dashboard/admin/view-patient.html', hospital=hospital, services=service_list)
+    patient_list = hospitalObj.get_all_patients(hospital.id)
+    return render_template('dashboard/admin/view-patient.html', hospital=hospital, patient_list=patient_list)
 
 
 @blueprint.route('/patient', methods=['GET'])

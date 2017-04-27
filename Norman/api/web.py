@@ -24,7 +24,7 @@ def is_it_up():
     if test:
         return jsonify({'hi': 'hello'})
     return ()
-  
+
 @blueprint.route('/service', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def register_service():
