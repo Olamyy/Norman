@@ -61,21 +61,23 @@ class WebHook(Resource):
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
                 postbackmessages = PostBackMessages(recipient_id)
-                print(postback_payload)
                 if postback_payload == 'NORMAN_GET_HELP':
-                    postbackmessages.handle_help()
+                    return postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
-                    postbackmessages.handle_get_started(recipient_id)
+                    return postbackmessages.handle_get_started(recipient_id)
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
-                    postbackmessages.handle_get_started_meaning()
+                    print("I got to get started")
+                    return  postbackmessages.handle_get_started_meaning()
                 elif postback_payload == 'NORMAN_GET_STARTED_HOW':
-                    postbackmessages.handle_get_started_how()
+                    return  postbackmessages.handle_get_started_how()
                 elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
-                    postbackmessages.get_started_user_service_list()
+                    return postbackmessages.get_started_user_service_list()
                 elif postback_payload == 'NORMAN_GET_SERVICE_LIST':
-                    postbackmessages.get_started_service_list()
+                    return postbackmessages.get_started_service_list()
 
         elif request_type == "message":
+            print("I got a message")
+            return
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
@@ -83,10 +85,12 @@ class WebHook(Resource):
                 norman = NormanUser(recipient_id)
 
                 messenger.show_typing(recipient_id, 'typing_on')
-                message_response = norman.process_message(message, recipient_id)
+                # message_response = norman.process_message(message, recipient_id)
                 messenger.show_typing(recipient_id, 'typing_off')
-                if message_response is not None and message_response != 'pseudo':
-                    messenger.send_message(recipient_id, message_response)
-                elif response != 'pseudo':
-                    pass
+                messenger.send_message(recipient_id, "Thank you for your message")
+
+                # if message_response is not None and message_response != 'pseudo':
+                #     messenger.send_message(recipient_id, message_response)
+                # elif response != 'pseudo':
+                #     pass
                 return response.response_ok('Success')
