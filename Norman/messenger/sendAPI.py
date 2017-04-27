@@ -1,5 +1,4 @@
 import requests
-import time
 from flask import json
 
 from Norman import settings
@@ -201,10 +200,7 @@ class PostBackMessages(Message):
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        print("I sent a message")
         response.response_ok('Success')
-        self.show_typing(recipient_id, 'typing_on')
-        self.show_typing(recipient_id, 'typing_off')
         return response.response_ok('Success')
 
     def handle_get_started_meaning(self):
@@ -220,8 +216,9 @@ class PostBackMessages(Message):
         message_text = MessageConfig.GET_STARTED_HOW
         quick_replies = [
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"},
-            {"content_type": "text", "title": "What are the services am I registered to?",
-             "payload": "NORMAN_GET_USER_SERVICE_LIST"}
+            {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
+            {"content_type": "text", "title": "I'm still confused",
+             "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text,
                                quick_replies=quick_replies)
@@ -230,13 +227,14 @@ class PostBackMessages(Message):
     def get_started_user_service_list(self):
         message_text = MessageConfig.GET_STARTED_MEANING
         self.send_message("text", message_text=message_text, )
+        return response.response_ok('Success')
 
     def get_started_service_list(self):
-        message_text = MessageConfig.GET_STARTED_HOW
+        message_text = MessageConfig.GET_ALL_SERVICE_LIST
         quick_replies = [
-            {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"},
-            {"content_type": "text", "title": "What are the services am I registered to?",
-             "payload": "NORMAN_GET_USER_SERVICE_LIST"}
+            {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
+            {"content_type": "text", "title": "I'm still confused",
+             "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
@@ -244,4 +242,13 @@ class PostBackMessages(Message):
     def handle_help(self):
         message_text = MessageConfig.GET_HELP_MESSAGE
         self.send_message("text", message_text=message_text)
+        return response.response_ok('Success')
+
+    def good_to_go(self):
+        message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
+        self.send_message("text", message_text=message_text)
+        response.response_ok('Success')
+        self.show_typing('typing_on')
+
+        self.show_typing('typing_off')
         return response.response_ok('Success')

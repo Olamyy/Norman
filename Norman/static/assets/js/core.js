@@ -60,7 +60,7 @@
                      }
                      else{
                          if(payload['password'].length < 5){
-                             handle_error('Your passwords should be more than 8 characters.', 'error')
+                             handle_error('Your passwords should be more than 5 characters.', 'error')
                          }
                          else{
                              var  register_url  = $('#register_url').val();

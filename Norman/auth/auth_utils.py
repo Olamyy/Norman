@@ -2,7 +2,7 @@ from flask import session
 from flask_login import UserMixin
 from mongoengine import DoesNotExist
 
-from Norman.models import Hospital, Service
+from Norman.models import Hospital, Service, UserModel
 
 
 class HospitalUtil(UserMixin):
@@ -118,6 +118,12 @@ class HospitalUtil(UserMixin):
         verification_id = self.retrieve_from_session('current_user')
         hospital = self.get_by_tempID(verification_id)
         return hospital
+
+    def get_all_patients(self, hospital_id):
+        try:
+            UserModel.objects.get(hospital_id=hospital_id)
+        except KeyError:
+            return None
 
 
 class ServiceUtil(UserMixin):
