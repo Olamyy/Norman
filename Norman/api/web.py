@@ -183,6 +183,8 @@ class UserAPI:
                     return self.get(user_id)
                 elif action.upper() == "CREATE":
                     return self.add_user(data)
+                elif action.upper() == "GET_ALL":
+                    return self.get_users()
                 elif action.upper() == "UPDATE":
                     return self.update_user(user_id, data)
                 else:
@@ -233,6 +235,11 @@ class UserAPI:
         else:
             self.user_object.objects(user_id=user_id).update(**data)
             return Response.response_ok(user_details)
+
+    @staticmethod
+    def get_users():
+        all_users = UserModel.objects.all()
+        return Response.response_ok(all_users)
 
 
 @blueprint.route('/hospital', methods=['GET', 'POST'])

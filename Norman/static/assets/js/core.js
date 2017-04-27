@@ -135,7 +135,7 @@
               'first_name': $('#first_name').val(),
               'last_name': $('#last_name').val(),
               'email': $('#email').val(),
-              'hospital_id': 'JQOUU9THL1',
+              'hospital_id': 'UCZFFZBJQQ',
               'action':'create'
           };
           var patient_url = $('#patient_url').val();
@@ -148,7 +148,7 @@
                 success:function(response){
                        console.log(response[0].data);
                        console.log("Your Patient has been added");
-                       window.history.back();
+                       window.location = patient_url;
                 },
                 error:function(xhr, errmsg,err){
                     console.log(xhr);

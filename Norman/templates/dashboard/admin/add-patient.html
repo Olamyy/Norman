@@ -8,6 +8,54 @@
                     <div class="container">
 
                         <div class="row">
+                        	<div class="col-sm-12">
+                        		<div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add A Single Patient</h4>
+
+                        			<div class="row">
+                        				<div class="col-lg-12">
+                                            <input type="hidden" value="{{ url_for('web.users') }}" id="patient_url">
+                        					<form class="form-horizontal" role="form">
+	                                            <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">First Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" >
+	                                                </div>
+	                                            </div>
+                                                <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">Last Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name">
+	                                                </div>
+	                                            </div>
+	                                            <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label" for="example-email">Email</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Patient Email">
+	                                                </div>
+	                                            </div>
+
+
+                                                <div class="attached-files m-t-30">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="text-right m-t-30">
+                                                                <a href="/dashboard/edit-hospital-profile" id="addPatient" class="btn btn-success waves-effect waves-light">
+                                                                    ADD PATIENT
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+	                                        </form>
+                        				</div>
+                        			</div>
+                        		</div>
+                        	</div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-lg-12 col-lg-offset-">
                                 <div class="card-box">
 
@@ -41,55 +89,7 @@
                     </div>
                 </div>
 
-                    <div class="container">
-
-                        <div class="row">
-                        	<div class="col-sm-12">
-                        		<div class="card-box">
-
-                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add A Single Patient</h4>
-
-                        			<div class="row">
-                        				<div class="col-lg-12">
-                                            <input type="hidden" value="{{ url_for('web.users') }}" id="patient_url">
-                        					<form class="form-horizontal" role="form">
-	                                            <div class="form-group col-lg-6">
-	                                                <label class="col-md-2 control-label">First Name</label>
-	                                                <div class="col-md-10">
-	                                                    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" >
-	                                                </div>
-	                                            </div>
-                                                <div class="form-group col-lg-6">
-	                                                <label class="col-md-2 control-label">Last Name</label>
-	                                                <div class="col-md-10">
-	                                                    <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name">
-	                                                </div>
-	                                            </div>
-	                                            <div class="form-group col-lg-6">
-	                                                <label class="col-md-2 control-label" for="example-email">Email</label>
-	                                                <div class="col-md-10">
-	                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Patient Email">
-	                                                </div>
-	                                            </div>
-
-
-                                                <div class="attached-files m-t-30">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <div class="text-right m-t-30">
-                                                                <a href="/dashboard/edit-hospital-profile" id="addPatient" class="btn btn-success waves-effect waves-light">
-                                                                    ADD PATIENT
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-	                                        </form>
-                        				</div>
-                        			</div>
-                        		</div>
-                        	</div>
-                        </div>
+            <div class="container">
                 <footer class="footer">
                     2017 © Norman Bot
                 </footer>
