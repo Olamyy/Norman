@@ -13,7 +13,7 @@
 
                         <div class="row">
 
-
+{% for patients in patient_list %}
                             <div class="col-md-4">
                                 <div class="text-center card-box">
                                     <div class="dropdown pull-right">
@@ -27,20 +27,12 @@
                                         </ul>
                                     </div>
                                     <div>
-                                        <img src="{{ url_for('static', filename='assets/images/users/avatar-8.jpg')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <img src="{{ url_for('static', filename='landing/images/icon.png')}}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
 
-                                        <p class="text-muted font-13 m-b-30">
-This is where a brief decription of the user may come in.SSS
-                                        </p>
 
-                                        <div class="text-left">
-                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">Firstname Lastname</span></p>
-
-                                            <p class="text-muted font-13"><strong>Mobile :</strong><span class="m-l-15">(123) 123 1234</span></p>
-
-                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">patient@gmail.com</span></p>
-
-                                            <p class="text-muted font-13"><strong>Sex :</strong> <span class="m-l-15">Male</span></p>
+                                        <div class="text-center">
+                                            <p class="text-muted font-13"><strong>Full Name :</strong> <span class="m-l-15">{{ patients.first_name }} {{ patients.last_name }}</span></p>
+                                            <p class="text-muted font-13"><strong>Email :</strong> <span class="m-l-15">{{ patients.email }}</span></p>
                                         </div>
 
                                         <a href="{{ url_for('dashboard.patient') }}" class="btn btn-custom btn-rounded waves-effect waves-light">View More</a>
@@ -48,15 +40,10 @@ This is where a brief decription of the user may come in.SSS
                                     </div>
 
                                 </div>
-
                             </div> <!-- end col -->
+                            {% endfor %}
                         </div>
-                        <!-- end row -->
-
-
-
-                    </div> <!-- container -->
-
+                    </div>
                 </div> <!-- content -->
 
                 <footer class="footer">

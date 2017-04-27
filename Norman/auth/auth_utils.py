@@ -34,7 +34,7 @@ class HospitalUtil(UserMixin):
             else:
                 return None
         except DoesNotExist:
-                return None
+            return None
 
     def get_mongo_doc(self):
         if self.id:
@@ -119,7 +119,14 @@ class HospitalUtil(UserMixin):
         hospital = self.get_by_tempID(verification_id)
         return hospital
 
-    def get_all_patients(self, hospital_id):
+    def get_all_patients(self):
+        patients = UserModel.objects.all()
+        if patients:
+            return patients
+        else:
+            return False
+
+    def get_single_patient(self, hospital_id):
         try:
             UserModel.objects.get(hospital_id=hospital_id)
         except KeyError:

@@ -107,13 +107,14 @@ def add_patient():
 @blueprint.route('/view-patients', methods=['GET'])
 def view_patients():
     hospital = hospitalObj.get_current_user_instance()
-    patient_list = hospitalObj.get_all_patients(hospital.id)
+    patient_list = hospitalObj.get_all_patients()
     return render_template('dashboard/admin/view-patient.html', hospital=hospital, patient_list=patient_list)
 
 
 @blueprint.route('/patient', methods=['GET'])
 def patient():
     hospital = hospitalObj.get_current_user_instance()
+    # patient_list = hospitalObj.get_all_patients(hospital.id)
     return render_template('dashboard/admin/single-patient.html', hospital=hospital)
 
 
