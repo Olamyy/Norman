@@ -200,10 +200,10 @@ class PostBackMessages(Message):
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        response.response_ok('Success')
-        self.show_typing(recipient_id, 'typing_on')
+        # response.response_ok('Success')
+        # self.show_typing(recipient_id, 'typing_on')
         # self.send_message("text", message_text='It looks like I have not been connected to you yet.')
-        self.show_typing(recipient_id, 'typing_off')
+        # self.show_typing(recipient_id, 'typing_off')
         return response.response_ok('Success')
 
     def handle_get_started_meaning(self):
@@ -231,6 +231,7 @@ class PostBackMessages(Message):
         print("I got to get_started_user_service_list ")
         message_text = MessageConfig.GET_STARTED_MEANING
         self.send_message("text", message_text=message_text, )
+        return response.response_ok('Success')
 
     def get_started_service_list(self):
         print("I got to get_started_service_list")

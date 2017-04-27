@@ -3,9 +3,22 @@ from flask import json
 
 def get_request_type(payload):
     data = json.loads(payload)
-    print(data["entry"][0]["messaging"])
-    print(data["entry"][0]["messaging"][0])
-    if "postback" in data["entry"][0]["messaging"][0]:
+    # print(data["entry"][0]["messaging"])
+    # print(data["entry"][0]["messaging"][0])
+
+    """
+        b'{"object":"page","entry":[{"id":"1151771338259557","time":1493254959665,"messaging":[{"recipient":{"id":"1151771338259557"},"timestamp":1493254959665,"sender":{"id":"1280106375410348"},"postback":{"payload":"NORMAN_GET_STARTED_PAYLOAD"}}]}]}'
+
+    """
+
+    """
+        b'{"object":"page","entry":[{"id":"1151771338259557","time":1493256041898,"messaging":[{"sender":{"id":"1280106375410348"},"recipient":{"id":"1151771338259557"},"timestamp":1493255796750,"message":{"quick_reply":{"payload":"NORMAN_GET_STARTED_MEANING"},"mid":"mid.$cAARNdNu-e39h3kCADlbrPs3xkIv4","seq":6039,"text":"What does that mean?"}}]}]}'
+
+    """
+
+    if data["entry"][0]["messaging"][0].get('postback'):
+        return "postback"
+    elif data["entry"][0]["messaging"][0]['message']['quick_reply'].get('payload'):
         return "postback"
 
     elif "referral" in data["entry"][0]["messaging"][0]:
@@ -17,12 +30,14 @@ def get_request_type(payload):
 
 def postback_events(payload):
     data = json.loads(payload)
-
     postbacks = data["entry"][0]["messaging"]
 
     for event in postbacks:
         sender_id = event["sender"]["id"]
-        postback_payload = event["postback"]["payload"]
+        if data["entry"][0]["messaging"][0].get('postback'):
+            postback_payload = event["postback"]["payload"]
+        else:
+            postback_payload = event["message"]["quick_reply"]["payload"]
         yield sender_id, postback_payload
 
 

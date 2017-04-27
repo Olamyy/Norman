@@ -224,7 +224,6 @@ class HospitalApi(Resource):
                                    reg_num=data['reg_num'],
                                    created_at=datetime.now(),
                                    hospital_id=generate_id(10),
-                                   plan_id=data['plan_id'],
                                    password=hashed_password,
                                    tempID=data['temp_id'],
                                    verificationID=generate_id(4),
@@ -234,7 +233,7 @@ class HospitalApi(Resource):
                 self.hospital_util.write_to_session('current_user', data['temp_id'])
                 return Response.response_ok(create_hospital)
         except NotUniqueError:
-            self.log.log_error('Unable to create hospital')
+            # self.log.log_error('Unable to create hospital')
             return Response.response_error('Unable to create hospital', 'Hospital already exists')
 
     @staticmethod
