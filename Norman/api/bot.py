@@ -77,7 +77,15 @@ class WebHook(Resource):
                 elif postback_payload == 'GOOD_TO_GO':
                     return postbackmessages.good_to_go()
                 elif postback_payload == 'NORMAN_LEAVE_MESSAGE':
-                    return postbackmessages.handle_messaging_service()
+                    return postbackmessages.handle_leave_message()
+                elif postback_payload == 'NORMAN_SET_REMINDER':
+                    return postbackmessages.handle_set_reminder()
+                elif postback_payload == 'NORMAN_REQUEST_URGENT_HELP':
+                    return postbackmessages.handle_request_urgent_help()
+                elif postback_payload == 'NORMAN_BOOK_APPOINTMENT':
+                    return postbackmessages.handle_book_appointment()
+                elif postback_payload == 'GET_NEARBY_HOSPITAL':
+                    return postbackmessages.handle_get_nearby_hospital()
 
         elif request_type == "message":
             for recipient_id, message in messaging_events(data):

@@ -308,7 +308,7 @@ class PostBackMessages(Template):
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
             self.send_message('text', statement)
         quick_replies = [
-            {"content_type": "text", "title": "Get Nearby Hospital", "payload": ""}
+            {"content_type": "text", "title": "Get Nearby Hospital", "payload": "GET_NEARBY_HOSPITAL"}
         ]
         text = "While you can enjoy some of my services as a free user," + " to enjoy the best of my features, you need to be registered to an hospital."
         self.send_message("text", message_text=text, quick_replies=quick_replies)
@@ -353,3 +353,18 @@ class PostBackMessages(Template):
             self.send_message('text', message_text=response)
 
         return response.response_ok('Success')
+
+    def handle_leave_message(self):
+        pass
+
+    def handle_set_reminder(self):
+        pass
+
+    def handle_request_urgent_help(self):
+        pass
+
+    def handle_book_appointment(self):
+        pass
+
+    def handle_get_nearby_hospital(self):
+        pass
