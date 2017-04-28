@@ -8,24 +8,79 @@
                     <div class="container">
 
                         <div class="row">
-                            <div class="col-lg-8 col-lg-offset-2">
+                        	<div class="col-sm-12">
+                        		<div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add A Single Patient</h4>
+
+                        			<div class="row">
+                        				<div class="col-lg-12">
+                                            <input type="hidden" value="{{ url_for('web.users') }}" id="patient_url">
+                                            <div class="text-center" id="error"></div>
+                                            <div class="text-center" id="success"></div>
+                        					<form class="form-horizontal" role="form">
+
+                                                <input type="hidden" value="{{ hospital.hospital_id }}" id="hospital_id">
+	                                            <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">First Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name" >
+	                                                </div>
+	                                            </div>
+                                                <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">Last Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name">
+	                                                </div>
+	                                            </div>
+	                                            <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label" for="example-email">Email</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Patient Email">
+	                                                </div>
+	                                            </div>
+
+
+                                                <div class="attached-files m-t-30">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="text-center m-t-30">
+                                                                <a href="#" id="addPatient" class="btn btn-success waves-effect waves-light">
+                                                                    ADD PATIENT
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+	                                        </form>
+                        				</div>
+                        			</div>
+                        		</div>
+                        	</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-lg-offset-">
                                 <div class="card-box">
 
-                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients</h4>
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients in Batch</h4>
 
-                                    <div class="alert alert-info text-center">
-                                        This Platform allows you to only upload excel format of patients which includes
-                                        Patient's First Name, Last Name, Email, Mobile Number, Address, Date of Birth, Sex and File Number
+                                    <div class="alert alert-danger text-center">
+                                        <b>Note:</b> This Platform allows you to only upload file in <b>EXCEL</b> or <b>CSV</b> format of patients to be registered.
+                                        <br><b>Format in file:</b>
+                                        First Name, Last Name and Email
                                     </div>
 
-                                    <form action="#" data-parsley-validate novalidate>
-                                        <div class="form-group">
-                                            <label class="btn btn-info btn-file">
-                                                Select Excel File <input type="file" name="" style="display: none;">
-                                            </label>
-                                        </div>
+                                    <form action="{{ url_for('web.users') }}" method="post" enctype="multipart/form-data" data-parsley-validate novalidate>
 
-                                        <div class="form-group text-right m-b-0">
+                                            <label class="btn btn-info btn-file">
+                                                Select Excel or CSV File <input type="file" name="file">
+                                            </label>
+
+                                        <input type="hidden" value="create" name="action">
+                                    <input type="hidden" value="{{ hospital.hospital_id }}" name="hospital_id">
+
+                                        <div class="form-group text-center m-b-0">
                                             <button class="btn btn-primary waves-effect waves-light" type="submit">
                                                 Upload
                                             </button>
@@ -36,8 +91,9 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+            <div class="container">
                 <footer class="footer">
                     2017 © Norman Bot
                 </footer>
@@ -56,11 +112,11 @@
    $(document).ready( function() {
     $(':file').on('fileselect', function(event, numFiles, label) {
         console.log(numFiles);
-        console.log(label);
+        alert(label);
     });
 });
 
   </script>
 
-
+</div>
 {% endblock %}

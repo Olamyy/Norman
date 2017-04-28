@@ -30,21 +30,6 @@
         <![endif]-->
 
         <script src="{{ url_for('static', filename='assets/js/modernizr.min.js') }}"></script>
-<script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-74137680-1', 'auto');
-    ga('send', 'pageview');
-</script>
 
     </head>
     <body>
@@ -53,23 +38,20 @@
         <div class="clearfix"></div>
         <div class="wrapper-page">
             <div class="text-center">
-                <a href="{{ url_for('public.home') }}" class="logo"><span>Norman<span>Bot</span></span></a>
+                <a href="{{ url_for('public.home') }}" class="logo"><span>Norman</span></a>
             </div>
             <div class="m-t-40 card-box">
                 <div class="text-center">
                     <h4 class="text-muted font-bold m-b-0">Create an Hospital Account</h4>
                 </div>
                 <br>
-                  {% if error %}
-                                <div class="alert alert-danger alert-dismissible" role="alert">
-                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                              aria-hidden="true">&times;</span></button>{{ error }}</div>'
-                  {% endif %}
+                <div id="error">
+                </div>
                 <div class="panel-body">
                     <form class="form-horizontal m-t-20">
                         <div class="form-group ">
                             <input type="hidden" value="{{ config.BASE_URL }}" id="base_url">
-                            <input type="hidden" value="{{ url_for('web.register') }}" id="register_url">
+                            <input type="hidden" value="{{ url_for('web.register_hospital') }}" id="register_url">
                             <div class="col-xs-12">
                                 <input class="form-control" type="email" id="email" name="email" required="" placeholder="Email">
                             </div>
@@ -80,13 +62,11 @@
                                 <input class="form-control" type="text" id="name" name="name" required="" placeholder="Name of Hospital">
                             </div>
                         </div>
-
                         <div class="form-group ">
                             <div class="col-xs-12">
                                 <input class="form-control" type="text" id="reg_num" name="reg_no_hospital" required="" placeholder="Enter your Hospital Registered Number">
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <input class="form-control" name="password" id="password" type="password" required="" placeholder="Password">

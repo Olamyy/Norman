@@ -1,10 +1,9 @@
-from flask import render_template, Blueprint, redirect
+from flask import render_template, Blueprint, redirect, jsonify
 from flask import request
 from flask import url_for
 
-from Norman.auth.auth_utils import HospitalUtil, ServiceUtil
+from Norman.auth.auth_utils import HospitalUtil, ServiceUtil, UserUtil
 from Norman.auth.forms import LoginForm, VerificationForm
-from Norman.mailer.mail import NormanMailer
 from Norman.settings import ErrorConfig
 from Norman.utils import validate_hashes
 
@@ -12,6 +11,7 @@ blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_fol
 
 hospitalObj = HospitalUtil()
 serviceObj = ServiceUtil()
+userObj = UserUtil()
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -22,16 +22,17 @@ def login():
     if action == "invalidRoute":
         error = ErrorConfig.INVALID_ROUTE_ERROR
     if request.method == "POST" and "email" in request.form:
-            email = request.form["email"]
-            hospital_user = hospitalObj.validate_email(email)
-            if hospital_user and validate_hashes(request.form["password"], hospital_user.password) and hospital_user.is_active:
-                if hospitalObj.login_user_updates(hospital_user.id):
-                    hospitalObj.write_to_session('current_user', str(hospital_user))
-                    return redirect(url_for('dashboard.dashboard'))
-                else:
-                    return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
+        email = request.form["email"]
+        hospital_user = hospitalObj.validate_email(email)
+        if hospital_user and validate_hashes(request.form["password"],
+                                             hospital_user.password) and hospital_user.is_active:
+            if hospitalObj.login_user_updates(hospital_user.id):
+                hospitalObj.write_to_session('current_user', str(hospital_user))
+                return redirect(url_for('dashboard.dashboard'))
             else:
                 return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
+        else:
+            return render_template('dashboard/admin/login.html', error=ErrorConfig.INVALID_LOGIN_ERROR, form=form)
     return render_template('dashboard/admin/login.html', form=form, error=error)
 
 
@@ -40,8 +41,6 @@ def dashboard():
     hospital = hospitalObj.get_current_user_instance()
     if not hospital.active:
         return redirect(url_for('dashboard.verify'))
-    # mailer = NormanMailer('omodara145@gmail.com')
-    # mailer.send_mail('Hello Ismail')
     return render_template('dashboard/admin/dashboard.html', hospital=hospital)
 
 
@@ -99,6 +98,12 @@ def edit_services():
     return render_template('dashboard/admin/view-services.html', hospital=hospital, services=service_list)
 
 
+@blueprint.route('/request-service', methods=['GET', 'POST'])
+def request_service():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/request-service.html', hospital=hospital)
+
+
 @blueprint.route('/add-patient', methods=['GET'])
 def add_patient():
     hospital = hospitalObj.get_current_user_instance()
@@ -109,14 +114,28 @@ def add_patient():
 @blueprint.route('/view-patients', methods=['GET'])
 def view_patients():
     hospital = hospitalObj.get_current_user_instance()
-    service_list = serviceObj.get_all_services()
-    return render_template('dashboard/admin/view-patient.html', hospital=hospital, services=service_list)
+    patient_list = hospitalObj.get_all_patients(hospital.hospital_id)
+    return render_template('dashboard/admin/view-patient.html', hospital=hospital, patient_list=patient_list)
 
 
 @blueprint.route('/patient', methods=['GET'])
 def patient():
+    patient_id = request.args.get('pID')
     hospital = hospitalObj.get_current_user_instance()
+    if patient_id:
+        patient_data = userObj.get_by_userID(patient_id)
+        return render_template('dashboard/admin/single-patient.html', hospital=hospital, patient_data=patient_data)
     return render_template('dashboard/admin/single-patient.html', hospital=hospital)
+
+
+@blueprint.route('/edit-patient', methods=['GET'])
+def edit_patient():
+    patient_id = request.args.get('pID')
+    hospital = hospitalObj.get_current_user_instance()
+    if patient_id:
+        patient_data = userObj.get_by_userID(patient_id)
+        return render_template('dashboard/admin/edit-single-patient.html', hospital=hospital, patient_data=patient_data)
+    return render_template('dashboard/admin/edit-single-patient.html', hospital=hospital)
 
 
 @blueprint.route('/password-reset', methods=['GET'])
@@ -136,7 +155,54 @@ def verify():
                 hospital.update_active(verificationID)
                 return redirect(url_for('dashboard.dashboard'))
             else:
-                return render_template('dashboard/admin/verify.html', hospital=hospital, error=ErrorConfig.INVALID_VER_ID_ERROR , form=form)
+                return render_template('dashboard/admin/verify.html', hospital=hospital,
+                                       error=ErrorConfig.INVALID_VER_ID_ERROR, form=form)
         return render_template('dashboard/admin/verify.html', hospital=hospital, form=form)
     else:
         return redirect(url_for('dashboard.login', action="invalidRoute"))
+
+
+@blueprint.route('/records', methods=['GET'])
+def records():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/records.html', hospital=hospital)
+
+
+@blueprint.route('/patient-settings', methods=['GET'])
+def patient_settings():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/patient-settings.html', hospital=hospital)
+
+
+@blueprint.route('/security-settings', methods=['GET'])
+def security_settings():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/security-settings.html', hospital=hospital)
+
+
+@blueprint.route('/confirm-email', methods=['GET'])
+def confirm_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/confirm-email.html', hospital=hospital)
+
+
+@blueprint.route('/success-email', methods=['GET'])
+def success_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/success-email.html', hospital=hospital)
+
+
+@blueprint.route('/user-profile', methods=['GET'])
+def user_profile():
+    patient_id = request.args.get('pID')
+    hospital = hospitalObj.get_current_user_instance()
+    if patient_id:
+        patient_data = userObj.get_by_userID(patient_id)
+        return render_template('dashboard/admin/user-profile.html', hospital=hospital, patient_data=patient_data)
+    return render_template('dashboard/admin/user-profile.html', hospital=hospital)
+
+
+@blueprint.route('/edit-user-profile', methods=['GET'])
+def edit_user_profile():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/edit-user-profile.html', hospital=hospital)

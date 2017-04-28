@@ -16,6 +16,13 @@
                                $('#'+error_id).html(error_text);
     };
 
+    var handle_success_message = function (success, success_id) {
+            var success_text = '<div class="alert alert-info alert-dismissible" role="alert">' +
+                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span' +
+                             ' aria-hidden="true">&times;</span></button>'+ success + '</div>';
+                               $('#'+success_id).html(success_text);
+    };
+
     var handle_alerts = function (uri, title, message) {
         if(uri){
             var current_uri = window.location.pathname;
@@ -96,39 +103,128 @@
          })
     };
 
-    // var finishRegistration = function () {
-    //             $("button[type=submit]").on('click', function() {
-    //               var plan_id = this.id;
-    //               var payload = Cookies.getJSON('payload');
-    //               payload['plan_id'] = plan_id;
-    //
-    //             var  register_url  = $('#register_url').val();
-    //             console.log(register_url);
-    //             $.ajax({
-    //
-    //                        url : register_url,
-    //                        type:  "POST",
-    //                        data : JSON.stringify(payload),
-    //                        contentType: 'application/json',
-    //                        dataType:"json",
-    //                        success : function (response) {
-    //                            var ver_id = response[0].data.tempID;
-    //                            var replace = '?action=verify&verID='+ver_id;
-    //                            handle_redirect('/plans', replace)
-    //                        },
-    //                        error : function(xhr, errmsg, err){
-    //                                     if (xhr.responseJSON.error_code == 'HOSPEXISTS'){
-    //                                         localStorage.setItem('errors', 'Hospital already exists');
-    //                                         handle_redirect('/plans', '')
-    //                                     }
-    //                                     // handle_redirect('/plans', '')
-    //                        }
-    //                         })
-    //             });
-    // };
+
+    var updateHospitalDetails = function () {
+        $("#updateHospital").on('click', function (event) {
+            event.preventDefault();
+            var payload = {
+                'name': $('#name').val(),
+                'email': $('#email').val(),
+                'address': $('#address').val(),
+                'description': $('#description').val(),
+                'action': 'update',
+                'hospital_id': $('#hospital_id').val()
+            };
+            var hospital_url= $('#hospital_url').val()
+            $.ajax({
+                           url : hospital_url,
+                           type:  "POST",
+                           data : JSON.stringify(payload),
+                           contentType: 'application/json',
+                           dataType:"json",
+                           success : function (response) {
+                               console.log(response[0].data);
+                               console.log("Your Data has been saved");
+                               var success = "Successfully saved changes";
+                               handle_success_message(success,'success');
+                           },
+                           error : function(xhr, errmsg, err){
+                               console.log(xhr);
+                               handle_error("Make sure your inputs are correct",'error');
+                           }
+            })
+        });
+
+    };
+
+    var addPatient = function () {
+      $('#addPatient').on('click', function(event){
+          event.preventDefault();
+          var payload= {
+              'first_name': $('#first_name').val(),
+              'last_name': $('#last_name').val(),
+              'email': $('#email').val(),
+              'hospital_id': $('#hospital_id').val(),
+              'action':'create'
+          };
+          var patient_url = $('#patient_url').val();
+          $.ajax({
+                   url : patient_url,
+                   type:  "POST",
+                   data : JSON.stringify(payload),
+                   contentType: 'application/json',
+                   dataType:"json",
+                success:function(response){
+                       var success = "Successfully added New patient";
+                       handle_success_message(success,'success');
+                },
+                error:function(xhr, errmsg,err){
+                    console.log(xhr);
+                    handle_error("Make sure your inputs are correct and use a unique email",'error');
+                }
+          })
+      });
+    };
+
+    var requestService = function () {
+        $('#requestService').on('click', function(event) {
+            event.preventDefault();
+            var payload = {
+                'name': $('#service_name').val(),
+                'short_description': $('#short_description').val(),
+                'long_description': $('#long_description').val(),
+                'action': 'create'
+            };
+        var service_url = $('#service_url').val();
+        $.ajax({
+            url: service_url,
+            type: "POST",
+            data: JSON.stringify(payload),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (response) {
+                console.log(response[0].data);
+                console.log("data created");
+                // var success = "Successfully requested for a service";
+                // handle_success_message(success, 'success');
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr);
+                handle_error("Make sure your inputs are correct", 'error');
+            }
+            })
+        });
+    };
 
 
-    // check_for_errors();Todo: Uncomment this when function is fixed.
+    var addPatient = function () {
+      $('#addPatient').on('click', function(event){
+          event.preventDefault();
+          var payload= {
+              'first_name': $('#first_name').val(),
+              'last_name': $('#last_name').val(),
+              'email': $('#email').val(),
+              'hospital_id': $('#hospital_id').val(),
+              'action':'create'
+          };
+          var patient_url = $('#patient_url').val();
+          $.ajax({
+                   url : patient_url,
+                   type:  "POST",
+                   data : JSON.stringify(payload),
+                   contentType: 'application/json',
+                   dataType:"json",
+                success:function(response){
+                       var success = "Successfully added New patient";
+                       handle_success_message(success,'success');
+                },
+                error:function(xhr, errmsg,err){
+                    console.log(xhr);
+                    handle_error("Make sure your inputs are correct and use a unique email",'error');
+                }
+          })
+      });
+    };
 
     var check_for_errors = function () {
                  var  errors = localStorage.getItem('errors');
@@ -143,5 +239,11 @@
     handle_alerts('/dashboard/service-info', 'Choose Services', 'Choose the services of your choice to move on.');
 
     startRegistration();
+
+    updateHospitalDetails();
+
+    addPatient();
+
+    requestService();
 
 })(window.jQuery);
