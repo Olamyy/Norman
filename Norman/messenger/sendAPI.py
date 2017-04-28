@@ -321,7 +321,7 @@ class PostBackMessages(Message):
 
     def handle_awaited_message(self, message_type='messaging_service'):
         if message_type == 'messaging_service':
-            if 'users_last_message was a reponse to who?'
+            if 'users_last_message was a reponse to who?':
                 message_text = "What message would you like to leave a message?"
                 self.send_message("text", message_text=message_text)
             elif 'users_last_message_was a response to what':
@@ -331,5 +331,3 @@ class PostBackMessages(Message):
         else:
             message_text = "Sorry, I didn't get that, let's try again"
             self.send_message("text", message_text=message_text)
-
-    def handle_
