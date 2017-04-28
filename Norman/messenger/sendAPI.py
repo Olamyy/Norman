@@ -253,7 +253,6 @@ class PostBackMessages(Template):
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
-
     def get_started_service_list(self):
         # self.send_message("text", message_text="Here are the services we offer")
         self.send_template_message(template_type='list', list_info=[ServiceListConfig.messaging,
