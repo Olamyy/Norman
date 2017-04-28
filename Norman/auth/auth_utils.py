@@ -6,7 +6,8 @@ from Norman.models import Hospital, Service, UserModel
 
 
 class HospitalUtil(UserMixin):
-    def __init__(self, email=None, password=None, active=True, name=None):
+    def __init__(self, email=None, password=None, active=True, name=None, hospital_id=None):
+        self.hospital_id = hospital_id
         self.email = email
         self.password = password
         self.active = active
@@ -34,7 +35,7 @@ class HospitalUtil(UserMixin):
             else:
                 return None
         except DoesNotExist:
-                return None
+            return None
 
     def get_mongo_doc(self):
         if self.id:
@@ -63,6 +64,7 @@ class HospitalUtil(UserMixin):
                 self.name = hospital.name
                 self.id = hospital.id
                 self.tempID = hospital.tempID
+                self.hospital_id = hospital.hospital_id
                 # self.has_selected_services = hospital.has_selected_services
                 print(self.email)
                 return self
@@ -121,9 +123,116 @@ class HospitalUtil(UserMixin):
 
     def get_all_patients(self, hospital_id):
         try:
-            UserModel.objects.get(hospital_id=hospital_id)
-        except KeyError:
+            patients = UserModel.objects.filter(hospital_id=hospital_id)
+            if patients:
+                return patients
+            else:
+                return None
+        except DoesNotExist:
             return None
+
+        # patients = UserModel.objects.get(hospital_id=hospital_id)
+        # if patients:
+        #     self.email = patients.email
+        #     self.active = patients.active
+        #     self.password = patients.password
+        #     self.name = patients.name
+        #     self.id = patients.id
+        #     self.tempID = patients.tempID
+        #     return self
+        # else:
+        #     return False
+
+
+class UserUtil(UserMixin):
+    def __init__(self, email=None, name=None, user_id=None):
+        self.user_id = user_id
+        self.email = email
+        self.name = name
+        self.id = None
+
+    def __repr__(self):
+        return self.tempID
+
+    def get_mongo_doc(self):
+        if self.id:
+            return UserModel.objects.with_id(self.id)
+        else:
+            return None
+
+    def get_by_id(self, user_id):
+        hospital = UserModel.objects.with_id(user_id)
+        if hospital:
+            self.email = hospital.email
+            self.id = hospital.id
+            self.tempID = hospital.tempID
+            return self
+        else:
+            return None
+
+    def get_by_userID(self, user_id):
+        hospital = UserModel.objects.get(user_id=user_id)
+        if hospital:
+            self.email = hospital.email
+            self.id = hospital.id
+            return self
+        else:
+            return None
+
+
+    def login_user_updates(self, user_id):
+        if UserModel.objects.filter(id=user_id).update(is_logged_in=True):
+            return True
+        else:
+            return False
+
+    def logout_user_updates(self, verID):
+        if UserModel.objects.filter(tempID=verID).update(is_logged_in=False):
+            session.clear()
+            return True
+        else:
+            return False
+
+    def update_active(self, verificationID):
+        return True if UserModel.objects.filter(verificationID=verificationID).update(active=True) else False
+
+    def write_to_session(self, name, value):
+        session[name] = value
+        return True
+
+    def retrieve_from_session(self, name):
+        try:
+            data = session[name]
+            return data
+        except KeyError:
+            return False
+
+    def get_current_user_instance(self):
+        verification_id = self.retrieve_from_session('current_user')
+        hospital = self.get_by_tempID(verification_id)
+        return hospital
+
+    def get_all_patients(self, hospital_id):
+        try:
+            patients = UserModel.objects.filter(hospital_id=hospital_id)
+            if patients:
+                return patients
+            else:
+                return None
+        except DoesNotExist:
+            return None
+
+        # patients = UserModel.objects.get(hospital_id=hospital_id)
+        # if patients:
+        #     self.email = patients.email
+        #     self.active = patients.active
+        #     self.password = patients.password
+        #     self.name = patients.name
+        #     self.id = patients.id
+        #     self.tempID = patients.tempID
+        #     return self
+        # else:
+        #     return False
 
 
 class ServiceUtil(UserMixin):
