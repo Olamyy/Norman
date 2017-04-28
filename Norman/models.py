@@ -58,6 +58,7 @@ class Hospital(db.Document):
 
 
 class UserModel(db.Document):
+    username = db.StringField(required=True, max_length=200, min_length=3)
     first_name = db.StringField(required=True, max_length=200, min_length=3)
     last_name = db.StringField(required=True, max_length=200, min_length=3)
     email = db.EmailField(required=True, max_length=200, min_length=10, unique=True)
@@ -77,6 +78,7 @@ class UserModel(db.Document):
     has_hospital = db.BooleanField(default=False)
     temp_id = db.StringField(max_length=20, min_length=3)
     reg_num = db.StringField(max_length=50, min_length=3)
+    last_seen = db.DateTimeField(default=datetime.datetime.now())
 
 
 class Conversation(db.Document):

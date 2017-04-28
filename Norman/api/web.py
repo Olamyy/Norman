@@ -1,29 +1,19 @@
 from datetime import datetime
 
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask import request
 from flask_excel import ExcelRequest
 from flask_restful import Resource
-
 from mongoengine.errors import NotUniqueError
+
 from Norman.auth.auth_utils import HospitalUtil
 from Norman.extensions import csrf_protect
 from Norman.logger import Logger
 from Norman.models import Service, Hospital, UserModel
-from Norman.utils import generate_id, hash_data
 from Norman.utils import Response
+from Norman.utils import generate_id, hash_data
 
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
-
-
-@blueprint.route('/isItUp', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def is_it_up():
-    test = UserModel(name="Olamilekan", fb_id='HYDSJJ', email='olamyy58222222222222222@gmail.com').save()
-    # test = Toga(name="Hello").save()
-    if test:
-        return jsonify({'hi': 'hello'})
-    return ()
 
 
 @blueprint.route('/service', methods=['GET', 'POST'])
