@@ -4,10 +4,9 @@ from Norman import settings
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
-from Norman.norman.user import NormanUser, TempUser
+from Norman.norman.user import NormanUser, TempUser, MessagingService
 from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
-from Norman.services.messaging import MessagingService
 from Norman.api.api_ai import AI
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
