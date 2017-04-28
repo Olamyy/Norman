@@ -2,7 +2,7 @@
 from Norman.conversation.dbutils import UserUtils
 
 
-class NormanUser:
+class NormanUser(object):
     def __init__(self, fb_id):
         self.is_from_ref_id = None
         self.fb_id = fb_id
