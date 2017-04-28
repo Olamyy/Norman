@@ -23,6 +23,7 @@ class NormanUser:
         #     self.userObj.update_last_seen(current_user)
         #     pass
         #     print("I'm back here.")
+        # contexts = current_user.context
         if message['type'] == 'text':
             message_text = message['data'].decode("utf-8")
             if message_text.lower() == "help":
