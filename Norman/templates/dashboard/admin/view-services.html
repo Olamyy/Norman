@@ -22,12 +22,11 @@
                                         <p class="text-muted font-13 m-b-30" style="display: none;">
                                             {{ service.long_description }}
                                         </p>
-                                        <button class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#event-modal{{ service.service_id }}">More Information</button>
+                                        <button class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#event-modal{{ service.id }}">More Information</button>
                                     </div>
                                 </div>
                             </div>
-
-                                <div class="modal fade none-border" id="event-modal{{ service.service_id }}">
+                                <div class="modal fade none-border" id="event-modal{{ service.id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header text-center">
