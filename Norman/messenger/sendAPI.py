@@ -150,7 +150,7 @@ class Message(object):
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(Template, self).__init__(recipient_id, **kwargs)
         self.payload_structure['message']["attachment"]["type"] = "template"
         self.payload_structure['message']["attachment"]["payload"]["buttons"] = {}
         self.payload_structure['message']["attachment"]["payload"]["elements"] = [{
