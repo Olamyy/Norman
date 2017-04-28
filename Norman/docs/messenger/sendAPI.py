@@ -113,38 +113,51 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
     """
 
-# {
-#   "object":"page",
-#   "entry":[
-#     {
-#       "id":"PAGE_ID",
-#       "time":1458692752478,
-#       "messaging":[
-#           {
-#               "sender": {
-#                   "id": "USER_ID"
-#               },
-#               "recipient": {
-#                   "id": "PAGE_ID"
-#               },
-#               "timestamp": 1458692752478,
-#               "message": {
-#                   "mid": "mid.1457764197618:41d102a3e1ae206a38",
-#                   "text": "hello, world!",
-#                   "quick_reply": {
-#                       "payload": "DEVELOPER_DEFINED_PAYLOAD"
-#                   }
-#               }
-#           }
-#       ]
+#   "recipient":{
+#     "id":"RECIPIENT_ID"
+#   }, "message": {
+#     "attachment": {
+#         "type": "template",
+#         "payload": {
+#             "template_type": "list",
+#             "top_element_style": "compact",
+#             "elements": [
+#                 {
+#                     "title": "Classic White T-Shirt",
+#                     "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
+#                     "subtitle": "100% Cotton, 200% Comfortable",
+#                     "default_action": {
+#                         "type": "web_url",
+#                         "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
+#                         "messenger_extensions": true,
+#                         "webview_height_ratio": "tall",
+#                         "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+#                     },
+#                     "buttons": [
+#                         {
+#                             "title": "Buy",
+#                             "type": "web_url",
+#                             "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
+#                             "messenger_extensions": true,
+#                             "webview_height_ratio": "tall",
+#                             "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+#                         }
+#                     ]
+#                 }
+#             ],
+#              "buttons": [
+#                 {
+#                     "title": "View More",
+#                     "type": "postback",
+#                     "payload": "payload"
+#                 }
+#             ]
+#         }
 #     }
-#   ]
 # }
-#
-#
 
 if __name__ == '__main__':
-    t = Template('1458692752478')
+    t = Template('1001147663318005')
     list_item_one = {
         "title": "Classic White T-Shirt",
         "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",

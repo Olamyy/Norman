@@ -106,16 +106,16 @@ class TestConfig(Config):
 
 
 class MailerConfig(Config):
-    MAIL_SERVER = ''
-    MAIL_PORT = 25
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 465
     MAIL_USE_TLS = False
-    MAIL_USE_SSL = False
-    MAIL_DEBUG = True
-    MAIL_USERNAME = None
-    MAIL_PASSWORD = None
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = None
     MAIL_MAX_EMAILS = None
     MAIL_ASCII_ATTACHMENTS = False
+    ADMINS = ['davash001@gmail.com']
 
 
 class ErrorConfig(Config):
