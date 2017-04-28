@@ -7,7 +7,11 @@
                 <!-- Start content -->
                 <div class="content">
                     <div class="container">
-
+<div class="row">
+                            <div class="col-sm-4">
+                                 <a href="{{ url_for('dashboard.patient') }}?pID={{ patient_data.user_id }}" class="btn btn-success btn-md waves-effect waves-light m-b-30"><i class="md md-add"></i> Edit Patient</a>
+                            </div><!-- end col -->
+                        </div>
                         <div class="row">
                             <div class="col-sm-8">
                                 <div class="bg-picture card-box">
@@ -132,7 +136,7 @@
                                         </ul>
                                     </div>
 
-                        			<h4 class="header-title m-t-0 m-b-30">Used Services</h4>
+                        			<h4 class="header-title m-t-0 m-b-30">Available Services</h4>
 
                                     <ul class="list-group m-b-0 user-list">
                                         <li class="list-group-item">

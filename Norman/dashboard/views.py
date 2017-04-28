@@ -128,6 +128,16 @@ def patient():
     return render_template('dashboard/admin/single-patient.html', hospital=hospital)
 
 
+@blueprint.route('/edit-patient', methods=['GET'])
+def edit_patient():
+    patient_id = request.args.get('pID')
+    hospital = hospitalObj.get_current_user_instance()
+    if patient_id:
+        patient_data = userObj.get_by_userID(patient_id)
+        return render_template('dashboard/admin/edit-single-patient.html', hospital=hospital, patient_data=patient_data)
+    return render_template('dashboard/admin/edit-single-patient.html', hospital=hospital)
+
+
 @blueprint.route('/password-reset', methods=['GET'])
 def password_reset():
     hospital = hospitalObj.get_current_user_instance()
@@ -184,7 +194,11 @@ def success_email():
 
 @blueprint.route('/user-profile', methods=['GET'])
 def user_profile():
+    patient_id = request.args.get('pID')
     hospital = hospitalObj.get_current_user_instance()
+    if patient_id:
+        patient_data = userObj.get_by_userID(patient_id)
+        return render_template('dashboard/admin/user-profile.html', hospital=hospital, patient_data=patient_data)
     return render_template('dashboard/admin/user-profile.html', hospital=hospital)
 
 
