@@ -319,4 +319,17 @@ class PostBackMessages(Message):
         MessagingService.add_previous_message()
         return response.response_ok('Success')
 
-    def
+    def handle_awaited_message(self, message_type='messaging_service'):
+        if message_type == 'messaging_service':
+            if 'users_last_message was a reponse to who?'
+                message_text = "What message would you like to leave a message?"
+                self.send_message("text", message_text=message_text)
+            elif 'users_last_message_was a response to what':
+                MessagingService.send_notification(who='previous_message', what='this_message')
+                message_text = "Your message was successfully sent"
+                self.send_message("text", message_text=message_text)
+        else:
+            message_text = "Sorry, I didn't get that, let's try again"
+            self.send_message("text", message_text=message_text)
+
+    def handle_
