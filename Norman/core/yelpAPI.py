@@ -1,10 +1,12 @@
 import requests
 
+
 class Client3:
     def __init__(self, token):
         self.endpoint = 'https://api.yelp.com/v3/businesses/search'
         self.headers = {"Authorization": "Bearer {}".format(token)}
         self.endpoint_id = 'https://api.yelp.com/v3/businesses/'
+
     def search(self, **params):
         r = requests.get(self.endpoint, headers=self.headers, params=params)
         return r.json()

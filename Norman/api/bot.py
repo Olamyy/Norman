@@ -68,11 +68,9 @@ class WebHook(Resource):
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
                     return postbackmessages.handle_get_started()
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
-                    return  postbackmessages.handle_get_started_meaning()
+                    return postbackmessages.handle_get_started_meaning()
                 elif postback_payload == 'NORMAN_GET_STARTED_HOW':
-                    return  postbackmessages.handle_get_started_how()
-                elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
-                    return postbackmessages.get_started_user_service_list()
+                    return postbackmessages.handle_get_started_how()
                 elif postback_payload == 'NORMAN_GET_ALL_SERVICE_LIST':
                     return postbackmessages.get_started_service_list()
                 elif postback_payload == 'GOOD_TO_GO':
@@ -85,6 +83,45 @@ class WebHook(Resource):
                 norman = NormanUser(recipient_id)
                 messenger = Message(recipient_id)
                 message_response = NLPProcessor(message, recipient_id)
+                # norman = NormanUser(recipient_id)
+                # context = norman.getuserContext()
+                # messenger = Message(recipient_id)
+                # decipher_message = norman.process_message(message, recipient_id)
+                # noun_phrase = decipher_message.findNounPhrase()
+                # if decipher_message.isAskingBotInfo():
+                #     return messenger.handleBotInfo()
+                # if context is not None and len(context) > 0:
+                #     context = context[-1]
+                #
+                #     if decipher_message.isDismissPreviousRequest():
+                #         return norman.popContexts(context)
+                #
+                #     if context == 'find-food':
+                #         return messenger.handle_find_food(context, message, noun_phrase, message,
+                #                                           'receive_location_text')
+                #
+                #     elif context['context'] == 'yelp-rename':
+                #         messenger.handle_yelp_rename(context, message)
+                #         return norman.popContexts(context)  # pop yelp-rename
+                #
+                #     elif context['context'] == 'create-reminder':
+                #         return messenger.initService('create-reminder')
+                # if message['type'] == "location":
+                #     return messenger.handleLocation()
+                # else:
+                #     if decipher_message.isGreetings():
+                #         return messenger.handleGreeting(decipher_message.sayHiTimeZone(recipient_id))
+                #
+                #     elif decipher_message.isGoodbye():
+                #         return messenger.handleGoodbye(decipher_message.sayByeTimeZone())
+                #
+                #     elif decipher_message.isYelp():
+                #         return messenger.handleYelp(None, noun_phrase, message, 'receive_request')
+                #
+                #     else:
+                #         # Log this message for categorization later
+                #         norman.handleUncategorized("text", message)
+                #         ##@Todo: Handle APIAI Responses here
                 return response.response_ok('Success')
         else:
             print("unknown message type received")

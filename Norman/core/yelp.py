@@ -18,7 +18,7 @@ auth = Oauth1Authenticator(
 )
 
 yelpClient = Client(auth)
-yelpClient3 = Client3(config.YELP_V3_TOKEN)
+yelpClient3 = Client3(YelpConfig.YELP_V3_TOKEN)
 
 
 def yelp_search_v2(searchTerm, location, coordinates=None, limit=None, offset=0):
