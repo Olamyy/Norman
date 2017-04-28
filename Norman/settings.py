@@ -157,10 +157,7 @@ class MessageConfig(Config):
     TIME_TO_SET_UP = "Please {0}, give me some minutes to get you all set up. I promise I won't take long.".format(
         EMOJI_DICT['BOWING_MAN'])
 
-    FIRST_TIME_TEMP_USER = ["You are currently using me as a free user.",
-                            "While you can enjoy some of my services as a free user,"
-                            "to enjoy the best of my features, you need to be registered to an hospital.",
-                            ]
+    FIRST_TIME_TEMP_USER = ["You are currently using me as a free user."]
 
 
 class RegexConfig(Config):

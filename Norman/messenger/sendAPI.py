@@ -274,10 +274,10 @@ class PostBackMessages(Template):
         message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Tell Me About You", "payload": "NORMAN_GET_STARTED_PAYLOAD"},
-            {"content_type": "text", "title": "Leave a Message", "payload": ""},
-            {"content_type": "text", "title": "Set Reminder", "payload": ""},
-            {"content_type": "text", "title": "Request Urgent Help", "payload": ""},
-            {"content_type": "text", "title": "Book an Appointment","payload": ""}
+            {"content_type": "text", "title": "Leave a Message", "payload": "NORMAN_LEAVE_MESSAGE"},
+            {"content_type": "text", "title": "Set Reminder", "payload": "NORMAN_SET_REMINDER"},
+            {"content_type": "text", "title": "Request Urgent Help", "payload": "NORMAN_REQUEST_URGENT_HELP"},
+            {"content_type": "text", "title": "Book an Appointment","payload": "NORMAN_BOOK_APPOINTMENT"}
         ]
         self.send_message("text", message_text=message_text,quick_replies=quick_replies)
         return response.response_ok('Success')
@@ -305,6 +305,9 @@ class PostBackMessages(Template):
     def handle_first_time_temp_user(self):
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
             self.send_message('text', statement)
-            response.response_ok('Success')
-            return response.response_ok('Success')
+        quick_replies = [
+            {"content_type": "text", "title": "Get Nearby Hospital", "payload": ""}
+        ]
+        text = "While you can enjoy some of my services as a free user," + " to enjoy the best of my features, you need to be registered to an hospital."
+        self.send_message("text", message_text=text, quick_replies=quick_replies)
         return response.response_ok('Success')
