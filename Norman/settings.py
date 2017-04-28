@@ -39,8 +39,8 @@ class ApiAIConfig:
 
 class UIConfig:
     APP_NAME = "Norman"
-    BASE_PATH = "https://www.norman.ai"
-    COMPANY_EMAIL = "info@normanbot.com"
+    BASE_PATH = "https://www.norman-bot.herokuapp.com"
+    COMPANY_EMAIL = "bot.normanai@gmail.com"
     COMPANY_PHONE = "9036671876"
     COMPANY_ADDRESS = "Ilab, Department of Electronics Electrical Engineering, Obafemi Awolowo University, " \
                       "Ile-Ife, Osun State"
@@ -72,6 +72,7 @@ class ProdConfig(Config, UIConfig):
     DEBUG = False
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     BASE_URL = 'norman-bot.herokuapp.com/'
+    SERVICE_URL = 'norman-bot.herokuapp.com/services/'
     MONGODB_SETTINGS = {
         'db': 'heroku_qcf3clms',
         'host': 'ds111559.mlab.com',
@@ -139,14 +140,14 @@ class ErrorConfig(Config):
 
 class MessageConfig(Config):
     GET_ALL_SERVICE_LIST = "Hi <username>, you can go to {0} anytime to view a list of all the services I offer".format(
-        ProdConfig.BASE_URL)
-    GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am medical assistance " \
-                          "bot that helps you keep track of your health while syncing it " \
+        ProdConfig.SERVICE_URL)
+    GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am Medical Assistance " \
+                          "Bot that helps you keep track of your health while syncing it " \
                           "seamlessly with your hospital.".format(UIConfig.APP_NAME)
     GET_STARTED_MEANING = "It means I help you keep track of vital personal health information. " \
                           "I then update your hospital with this information to help treat you better"
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
-                      "hospitals assigns me to monitor on you."
+                      "hospitals assigns me to on you."
     GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"
 
     COMING_FROM_HOSPITAL = "Great. I can see you have been brought here from your hospital dashboard."
@@ -163,8 +164,103 @@ class MessageConfig(Config):
 
 
 class RegexConfig(Config):
-    BotInfoMatcher = ['what [is|are|will|was]+\ your name', 'VP+ *+ your name','who [is|are|will|was]+\ your creator|dad|mom|father|mother|papa|mama|daddy|mommy',
+    BotInfoMatcher = ['what [is|are|will|was]+\ your name', 'VP+ *+ your name',
+                      'who [is|are|will|was]+\ your creator|dad|mom|father|mother|papa|mama|daddy|mommy',
                       'VP+ *+ your creator|dad|mom|father|mother', 'who [made|created|wrote|built]+\ you']
     GreetingsMatcher = ['hi', 'hey', 'hello', 'greetings', 'good morning', 'good afternoon', 'good evening', 'bawo']
 
     ByeMatcher = ['bye', 'see you']
+
+
+class ServiceListConfig(Config):
+    messaging = {
+        "title": "Real-Time Messaging",
+        "image_url": "https://norman-bot.herokuapp.com/static/landing/images/norman-android.png",
+        "subtitle": "Real-time messaging interface between medical assistance bot and you",
+        "default_action": {
+            "type": "web_url",
+            "url": "https://norman-bot.herokuapp.com/services",
+            "messenger_extensions": True,
+            "webview_height_ratio": "tall",
+            "fallback_url": "https://norman-bot.herokuapp.com/"
+        },
+        "buttons": [
+            {
+                "title": "Read More",
+                "type": "web_url",
+                "url": "https://norman-bot.herokuapp.com/services",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            }
+        ]
+    }
+
+    reminder = {
+        "title": "Reminder",
+        "image_url": "https://norman-bot.herokuapp.com/static/landing/images/a.png",
+        "subtitle": "The bot handles Drug use reminder,Appointment reminders and Some User Specific Reminders",
+        "default_action": {
+            "type": "web_url",
+            "url": "https://norman-bot.herokuapp.com/services",
+            "messenger_extensions": True,
+            "webview_height_ratio": "tall",
+            "fallback_url": "https://norman-bot.herokuapp.com/"
+        },
+        "buttons": [
+            {
+                "title": "Read More",
+                "type": "web_url",
+                "url": "https://norman-bot.herokuapp.com/services",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            }
+        ]
+    }
+
+    scheduling = {
+        "title": "Appointment/Scheduling",
+        "image_url": "https://norman-bot.herokuapp.com/static/landing/images/b.png",
+        "subtitle": "This service allows patients to fix appointment at hospital.",
+        "default_action": {
+            "type": "web_url",
+            "url": "https://norman-bot.herokuapp.com/services",
+            "messenger_extensions": True,
+            "webview_height_ratio": "tall",
+            "fallback_url": "https://norman-bot.herokuapp.com/"
+        },
+        "buttons": [
+            {
+                "title": "Read More",
+                "type": "web_url",
+                "url": "https://norman-bot.herokuapp.com/services",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            }
+        ]
+    }
+
+    emergency = {
+        "title": "Emergency",
+        "image_url": "https://norman-bot.herokuapp.com/static/landing/images/c.png",
+        "subtitle": "The emergency service handles all emergency related activities.",
+        "default_action": {
+            "type": "web_url",
+            "url": "https://norman-bot.herokuapp.com/services",
+            "messenger_extensions": True,
+            "webview_height_ratio": "tall",
+            "fallback_url": "https://norman-bot.herokuapp.com/"
+        },
+        "buttons": [
+            {
+                "title": "Read More",
+                "type": "web_url",
+                "url": "https://norman-bot.herokuapp.com/services",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            }
+        ]
+    }
