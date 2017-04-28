@@ -9,7 +9,7 @@ from Norman.settings import RegexConfig
 
 
 class NLPProcessor:
-    def __init__(self, sentence):
+    def __init__(self, sentence, recipient_id):
         self.sentence = sentence
         self.no_response_list = ["*scratch my head* :(", "How do I respond to that... :O",
                                  "I can be not-so-smart from time to time... :(",
@@ -59,6 +59,7 @@ class NLPProcessor:
                         yield " ".join(grp1), "-".join(grp2)
                     grp1, grp2 = [s], [str(ind)]
         yield " ".join(grp1), "-".join(grp2)
+
 
     def decipher(self):
         if self.isAskingBotInfo():
@@ -190,3 +191,6 @@ class NLPProcessor:
     def getOneOf(self, items):
         rand_idx = random.randint(0, len(items) - 1)
         return items[rand_idx]
+
+    def isDismissPreviousRequest(self):
+        pass

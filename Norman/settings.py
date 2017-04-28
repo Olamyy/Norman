@@ -168,3 +168,4 @@ class RegexConfig(Config):
     GreetingsMatcher = ['hi', 'hey', 'hello', 'greetings', 'good morning', 'good afternoon', 'good evening', 'bawo']
 
     ByeMatcher = ['bye', 'see you']
+    MessagingServiceMatcher = ['leave a message [for|to]+\ \w [that|saying|] I will be home']
