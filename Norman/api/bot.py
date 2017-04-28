@@ -11,6 +11,7 @@ from Norman.norman.nlp import NLPProcessor
 from Norman.norman.user import NormanUser
 from Norman.utils import response
 
+
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -124,7 +125,8 @@ class WebHook(Resource):
                 #         # Log this message for categorization later
                 #         norman.handleUncategorized("text", message)
                 #         ##@Todo: Handle APIAI Responses here
-                return response.response_ok('Success')
+                postbackmessages = PostBackMessages(recipient_id)
+                return postbackmessages.handle_api_ai_message()
         else:
             print("unknown message type received")
             return response.response_ok('success')

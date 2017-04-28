@@ -8,6 +8,7 @@ from Norman.norman.user import NormanUser, TempUser
 from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
 from Norman.services.messaging import MessagingService
+from Norman.api.api_ai import AI
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -340,3 +341,15 @@ class PostBackMessages(Template):
         else:
             message_text = "Sorry, I didn't get that, let's try again"
             self.send_message("text", message_text=message_text)
+
+    def handle_api_ai_message(self, message):
+        test = AI()
+        test.parse(message)
+        if test.match_successful:
+            response = test.text
+            self.send_message('text', message_text=response)
+        else:
+            response = "Sorry I didn't get that, let's try again"
+            self.send_message('text', message_text=response)
+
+        return response.response_ok('Success')
