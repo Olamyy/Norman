@@ -1,6 +1,5 @@
 import requests
 from flask import json
-
 from Norman import settings
 from Norman.api.base import base
 from Norman.errors import HttpError
@@ -177,8 +176,6 @@ class Template(Message):
     def send_template_message(self, template_type, **kwargs):
         self.payload_structure["message"]["attachment"]["payload"]["template_type"] = template_type
 
-        print(self.payload_structure)
-
         if template_type == "button":
             self.payload_structure['message']["attachment"]["payload"]["text"] = kwargs.get('text')
             self.payload_structure['message']['attachment']['payload'].pop('elements')
@@ -256,10 +253,6 @@ class PostBackMessages(Template):
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
-    def get_started_user_service_list(self):
-        message_text = MessageConfig.GET_STARTED_MEANING
-        self.send_message("text", message_text=message_text)
-        return response.response_ok('Success')
 
     def get_started_service_list(self):
         # self.send_message("text", message_text="Here are the services we offer")

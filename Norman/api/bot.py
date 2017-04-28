@@ -7,6 +7,7 @@ from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
 from Norman.messenger.sendAPI import PostBackMessages, Message
+from Norman.norman.nlp import NLPProcessor
 from Norman.norman.user import NormanUser
 from Norman.utils import response
 
@@ -70,8 +71,6 @@ class WebHook(Resource):
                     return postbackmessages.handle_get_started_meaning()
                 elif postback_payload == 'NORMAN_GET_STARTED_HOW':
                     return postbackmessages.handle_get_started_how()
-                elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
-                    return postbackmessages.get_started_user_service_list()
                 elif postback_payload == 'NORMAN_GET_ALL_SERVICE_LIST':
                     return postbackmessages.get_started_service_list()
                 elif postback_payload == 'GOOD_TO_GO':
@@ -81,6 +80,9 @@ class WebHook(Resource):
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
+                norman = NormanUser(recipient_id)
+                messenger = Message(recipient_id)
+                message_response = NLPProcessor(message, recipient_id)
                 # norman = NormanUser(recipient_id)
                 # context = norman.getuserContext()
                 # messenger = Message(recipient_id)

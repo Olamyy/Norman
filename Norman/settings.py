@@ -167,6 +167,15 @@ class RegexConfig(Config):
     GreetingsMatcher = ['hi', 'hey', 'hello', 'greetings', 'good morning', 'good afternoon', 'good evening', 'bawo']
 
     ByeMatcher = ['bye', 'see you']
+    MessagingServiceMatcher = ['leave a message [for|to]+\ \w [that|saying|] I will be home']
+
+
+class YelpConfig(Config):
+    YELP_V3_TOKEN = None
+    CONSUMER_KEY = None
+    CONSUMER_SECRET = None
+    TOKEN = None
+    TOKEN_SECRET = None
 
 
 class ServiceListConfig(Config):
