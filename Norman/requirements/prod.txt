@@ -42,3 +42,10 @@ pymessenger
 
 #chat
 pyyaml
+
+#mail
+Flask-Mail
+
+#NLTK
+regex
+inflection

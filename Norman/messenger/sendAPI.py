@@ -177,14 +177,16 @@ class Template(Message):
     def send_template_message(self, template_type, **kwargs):
         self.payload_structure["message"]["attachment"]["payload"]["template_type"] = template_type
 
+        print(self.payload_structure)
+
         if template_type == "button":
             self.payload_structure['message']["attachment"]["payload"]["text"] = kwargs.get('text')
             self.payload_structure['message']['attachment']['payload'].pop('elements')
         elif template_type == 'generic':
             self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('generic_info')
         elif template_type == 'list':
-            self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('list_info')
-
+            self.payload_structure['message']["attachment"]["payload"]['elements'] = kwargs.get('list_info')
+            self.payload_structure['message']['attachment']['payload'].pop('text')
         if kwargs.get("buttons"):
             self.payload_structure['message']["attachment"]["payload"]['buttons'] = [kwargs.get('buttons')]
         else:
@@ -206,6 +208,7 @@ class Template(Message):
         else:
             self.payload_structure['message'].pop('quick_replies')
         self.payload_structure['message'].pop('text')
+        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
@@ -259,7 +262,7 @@ class PostBackMessages(Message):
         return response.response_ok('Success')
 
     def get_started_service_list(self):
-        message_text = MessageConfig.GET_ALL_SERVICE_LIST.replace('<username>', self.user_details['last_name'])
+        message_text = MessageConfig.GET_ALL_SERVICE_LIST.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
             {"content_type": "text", "title": "I'm still confused",
@@ -269,7 +272,7 @@ class PostBackMessages(Message):
         return response.response_ok('Success')
 
     def handle_help(self):
-        message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['last_name'])
+        message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
         self.send_message("text", message_text=message_text)
         return response.response_ok('Success')
 

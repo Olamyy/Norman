@@ -53,118 +53,42 @@ def class_message(recipient):
 def class_template(recipient):
 
     """
-    t = Template('some_fb_user_id')
+    t = Template('some_fb_user_id') # '1280106375410348'
 
     # send a list_template
 
-    curl -X GET "https://graph.facebook.com/v2.6/me/messenger_profile?fields=get_started&access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-
-    curl -X GET "https://graph.facebook.com/v2.6/me/messenger_profile?fields=greeting&access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-
-
-    curl -X POST -H "Content-Type: application/json" -d '{
-  "greeting":[
-    {
-      "locale":"default",
-      "text":"Hello!"
-    }, {
-      "locale":"en_US",
-      "text":"Timeless apparel for the masses."
-    }
-  ]
-}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-
-    curl -X DELETE -H "Content-Type: application/json" -d '{
-  "fields":[
-    "get_started"
-  ]
-}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-
-curl -X POST -H "Content-Type: application/json" -d '{
-  "get_started":{
-    "payload":"NORMAN_GET_STARTED_PAYLOAD"
-  }
-}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
-
     >>> list_item_one = {
-                    "title": "Classic White T-Shirt",
-                    "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
-                    "subtitle": "100% Cotton, 200% Comfortable",
-                    "default_action": {
-                        "type": "web_url",
-                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-                        "messenger_extensions": True,
-                        "webview_height_ratio": "tall",
-                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                     },
-                    "buttons": [
-                        {
-                            "title": "Shop Now",
-                            "type": "web_url",
-                            "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
-                            "messenger_extensions": True,
-                            "webview_height_ratio": "tall",
-                            "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                        }
-                    ]
-                }
-
-    t.send_template_message(template_type='list', list_info=[list_item_one])
-
-    """
-
-# {
-#   "object":"page",
-#   "entry":[
-#     {
-#       "id":"PAGE_ID",
-#       "time":1458692752478,
-#       "messaging":[
-#           {
-#               "sender": {
-#                   "id": "USER_ID"
-#               },
-#               "recipient": {
-#                   "id": "PAGE_ID"
-#               },
-#               "timestamp": 1458692752478,
-#               "message": {
-#                   "mid": "mid.1457764197618:41d102a3e1ae206a38",
-#                   "text": "hello, world!",
-#                   "quick_reply": {
-#                       "payload": "DEVELOPER_DEFINED_PAYLOAD"
-#                   }
-#               }
-#           }
-#       ]
-#     }
-#   ]
-# }
-#
-#
-
-if __name__ == '__main__':
-    t = Template('1458692752478')
-    list_item_one = {
-        "title": "Classic White T-Shirt",
-        "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
-        "subtitle": "100% Cotton, 200% Comfortable",
-        "default_action": {
-            "type": "web_url",
-            "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-            "messenger_extensions": True,
-            "webview_height_ratio": "tall",
-            "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-        },
-        "buttons": [
-            {
-                "title": "Shop Now",
+            "title": "Classic White T-Shirt",
+            "image_url": "https://wallpaperbrowse.com/media/images/pictures-14.jpg",
+            "subtitle": "100% Cotton, 200% Comfortable",
+            "default_action": {
                 "type": "web_url",
-                "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
+                "url": "https://norman-bot.herokuapp.com/",
                 "messenger_extensions": True,
                 "webview_height_ratio": "tall",
-                "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-            }
-        ]
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            },
+            "buttons": [
+                {
+                    "title": "Shop Now",
+                    "type": "web_url",
+                    "url": "https://norman-bot.herokuapp.com/",
+                    "messenger_extensions": True,
+                    "webview_height_ratio": "tall",
+                    "fallback_url": "https://norman-bot.herokuapp.com/"
+                }
+            ]
     }
-    print(t.send_template_message(template_type='list', list_info=[list_item_one]))
+
+
+    t.send_template_message(template_type='list', list_info=[list_item_one, list_item_two])
+
+    Notes:
+        1. Maximum of 4 elements and minimum of 2 elements
+        2. Maximum of 1 button per element
+        3. All urls used must be registered in FBConfig.WHITE_LISTED_DOMAINS
+            ** You must explicitly run utils.update_white_listed_domains() after
+                adding a url for the changes to take effect as it is not called automatically
+        4. Urls must be https
+
+    """
