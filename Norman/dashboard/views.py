@@ -107,14 +107,15 @@ def add_patient():
 @blueprint.route('/view-patients', methods=['GET'])
 def view_patients():
     hospital = hospitalObj.get_current_user_instance()
-    patient_list = hospitalObj.get_all_patients()
+    patient_list = hospitalObj.get_all_patients(hospital.id)
     return render_template('dashboard/admin/view-patient.html', hospital=hospital, patient_list=patient_list)
 
 
 @blueprint.route('/patient', methods=['GET'])
 def patient():
     hospital = hospitalObj.get_current_user_instance()
-    # patient_list = hospitalObj.get_all_patients(hospital.id)
+    # patient_list = hospitalObj.get_single_patient(hospital.id)
+    # patient_list = patient_list
     return render_template('dashboard/admin/single-patient.html', hospital=hospital)
 
 
@@ -158,3 +159,15 @@ def patient_settings():
 def security_settings():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/security-settings.html', hospital=hospital)
+
+
+@blueprint.route('/confirm-email', methods=['GET'])
+def confirm_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/confirm-email.html', hospital=hospital)
+
+
+@blueprint.route('/success-email', methods=['GET'])
+def success_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/success-email.html', hospital=hospital)

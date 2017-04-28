@@ -17,6 +17,8 @@
                         				<div class="col-lg-12">
                                             <input type="hidden" value="{{ url_for('web.users') }}" id="patient_url">
                         					<form class="form-horizontal" role="form">
+
+                                                <input type="hidden" value="{{ hospital.hospital_id }}" id="hospital_id">
 	                                            <div class="form-group col-lg-12">
 	                                                <label class="col-md-2 control-label">First Name</label>
 	                                                <div class="col-md-10">
@@ -40,7 +42,7 @@
                                                 <div class="attached-files m-t-30">
                                                     <div class="row">
                                                         <div class="col-sm-12">
-                                                            <div class="text-right m-t-30">
+                                                            <div class="text-center m-t-30">
                                                                 <a href="/dashboard/edit-hospital-profile" id="addPatient" class="btn btn-success waves-effect waves-light">
                                                                     ADD PATIENT
                                                                 </a>
@@ -61,22 +63,22 @@
 
                         			<h4 class="header-title m-t-0 m-b-30 text-center">Add Patients in Batch</h4>
 
-                                    <div class="alert alert-info text-center">
-                                        This Platform allows you to only upload excel format of patients which includes
-                                        Patient's First Name, Last Name, Email, Mobile Number, Address, Date of Birth, Sex and File Number
+                                    <div class="alert alert-danger text-center">
+                                        <b>Note:</b> This Platform allows you to only upload file in <b>EXCEL</b> or <b>CSV</b> format of patients to be registered.
+                                        <br><b>Format in file:</b>
+                                        First Name, Last Name and Email
                                     </div>
 
                                     <form action="{{ url_for('web.users') }}" method="post" enctype="multipart/form-data" data-parsley-validate novalidate>
-                                        <div class="form-group">
+
                                             <label class="btn btn-info btn-file">
-                                                Select Excel File <input type="file" name="file" style="display: none;">
+                                                Select Excel or CSV File <input type="file" name="file">
                                             </label>
-                                        </div>
 
                                         <input type="hidden" value="create" name="action">
                                     <input type="hidden" value="{{ hospital.hospital_id }}" name="hospital_id">
 
-                                        <div class="form-group text-right m-b-0">
+                                        <div class="form-group text-center m-b-0">
                                             <button class="btn btn-primary waves-effect waves-light" type="submit">
                                                 Upload
                                             </button>
@@ -108,11 +110,11 @@
    $(document).ready( function() {
     $(':file').on('fileselect', function(event, numFiles, label) {
         console.log(numFiles);
-        console.log(label);
+        alert(label);
     });
 });
 
   </script>
 
-
+</div>
 {% endblock %}

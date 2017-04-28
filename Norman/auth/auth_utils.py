@@ -6,7 +6,8 @@ from Norman.models import Hospital, Service, UserModel
 
 
 class HospitalUtil(UserMixin):
-    def __init__(self, email=None, password=None, active=True, name=None):
+    def __init__(self, email=None, password=None, active=True, name=None, hospital_id=None):
+        self.hospital_id = hospital_id
         self.email = email
         self.password = password
         self.active = active
@@ -63,6 +64,7 @@ class HospitalUtil(UserMixin):
                 self.name = hospital.name
                 self.id = hospital.id
                 self.tempID = hospital.tempID
+                self.hospital_id = hospital.hospital_id
                 # self.has_selected_services = hospital.has_selected_services
                 print(self.email)
                 return self
@@ -119,18 +121,33 @@ class HospitalUtil(UserMixin):
         hospital = self.get_by_tempID(verification_id)
         return hospital
 
-    def get_all_patients(self):
-        patients = UserModel.objects.all()
-        if patients:
-            return patients
-        else:
-            return False
-
-    def get_single_patient(self, hospital_id):
+    def get_all_patients(self, hospital_id):
         try:
-            UserModel.objects.get(hospital_id=hospital_id)
-        except KeyError:
+            patients = UserModel.objects.get(hospital_id=hospital_id)
+            if patients:
+                self.email = patients.email
+                self.active = patients.active
+                self.password = patients.password
+                self.name = patients.name
+                self.id = patients.id
+                self.tempID = patients.tempID
+                return patients
+            else:
+                return None
+        except DoesNotExist:
             return None
+
+        # patients = UserModel.objects.get(hospital_id=hospital_id)
+        # if patients:
+        #     self.email = patients.email
+        #     self.active = patients.active
+        #     self.password = patients.password
+        #     self.name = patients.name
+        #     self.id = patients.id
+        #     self.tempID = patients.tempID
+        #     return self
+        # else:
+        #     return False
 
 
 class ServiceUtil(UserMixin):

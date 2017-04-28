@@ -106,7 +106,7 @@
                 'address': $('#address').val(),
                 'description': $('#description').val(),
                 'action': 'update',
-                'hospital_id':'JQOUU9THL1'
+                'hospital_id': $('#hospital_id').val()
             };
             var hospital_url= $('#hospital_url').val()
             $.ajax({
@@ -135,7 +135,7 @@
               'first_name': $('#first_name').val(),
               'last_name': $('#last_name').val(),
               'email': $('#email').val(),
-              'hospital_id': 'UCZFFZBJQQ',
+              'hospital_id': $('#hospital_id').val(),
               'action':'create'
           };
           var patient_url = $('#patient_url').val();
