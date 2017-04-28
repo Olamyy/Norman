@@ -53,7 +53,7 @@ def class_message(recipient):
 def class_template(recipient):
 
     """
-    t = Template('some_fb_user_id')
+    t = Template('some_fb_user_id') # '1280106375410348'
 
     # send a list_template
 
@@ -90,32 +90,5 @@ def class_template(recipient):
             ** You must explicitly run utils.update_white_listed_domains() after
                 adding a url for the changes to take effect as it is not called automatically
         4. Urls must be https
+
     """
-
-
-
-if __name__ == '__main__':
-    t = Template('1280106375410348')
-    list_item_one = {
-        "title": "Classic White T-Shirt",
-        "image_url": "https://wallpaperbrowse.com/media/images/pictures-14.jpg",
-        "subtitle": "100% Cotton, 200% Comfortable",
-        "default_action": {
-            "type": "web_url",
-            "url": "https://norman-bot.herokuapp.com/",
-            "messenger_extensions": True,
-            "webview_height_ratio": "tall",
-            "fallback_url": "https://norman-bot.herokuapp.com/"
-        },
-        "buttons": [
-            {
-                "title": "Shop Now",
-                "type": "web_url",
-                "url": "https://norman-bot.herokuapp.com/",
-                "messenger_extensions": True,
-                "webview_height_ratio": "tall",
-                "fallback_url": "https://norman-bot.herokuapp.com/"
-            }
-        ]
-    }
-    print(t.send_template_message(template_type='list', list_info=[list_item_one, list_item_one]))
