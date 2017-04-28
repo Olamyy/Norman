@@ -6,7 +6,7 @@ from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
 from Norman.norman.user import NormanUser, TempUser
-from Norman.settings import FBConfig, MessageConfig
+from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
@@ -216,7 +216,7 @@ class Template(Message):
             raise HttpError('Unable to complete request.')
 
 
-class PostBackMessages(Message):
+class PostBackMessages(Template):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
         self.recipient_id = recipient_id
@@ -258,10 +258,16 @@ class PostBackMessages(Message):
 
     def get_started_user_service_list(self):
         message_text = MessageConfig.GET_STARTED_MEANING
-        self.send_message("text", message_text=message_text, )
+        self.send_message("text", message_text=message_text)
         return response.response_ok('Success')
 
     def get_started_service_list(self):
+        # self.send_message("text", message_text="Here are the services we offer")
+        self.send_template_message(template_type='list', list_info=[ServiceListConfig.messaging,
+                                                                    ServiceListConfig.reminder,
+                                                                    ServiceListConfig.emergency,
+                                                                    ServiceListConfig.scheduling
+                                                                    ])
         message_text = MessageConfig.GET_ALL_SERVICE_LIST.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
