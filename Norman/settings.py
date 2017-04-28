@@ -138,7 +138,8 @@ class ErrorConfig(Config):
 
 
 class MessageConfig(Config):
-    GET_ALL_SERVICE_LIST = "Hi <username>, you can go to {0} anytime to view a list of all the services I offer".format(ProdConfig.BASE_URL)
+    GET_ALL_SERVICE_LIST = "Hi <username>, you can go to {0} anytime to view a list of all the services I offer".format(
+        ProdConfig.BASE_URL)
     GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am medical assistance " \
                           "bot that helps you keep track of your health while syncing it " \
                           "seamlessly with your hospital.".format(UIConfig.APP_NAME)
@@ -148,4 +149,22 @@ class MessageConfig(Config):
                       "hospitals assigns me to monitor on you."
     GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"
 
-    EMOJI_DICT = {'HAPPY_SMILE': '😊'}
+    COMING_FROM_HOSPITAL = "Great. I can see you have been brought here from your hospital dashboard."
+
+    EMOJI_DICT = {'HAPPY_SMILE': '😊', 'BOWING_MAN': '🙇'}
+
+    TIME_TO_SET_UP = "Please {0}, give me some minutes to get you all set up. I promise I won't take long.".format(
+        EMOJI_DICT['BOWING_MAN'])
+
+    FIRST_TIME_TEMP_USER = ["You are currently using me as a free user.",
+                            "While you can enjoy some of my services as a free user,"
+                            "to enjoy the best of my features, you need to be registered to an hospital.",
+                            ]
+
+
+class RegexConfig(Config):
+    BotInfoMatcher = ['what [is|are|will|was]+\ your name', 'VP+ *+ your name','who [is|are|will|was]+\ your creator|dad|mom|father|mother|papa|mama|daddy|mommy',
+                      'VP+ *+ your creator|dad|mom|father|mother', 'who [made|created|wrote|built]+\ you']
+    GreetingsMatcher = ['hi', 'hey', 'hello', 'greetings', 'good morning', 'good afternoon', 'good evening', 'bawo']
+
+    ByeMatcher = ['bye', 'see you']

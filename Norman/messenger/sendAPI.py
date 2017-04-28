@@ -5,7 +5,7 @@ from Norman import settings
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
-from Norman.norman.user import UserUtils
+from Norman.norman.user import NormanUser, TempUser
 from Norman.settings import FBConfig, MessageConfig
 from Norman.utils import response
 
@@ -119,6 +119,33 @@ class Message(object):
         else:
             raise HttpError('Unable to complete request.')
 
+    def handleGreeting(self, timeContext):
+        pass
+
+    def handleBotInfo(self):
+        pass
+
+    def handle_find_food(self, context, message, noun_phrase, message1, param):
+        pass
+
+    def handle_yelp_rename(self, context, message):
+        pass
+
+    def handle_memo(self, message_text):
+        pass
+
+    def initService(self, param):
+        pass
+
+    def handleGoodbye(self, param):
+        pass
+
+    def handleYelp(self, param, noun_phrase, message, param1):
+        pass
+
+    def handleLocation(self):
+        pass
+
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
@@ -192,11 +219,13 @@ class Template(Message):
 class PostBackMessages(Message):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
-        self.current_user = UserUtils(recipient_id)
+        self.recipient_id = recipient_id
+        self.temp_user = None
+        self.current_user = NormanUser(recipient_id)
         self.user_details = self.user_profile.get_user_details(recipient_id)
 
-    def handle_get_started(self, recipient_id):
-        # self.current_user.create_temp_user(recipient_id)
+    def handle_get_started(self):
+        self.temp_user = TempUser(self.recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
@@ -216,6 +245,7 @@ class PostBackMessages(Message):
         return response.response_ok('Success')
 
     def handle_get_started_how(self):
+        # self.current_user.
         message_text = MessageConfig.GET_STARTED_HOW
         quick_replies = [
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"},
@@ -223,8 +253,7 @@ class PostBackMessages(Message):
             {"content_type": "text", "title": "I'm still confused",
              "payload": "NORMAN_GET_HELP"}
         ]
-        self.send_message("text", message_text=message_text,
-                               quick_replies=quick_replies)
+        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
     def get_started_user_service_list(self):
@@ -251,7 +280,25 @@ class PostBackMessages(Message):
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
         response.response_ok('Success')
-        self.show_typing('typing_on')
+        self.beyondGetStarted()
+        return response.response_ok('Success')
 
-        self.show_typing('typing_off')
+    def beyondGetStarted(self):
+        if self.current_user.is_from_ref_id:
+            message_text = MessageConfig.COMING_FROM_HOSPITAL
+            self.show_typing('typing_on')
+            self.show_typing('typing_off')
+            self.send_message('text', message_text)
+            self.show_typing('typing_on')
+            self.show_typing('typing_off')
+            self.send_message('text', MessageConfig.TIME_TO_SET_UP)
+            response.response_ok('Success')
+        else:
+            self.handle_first_time_temp_user()
+
+    def handle_first_time_temp_user(self):
+        for statement in MessageConfig.FIRST_TIME_TEMP_USER:
+            self.send_message('text', statement)
+            response.response_ok('Success')
+            return response.response_ok('Success')
         return response.response_ok('Success')

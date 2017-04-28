@@ -8,12 +8,15 @@ from Norman.models import UserModel
 
 class UserUtils:
     def __init__(self, recipient_id=None):
+        self.is_from_ref_id = None
         self.userdb = UserModel
         self.is_temp_user = True
         self.id = None
         self.email = None
         self.fb_id = None
         self.username = None
+        self.last_seen = None
+        self.contexts = None
 
     def get_one_from_mongo_id(self, user_id):
         try:
@@ -38,13 +41,11 @@ class UserUtils:
                 self.email = user.email
                 self.fb_id = user.fb_id
                 self.username = user.username
+                self.last_seen = user.last_seen
                 self.contexts = user.contexts
                 return self
         except DoesNotExist:
                 return False
-
-    def update(self, match, updates, match_field_name, update_field_name):
-        return True if self.userdb.objects.filter(match_field_name=match).update(update_field_name=updates) else False
 
     def is_first_message(self, fb_id=None):
         fb_id = self.fb_id if not fb_id else fb_id
@@ -56,9 +57,12 @@ class UserUtils:
             return False
 
     def update_last_seen(self, user):
-        now = datetime.datetime.now()
-        timestamp = datetime.datetime.strftime(now, "%Y-%m-%d %H:%M:%S")
+        # now = datetime.datetime.now()
+        timestamp = datetime.datetime.now()
         self.userdb.update({"user_id": user.id}, {"$set": {"last_seen": timestamp}})
+
+    def update_has_first_message(self, fb_id=None):
+        return True if self.userdb.objects.get(fb_id=fb_id).update(has_sent_first_message=True) else False
 
     def create_temp_user(self, recipient_id):
         pass
