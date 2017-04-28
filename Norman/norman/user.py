@@ -15,10 +15,9 @@ class NormanUser:
         self.session_id = self.userObj
 
 
-
 class TempUser(NormanUser):
     def __init__(self, recipient_id):
-        super().__init__(recipient_id)
+        super(TempUser, self).__init__(recipient_id)
 
 
 
