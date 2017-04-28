@@ -315,7 +315,6 @@ class PostBackMessages(Template):
         quick_replies = [
             {"content_type": "text", "title": "Get Nearby Hospital", "payload": ""}
         ]
-        text = "While you can enjoy some of my services as a free user,\
-        to enjoy the best of my features, you need to be registered to an hospital."
+        text = "While you can enjoy some of my services as a free user," + " to enjoy the best of my features, you need to be registered to an hospital."
         self.send_message("text", message_text=text, quick_replies=quick_replies)
         return response.response_ok('Success')
