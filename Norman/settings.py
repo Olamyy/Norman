@@ -32,7 +32,6 @@ class FBConfig(Config):
         "http://norman-bot.herokuapp.com/static/landing/images/norman-android.png"
     ]
 
-
 class ApiAIConfig:
     CLIENT_ACCESS_TOKEN = '223fceac22164b419316b65979d86fdb'
     DEVELOPER_ACCESS_TOKEN = '0796bc4020714af4a4d91255a31d5f33'
