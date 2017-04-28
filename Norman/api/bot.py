@@ -13,6 +13,7 @@ from Norman.norman.user import NormanUser
 from Norman.settings import ApiAIConfig
 from Norman.utils import response
 
+
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -77,6 +78,16 @@ class WebHook(Resource):
                     return postbackmessages.get_started_service_list()
                 elif postback_payload == 'GOOD_TO_GO':
                     return postbackmessages.good_to_go()
+                elif postback_payload == 'NORMAN_LEAVE_MESSAGE':
+                    return postbackmessages.handle_leave_message()
+                elif postback_payload == 'NORMAN_SET_REMINDER':
+                    return postbackmessages.handle_set_reminder()
+                elif postback_payload == 'NORMAN_REQUEST_URGENT_HELP':
+                    return postbackmessages.handle_request_urgent_help()
+                elif postback_payload == 'NORMAN_BOOK_APPOINTMENT':
+                    return postbackmessages.handle_book_appointment()
+                elif postback_payload == 'GET_NEARBY_HOSPITAL':
+                    return postbackmessages.handle_get_nearby_hospital()
 
         elif request_type == "message":
             for recipient_id, message in messaging_events(data):
@@ -124,8 +135,10 @@ class WebHook(Resource):
                 #         # Log this message for categorization later
                 #         norman.handleUncategorized("text", message)
                 #         ##@Todo: Handle APIAI Responses here
-                parse_natural_text(message)
-                return response.response_ok('Success')
+
+                postbackmessages = PostBackMessages(recipient_id)
+                return postbackmessages.handle_api_ai_message(message)
+
         else:
             print("unknown message type received")
             return response.response_ok('success')
