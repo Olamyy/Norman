@@ -217,7 +217,7 @@ class Template(Message):
 
 class PostBackMessages(Template):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(Template, self).__init__(recipient_id, **kwargs)
         self.recipient_id = recipient_id
         self.temp_user = None
         self.current_user = NormanUser(recipient_id)
