@@ -13,8 +13,8 @@ from Norman.models import Service, Hospital, UserModel
 from Norman.utils import generate_id, hash_data
 from Norman.utils import Response
 
-
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
+
 
 @blueprint.route('/isItUp', methods=['GET', 'POST'])
 @csrf_protect.exempt
@@ -24,6 +24,7 @@ def is_it_up():
     if test:
         return jsonify({'hi': 'hello'})
     return ()
+
 
 @blueprint.route('/service', methods=['GET', 'POST'])
 @csrf_protect.exempt
@@ -119,6 +120,7 @@ class ServiceAPI(Resource):
         service_details = Service.objects.filter(service_id=service_id)
         Service.objects(service_id=service_id).update(add_to_set__questions=questions)
         return Response.response_ok(service_details)
+
 
 @blueprint.route('/user', methods=['GET', 'POST'])
 @csrf_protect.exempt

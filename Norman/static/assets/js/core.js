@@ -16,6 +16,13 @@
                                $('#'+error_id).html(error_text);
     };
 
+    var handle_success_message = function (success, success_id) {
+            var success_text = '<div class="alert alert-info alert-dismissible" role="alert">' +
+                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span' +
+                             ' aria-hidden="true">&times;</span></button>'+ success + '</div>';
+                               $('#'+success_id).html(success_text);
+    };
+
     var handle_alerts = function (uri, title, message) {
         if(uri){
             var current_uri = window.location.pathname;
@@ -118,10 +125,12 @@
                            success : function (response) {
                                console.log(response[0].data);
                                console.log("Your Data has been saved");
-                               //handle_redirect('/plans', replace)
+                               var success = "Successfully saved changes";
+                               handle_success_message(success,'success');
                            },
                            error : function(xhr, errmsg, err){
                                console.log(xhr);
+                               handle_error("Make sure your inputs are correct",'error');
                            }
             })
         });
@@ -146,12 +155,72 @@
                    contentType: 'application/json',
                    dataType:"json",
                 success:function(response){
-                       console.log(response[0].data);
-                       console.log("Your Patient has been added");
-                       window.location = patient_url;
+                       var success = "Successfully added New patient";
+                       handle_success_message(success,'success');
                 },
                 error:function(xhr, errmsg,err){
                     console.log(xhr);
+                    handle_error("Make sure your inputs are correct and use a unique email",'error');
+                }
+          })
+      });
+    };
+
+    var requestService = function () {
+        $('#requestService').on('click', function(event) {
+            event.preventDefault();
+            var payload = {
+                'name': $('#service_name').val(),
+                'short_description': $('#short_description').val(),
+                'long_description': $('#long_description').val(),
+                'action': 'create'
+            };
+        var service_url = $('#service_url').val();
+        $.ajax({
+            url: service_url,
+            type: "POST",
+            data: JSON.stringify(payload),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (response) {
+                console.log(response[0].data);
+                console.log("data created");
+                // var success = "Successfully requested for a service";
+                // handle_success_message(success, 'success');
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr);
+                handle_error("Make sure your inputs are correct", 'error');
+            }
+            })
+        });
+    };
+
+
+    var addPatient = function () {
+      $('#addPatient').on('click', function(event){
+          event.preventDefault();
+          var payload= {
+              'first_name': $('#first_name').val(),
+              'last_name': $('#last_name').val(),
+              'email': $('#email').val(),
+              'hospital_id': $('#hospital_id').val(),
+              'action':'create'
+          };
+          var patient_url = $('#patient_url').val();
+          $.ajax({
+                   url : patient_url,
+                   type:  "POST",
+                   data : JSON.stringify(payload),
+                   contentType: 'application/json',
+                   dataType:"json",
+                success:function(response){
+                       var success = "Successfully added New patient";
+                       handle_success_message(success,'success');
+                },
+                error:function(xhr, errmsg,err){
+                    console.log(xhr);
+                    handle_error("Make sure your inputs are correct and use a unique email",'error');
                 }
           })
       });
@@ -174,5 +243,7 @@
     updateHospitalDetails();
 
     addPatient();
+
+    requestService();
 
 })(window.jQuery);

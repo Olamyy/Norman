@@ -2,7 +2,6 @@
 
 {% block content %}
 
-    {% if patient_data %}
      <div class="content-page">
                 <!-- Start content -->
                 <div class="content">
@@ -16,8 +15,8 @@
                                              class="img-thumbnail" alt="profile-image">
 
                                         <div class="profile-info-detail">
-                                            <h3 class="m-t-0 m-b-0">{{ patient_data.first_name }} {{ patient_data.last_name }}</h3>
-                                            <p>{{ patient_data.first_name }} {{ patient_data.last_name }}</p>
+                                            <h3 class="m-t-0 m-b-0">User Full Name</h3>
+                                            <p>@username</p>
                                             <div class="button-list m-t-20">
                                                 <button type="button" class="btn btn-sm btn-dribbble waves-effect waves-light">
                                                    Card No
@@ -212,6 +211,6 @@
                 </footer>
 
             </div>
-    {% endif %}
+
 
 {% endblock %}

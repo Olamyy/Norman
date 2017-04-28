@@ -1,8 +1,8 @@
-from flask import render_template, Blueprint, redirect
+from flask import render_template, Blueprint, redirect, jsonify
 from flask import request
 from flask import url_for
 
-from Norman.auth.auth_utils import HospitalUtil, ServiceUtil
+from Norman.auth.auth_utils import HospitalUtil, ServiceUtil, UserUtil
 from Norman.auth.forms import LoginForm, VerificationForm
 from Norman.settings import ErrorConfig
 from Norman.utils import validate_hashes
@@ -11,6 +11,7 @@ blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_fol
 
 hospitalObj = HospitalUtil()
 serviceObj = ServiceUtil()
+userObj = UserUtil()
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -97,6 +98,12 @@ def edit_services():
     return render_template('dashboard/admin/view-services.html', hospital=hospital, services=service_list)
 
 
+@blueprint.route('/request-service', methods=['GET', 'POST'])
+def request_service():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/request-service.html', hospital=hospital)
+
+
 @blueprint.route('/add-patient', methods=['GET'])
 def add_patient():
     hospital = hospitalObj.get_current_user_instance()
@@ -107,15 +114,17 @@ def add_patient():
 @blueprint.route('/view-patients', methods=['GET'])
 def view_patients():
     hospital = hospitalObj.get_current_user_instance()
-    patient_list = hospitalObj.get_all_patients(hospital.id)
+    patient_list = hospitalObj.get_all_patients(hospital.hospital_id)
     return render_template('dashboard/admin/view-patient.html', hospital=hospital, patient_list=patient_list)
 
 
 @blueprint.route('/patient', methods=['GET'])
 def patient():
+    patient_id = request.args.get('pID')
     hospital = hospitalObj.get_current_user_instance()
-    # patient_list = hospitalObj.get_single_patient(hospital.id)
-    # patient_list = patient_list
+    if patient_id:
+        patient_data = userObj.get_by_userID(patient_id)
+        return render_template('dashboard/admin/single-patient.html', hospital=hospital, patient_data=patient_data)
     return render_template('dashboard/admin/single-patient.html', hospital=hospital)
 
 
@@ -171,3 +180,15 @@ def confirm_email():
 def success_email():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/success-email.html', hospital=hospital)
+
+
+@blueprint.route('/user-profile', methods=['GET'])
+def user_profile():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/user-profile.html', hospital=hospital)
+
+
+@blueprint.route('/edit-user-profile', methods=['GET'])
+def edit_user_profile():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/edit-user-profile.html', hospital=hospital)

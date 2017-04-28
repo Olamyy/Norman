@@ -45,7 +45,7 @@
         <div id="wrapper">
             <div class="topbar">
                 <div class="topbar-left">
-                    <a href="{{ url_for('dashboard.profile') }}" class="logo"><span>Norman</span><i class="zmdi zmdi-layers"></i></a>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="logo"><span>Norman</span><i class="zmdi zmdi-layers"></i></a>
                 </div>
 
                 <!-- Button mobile view to collapse sidebar menu -->
@@ -66,7 +66,7 @@
 
                         <!-- Right(Notification and Searchbox -->
                         <ul class="nav navbar-nav navbar-right">
-                            <li style="margin-right:40px">
+                            <li style="margin-right:30px">
                                 <div class="notification-box">
                                     <ul class="list-inline m-b-0">
                                         <li>
@@ -81,7 +81,7 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li style="margin-right:40px">
+                            <li style="margin-right:30px">
                                 <div class="notification-box">
                                     <ul class="list-inline m-b-0">
                                         <li>
@@ -146,11 +146,20 @@
                                 </ul>
                             </li>
 
+                            <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-account-box"></i> <span> User Dashboard</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ url_for('dashboard.user_profile') }}">My Profile</a></li>
+                                    <li><a href="{{ url_for('dashboard.edit_user_profile') }}">Edit Profile</a></li>
+                                    <li><a href="{{ url_for('dashboard.records') }}">Records</a></li>
+                                </ul>
+                            </li>
+
                               <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-view-list"></i> <span> Services </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="{{ url_for('dashboard.view_services') }}">View Services</a></li>
-                                    <li><a href="{{ url_for('dashboard.view_services') }}">Request Services</a></li>
+                                    <li><a href="{{ url_for('dashboard.request_service') }}">Request Services</a></li>
                                 </ul>
                             </li>
 
