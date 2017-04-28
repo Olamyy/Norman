@@ -69,20 +69,33 @@ class WebHook(Resource):
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
                     return postbackmessages.handle_get_started(recipient_id)
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
-                    return postbackmessages.handle_get_started_meaning()
+                    return  postbackmessages.handle_get_started_meaning()
                 elif postback_payload == 'NORMAN_GET_STARTED_HOW':
-                    return postbackmessages.handle_get_started_how()
+                    return  postbackmessages.handle_get_started_how()
                 elif postback_payload == 'NORMAN_GET_USER_SERVICE_LIST':
                     return postbackmessages.get_started_user_service_list()
                 elif postback_payload == 'NORMAN_GET_ALL_SERVICE_LIST':
                     return postbackmessages.get_started_service_list()
+                elif postback_payload == 'GOOD_TO_GO':
+                    return postbackmessages.good_to_go()
 
         elif request_type == "message":
-            print('got a message!')
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
                 messenger = Message(recipient_id)
+                norman = NormanUser(recipient_id)
+
+                messenger.show_typing(recipient_id, 'typing_on')
+                # message_response = norman.process_message(message, recipient_id)
+                messenger.show_typing(recipient_id, 'typing_off')
+                messenger.send_message("text", "Thank you for your message")
+
+                # if message_response is not None and message_response != 'pseudo':
+                #     messenger.send_message(recipient_id, message_response)
+                # elif response != 'pseudo':
+                #     pass
+                return response.response_ok('Success')
                 # norman = NormanUser(recipient_id)
 
         #         messenger.show_typing(recipient_id, 'typing_on')
@@ -92,8 +105,6 @@ class WebHook(Resource):
         #             messenger.send_message(recipient_id, message_response)
         #         elif response != 'pseudo':
         #             pass
-                messenger.send_message('text', message_text=message)
-                return response.response_ok('Success')
         else:
             print("unknown message type received")
             return response.response_ok('success')

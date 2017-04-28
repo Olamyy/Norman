@@ -135,6 +135,7 @@ class ErrorConfig(Config):
 
 
 class MessageConfig(Config):
+    GET_ALL_SERVICE_LIST = "Hi <username>, you can go to {0} anytime to view a list of all the services I offer".format(ProdConfig.BASE_URL)
     GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am medical assistance " \
                           "bot that helps you keep track of your health while syncing it " \
                           "seamlessly with your hospital.".format(UIConfig.APP_NAME)
@@ -142,6 +143,6 @@ class MessageConfig(Config):
                           "I then update your hospital with this information to help you treat you better"
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
                       "hospitals assigns me to monitor on you."
-    GET_STARTED_SERVICE_LIST = ""
-
     GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"
+
+    EMOJI_DICT = {'HAPPY_SMILE': '😊'}

@@ -18,14 +18,15 @@ def get_request_type(payload):
 
     if data["entry"][0]["messaging"][0].get('postback'):
         return "postback"
-    elif data["entry"][0]["messaging"][0]['message']['quick_reply'].get('payload'):
-        return "postback"
-
-    elif "referral" in data["entry"][0]["messaging"][0]:
-        return "referral"
 
     elif "messaging" in data["entry"][0]["messaging"][0]:
-        return "referral"
+        return "message"
+
+    try:
+        if data["entry"][0]["messaging"][0]['message']['quick_reply'].get('payload'):
+            return "postback"
+    except KeyError:
+        return "message"
 
 
 def postback_events(payload):
@@ -37,7 +38,10 @@ def postback_events(payload):
         if data["entry"][0]["messaging"][0].get('postback'):
             postback_payload = event["postback"]["payload"]
         else:
-            postback_payload = event["message"]["quick_reply"]["payload"]
+            try:
+                postback_payload = event["message"]["quick_reply"]["payload"]
+            except KeyError:
+                pass
         yield sender_id, postback_payload
 
 

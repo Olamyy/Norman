@@ -9,9 +9,7 @@ from Norman.models import UserModel
 class UserUtils:
     def __init__(self, recipient_id=None):
         self.userdb = UserModel
-        # self.is_temp_user = True if self.userdb.objects.get(fb_id=recipient_id, has_hospital=False, is_temp_user=True) else False
         self.is_temp_user = True
-        # self.is_hospital_user = True if self.userdb.objects.get(fb_id=recipient_id, has_hospital=True, is_temp_user=False) else False
         self.id = None
         self.email = None
         self.fb_id = None

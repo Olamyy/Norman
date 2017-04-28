@@ -4,6 +4,7 @@ from datetime import datetime
 from Norman.conversation.dbutils import UserUtils
 from Norman.conversation.norman import Norman
 from Norman.norman import nlp
+from Norman.norman.nlp import NLPProcessor
 from Norman.utils import last_five_minute
 
 
@@ -35,6 +36,7 @@ class NormanUser:
         return self.userObj
 
     def process_message(self, message, recipient_id):
+        print("I got to process message")
         global current_user
         if self.first_message:
             return self.handle_first_time_user(recipient_id)
@@ -53,7 +55,8 @@ class NormanUser:
                 dotted_message = message + "."
             s = message(dotted_message, relations=True, lemmata=True)
             sentence = s[0]
-            nounPhrase = nlp.findNounPhrase(sentence)
+            decipher_message = NLPProcessor(sentence, current_user).decipher()
+
 
     def handle_first_time_user(self, recipient_id):
         pass
