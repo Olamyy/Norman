@@ -61,136 +61,136 @@ class NLPProcessor:
         yield " ".join(grp1), "-".join(grp2)
 
 
-    def decipher(self):
-        if self.isAskingBotInfo():
-            return "isAskingBotInfo"
-        elif self.isGreetings():
-            return "isGreeting"
-        elif self.isGreetings():
-            return "isGreeting"
-        elif self.isbadWords():
-            return "badWord"
-        elif self.isNearBy():
-            return "handleNearby"
-        # elif self.
-
-    def isbadWords(self):
-        for word in self.sentence.split(" "):
-            if word.lower() in self.bad_words:
-                return True
-        return False
-
-    def isNearBy(self):
-        res = ""
-        for chunk in self.chunks:
-            if chunk.type in ['PP', 'ADVP']:
-                res += " ".join([w.string for w in chunk.words if w.type in ['RB', 'PRP', 'IN']])
-                res += " "
-        res = res.strip()
-        if res in ['near me', 'around here', 'around', 'near here', 'nearby', 'near by', 'close by', 'close']:
-            return True
-        return False
-
-    def isAskingBotInfo(self):
-        botinfo = RegexConfig.BotInfoMatcher
-        for match in botinfo:
-            matcher = search(match, self.sentence)
-            if matcher:
-                return True
-            return False
-
-    def isGreetings(self):
-        string = self.sentence.lower().split(" ")
-        if len(string) > 3:
-            return False
-        greetings = RegexConfig.GreetingsMatcher
-        for word in greetings:
-            if word in string or word in string[:3]:
-                return True
-        return False
-
-    def isGoodbye(self):
-        string = self.sentence.lower().split(" ")
-        byes = RegexConfig.ByeMatcher
-        for word in byes:
-            if word in string:
-                return True
-        return False
-
-    def isYelp(self):
-        verbs = self.find_verb()
-        noun_phrases = self.findNounPhrase()
-        # If match key verbs
-        yelpVerbs = ['eat', 'drink', 'find', 'display', 'get']
-        for verb in verbs:
-            if verb.lower() in yelpVerbs:
-                if "news" in noun_phrases or "information" in noun_phrases and "news stand" not in noun_phrases and "newsstand" not in noun_phrases:
-                    return False
-
-                yelpNouns = ['restaurant', 'food', 'drink', 'shop', 'store', 'bar', 'pub']
-                for noun in yelpNouns:
-                    if noun in noun_phrases:
-                        return True
-
-        # If match question/command structure
-        # "is there" + noun phrase
-        if "is there" in self.sentence.string \
-                or "are there" in self.sentence.string \
-                        and noun_phrases != "":
-            return True
-
-        # noun phrase + "near by"
-        nearby = self.isNearBy()
-        if noun_phrases != "" and nearby:
-            return True
-
-        m = search('{fine|find|get|find|show|search} { *+ }', self.sentence)
-        # Sometimes Speech to Text misunderstood "find" as "fine"
-        if len(m) > 0:
-            return True
-
-        return False
-
-    def findNounPhrase(self):
-        res = ""
-        for chunk in self.chunks:
-            if chunk.type == 'NP':
-                res += " ".join([w.string for w in chunk.words if w.type not in ['PRP', 'DT']])
-                res += " "
-        for verb in ['find', 'get', 'show', 'search']:
-            res = res.replace(verb, "")
-        return res
-
-    def removePunctuations(self):
-        return self.sentence.translate(None, string.punctuation)
-
-    def getUserTime(self, user=None):
-        user_tz = user.timezone
-        offset = time.timezone if (time.localtime().tm_isdst == 0) else time.altzone
-        server_tz = offset / 60 / 60 * -1
-        time_diff = user_tz - server_tz
-        server_now = datetime.datetime.now()
-        return server_now + datetime.timedelta(hours=time_diff)
-
-    def find_verb(self):
-        result = []
-        for chunk in self.chunks:
-            if chunk.type in ['VP']:
-                strings = [w.string for w in chunk.words if w.type in ['VB', 'VBP']]
-                result.extend(strings)
-        return result
-
-    def findProperNoun(self):
-        for chunk in self.chunks:
-            if chunk.type == 'NP':
-                for w in chunk.words:
-                    if w.type == 'NNP':
-                        return w.string
-        return None
-
-    def getOneOf(self, items):
-        rand_idx = random.randint(0, len(items) - 1)
-        return items[rand_idx]
-
-    def isDismissPreviousRequest(self):
-        pass
+    # def decipher(self):
+    #     if self.isAskingBotInfo():
+    #         return "isAskingBotInfo"
+    #     elif self.isGreetings():
+    #         return "isGreeting"
+    #     elif self.isGreetings():
+    #         return "isGreeting"
+    #     elif self.isbadWords():
+    #         return "badWord"
+    #     elif self.isNearBy():
+    #         return "handleNearby"
+    #     # elif self.
+    #
+    # def isbadWords(self):
+    #     for word in self.sentence.split(" "):
+    #         if word.lower() in self.bad_words:
+    #             return True
+    #     return False
+    #
+    # def isNearBy(self):
+    #     res = ""
+    #     for chunk in self.chunks:
+    #         if chunk.type in ['PP', 'ADVP']:
+    #             res += " ".join([w.string for w in chunk.words if w.type in ['RB', 'PRP', 'IN']])
+    #             res += " "
+    #     res = res.strip()
+    #     if res in ['near me', 'around here', 'around', 'near here', 'nearby', 'near by', 'close by', 'close']:
+    #         return True
+    #     return False
+    #
+    # def isAskingBotInfo(self):
+    #     botinfo = RegexConfig.BotInfoMatcher
+    #     for match in botinfo:
+    #         matcher = search(match, self.sentence)
+    #         if matcher:
+    #             return True
+    #         return False
+    #
+    # def isGreetings(self):
+    #     string = self.sentence.lower().split(" ")
+    #     if len(string) > 3:
+    #         return False
+    #     greetings = RegexConfig.GreetingsMatcher
+    #     for word in greetings:
+    #         if word in string or word in string[:3]:
+    #             return True
+    #     return False
+    #
+    # def isGoodbye(self):
+    #     string = self.sentence.lower().split(" ")
+    #     byes = RegexConfig.ByeMatcher
+    #     for word in byes:
+    #         if word in string:
+    #             return True
+    #     return False
+    #
+    # def isYelp(self):
+    #     verbs = self.find_verb()
+    #     noun_phrases = self.findNounPhrase()
+    #     # If match key verbs
+    #     yelpVerbs = ['eat', 'drink', 'find', 'display', 'get']
+    #     for verb in verbs:
+    #         if verb.lower() in yelpVerbs:
+    #             if "news" in noun_phrases or "information" in noun_phrases and "news stand" not in noun_phrases and "newsstand" not in noun_phrases:
+    #                 return False
+    #
+    #             yelpNouns = ['restaurant', 'food', 'drink', 'shop', 'store', 'bar', 'pub']
+    #             for noun in yelpNouns:
+    #                 if noun in noun_phrases:
+    #                     return True
+    #
+    #     # If match question/command structure
+    #     # "is there" + noun phrase
+    #     if "is there" in self.sentence.string \
+    #             or "are there" in self.sentence.string \
+    #                     and noun_phrases != "":
+    #         return True
+    #
+    #     # noun phrase + "near by"
+    #     nearby = self.isNearBy()
+    #     if noun_phrases != "" and nearby:
+    #         return True
+    #
+    #     m = search('{fine|find|get|find|show|search} { *+ }', self.sentence)
+    #     # Sometimes Speech to Text misunderstood "find" as "fine"
+    #     if len(m) > 0:
+    #         return True
+    #
+    #     return False
+    #
+    # def findNounPhrase(self):
+    #     res = ""
+    #     for chunk in self.chunks:
+    #         if chunk.type == 'NP':
+    #             res += " ".join([w.string for w in chunk.words if w.type not in ['PRP', 'DT']])
+    #             res += " "
+    #     for verb in ['find', 'get', 'show', 'search']:
+    #         res = res.replace(verb, "")
+    #     return res
+    #
+    # def removePunctuations(self):
+    #     return self.sentence.translate(None, string.punctuation)
+    #
+    # def getUserTime(self, user=None):
+    #     user_tz = user.timezone
+    #     offset = time.timezone if (time.localtime().tm_isdst == 0) else time.altzone
+    #     server_tz = offset / 60 / 60 * -1
+    #     time_diff = user_tz - server_tz
+    #     server_now = datetime.datetime.now()
+    #     return server_now + datetime.timedelta(hours=time_diff)
+    #
+    # def find_verb(self):
+    #     result = []
+    #     for chunk in self.chunks:
+    #         if chunk.type in ['VP']:
+    #             strings = [w.string for w in chunk.words if w.type in ['VB', 'VBP']]
+    #             result.extend(strings)
+    #     return result
+    #
+    # def findProperNoun(self):
+    #     for chunk in self.chunks:
+    #         if chunk.type == 'NP':
+    #             for w in chunk.words:
+    #                 if w.type == 'NNP':
+    #                     return w.string
+    #     return None
+    #
+    # def getOneOf(self, items):
+    #     rand_idx = random.randint(0, len(items) - 1)
+    #     return items[rand_idx]
+    #
+    # def isDismissPreviousRequest(self):
+    #     pass

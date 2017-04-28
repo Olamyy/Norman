@@ -169,3 +169,10 @@ class RegexConfig(Config):
 
     ByeMatcher = ['bye', 'see you']
     MessagingServiceMatcher = ['leave a message [for|to]+\ \w [that|saying|] I will be home']
+
+
+class YelpConfig(Config):
+    CONSUMER_KEY = None
+    CONSUMER_SECRET = None
+    TOKEN = None
+    TOKEN_SECRET = None
