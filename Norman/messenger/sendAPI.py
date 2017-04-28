@@ -1,12 +1,11 @@
 import requests
 from flask import json
-
 from Norman import settings
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
 from Norman.norman.user import NormanUser, TempUser
-from Norman.settings import FBConfig, MessageConfig
+from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
 from Norman.services.messaging import MessagingService
 
@@ -178,8 +177,6 @@ class Template(Message):
     def send_template_message(self, template_type, **kwargs):
         self.payload_structure["message"]["attachment"]["payload"]["template_type"] = template_type
 
-        print(self.payload_structure)
-
         if template_type == "button":
             self.payload_structure['message']["attachment"]["payload"]["text"] = kwargs.get('text')
             self.payload_structure['message']['attachment']['payload'].pop('elements')
@@ -217,7 +214,7 @@ class Template(Message):
             raise HttpError('Unable to complete request.')
 
 
-class PostBackMessages(Message):
+class PostBackMessages(Template):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
         self.recipient_id = recipient_id
@@ -257,12 +254,14 @@ class PostBackMessages(Message):
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
-    def get_started_user_service_list(self):
-        message_text = MessageConfig.GET_STARTED_MEANING
-        self.send_message("text", message_text=message_text, )
-        return response.response_ok('Success')
 
     def get_started_service_list(self):
+        # self.send_message("text", message_text="Here are the services we offer")
+        self.send_template_message(template_type='list', list_info=[ServiceListConfig.messaging,
+                                                                    ServiceListConfig.reminder,
+                                                                    ServiceListConfig.emergency,
+                                                                    ServiceListConfig.scheduling
+                                                                    ])
         message_text = MessageConfig.GET_ALL_SERVICE_LIST.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
@@ -274,7 +273,14 @@ class PostBackMessages(Message):
 
     def handle_help(self):
         message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
-        self.send_message("text", message_text=message_text)
+        quick_replies = [
+            {"content_type": "text", "title": "Tell Me About You", "payload": "NORMAN_GET_STARTED_PAYLOAD"},
+            {"content_type": "text", "title": "Leave a Message", "payload": ""},
+            {"content_type": "text", "title": "Set Reminder", "payload": ""},
+            {"content_type": "text", "title": "Request Urgent Help", "payload": ""},
+            {"content_type": "text", "title": "Book an Appointment","payload": ""}
+        ]
+        self.send_message("text", message_text=message_text,quick_replies=quick_replies)
         return response.response_ok('Success')
 
     def good_to_go(self):
