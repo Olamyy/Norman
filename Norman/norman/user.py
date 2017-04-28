@@ -24,7 +24,7 @@ class NormanUser:
         #     pass
         #     print("I'm back here.")
 
-        contexts = current_user.context
+        # contexts = current_user.context
         if message['type'] == 'text':
             message_text = message['data'].decode("utf-8")
             if message_text.lower() == "help":
