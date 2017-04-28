@@ -10,3 +10,7 @@ class MessagingService:
 
     @classmethod
     def add_previous_message(cls):
+        pass
+
+    def send_notification(self, who, what):
+        pass
