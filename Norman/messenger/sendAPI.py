@@ -213,7 +213,7 @@ class Template(Message):
             raise HttpError('Unable to complete request.')
 
 
-class PostBackMessages(Message):
+class PostBackMessages(Message, Template):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
         self.recipient_id = recipient_id
@@ -255,7 +255,8 @@ class PostBackMessages(Message):
 
     def get_started_user_service_list(self):
         message_text = MessageConfig.GET_STARTED_MEANING
-        self.send_message("text", message_text=message_text, )
+        self.send_message("text", message_text=message_text)
+        self.send_template_message(template_type='list', )
         return response.response_ok('Success')
 
     def get_started_service_list(self):

@@ -23,13 +23,11 @@ class NormanUser:
         #     self.userObj.update_last_seen(current_user)
         #     pass
         #     print("I'm back here.")
-
-        contexts = current_user.context
         if message['type'] == 'text':
             message_text = message['data'].decode("utf-8")
             if message_text.lower() == "help":
                 return 'getHelp'
-            if message_text[-1] != ".":  # help separate sentence for parsetree
+            elif message_text[-1] != ".":  # help separate sentence for parsetree
                 dotted_message = message_text + "."
                 return NLPProcessor(dotted_message)
 
