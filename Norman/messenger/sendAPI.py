@@ -279,7 +279,14 @@ class PostBackMessages(Template):
 
     def handle_help(self):
         message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
-        self.send_message("text", message_text=message_text)
+        quick_replies = [
+            {"content_type": "text", "title": "Tell Me About You", "payload": "NORMAN_GET_STARTED_PAYLOAD"},
+            {"content_type": "text", "title": "Leave a Message", "payload": ""},
+            {"content_type": "text", "title": "Set Reminder", "payload": ""},
+            {"content_type": "text", "title": "Request Urgent Help", "payload": ""},
+            {"content_type": "text", "title": "Book an Appointment","payload": ""}
+        ]
+        self.send_message("text", message_text=message_text,quick_replies=quick_replies)
         return response.response_ok('Success')
 
     def good_to_go(self):
