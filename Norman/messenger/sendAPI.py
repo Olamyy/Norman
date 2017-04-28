@@ -8,6 +8,7 @@ from Norman.messenger.userProfile import Profile
 from Norman.norman.user import NormanUser, TempUser
 from Norman.settings import FBConfig, MessageConfig
 from Norman.utils import response
+from Norman.services.messaging import MessagingService
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -302,3 +303,20 @@ class PostBackMessages(Message):
             response.response_ok('Success')
             return response.response_ok('Success')
         return response.response_ok('Success')
+
+    def handle_messaging_service(self):
+        message_text = "Who would you like to leave a message for?"
+        self.send_message("text", message_text=message_text)
+        '''
+            Hey lekan my laptop is about to go off,
+            @Todo: Here is what i am trying to do here
+            1. Create a boolean field 'awaiting_message' in the user model
+            1. At this point, update field to true
+            2. When  a new message comes in from the same user, check if the user's
+              awaiting_message is true
+            3. take the message as continuation of the previous message
+        '''
+        MessagingService.add_previous_message()
+        return response.response_ok('Success')
+
+    def

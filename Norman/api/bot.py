@@ -76,6 +76,8 @@ class WebHook(Resource):
                     return postbackmessages.get_started_service_list()
                 elif postback_payload == 'GOOD_TO_GO':
                     return postbackmessages.good_to_go()
+                elif postback_payload == 'NORMAN_LEAVE_MESSAGE':
+                    return postbackmessages.handle_messaging_service()
 
         elif request_type == "message":
             for recipient_id, message in messaging_events(data):
