@@ -10,6 +10,7 @@ from Norman.messenger.sendAPI import PostBackMessages, Message
 from Norman.norman.nlp import NLPProcessor
 from Norman.norman.user import NormanUser
 from Norman.utils import response
+import apiai
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
@@ -59,14 +60,7 @@ class WebHook(Resource):
     def post(self):
         data = request.get_data()
         request_type = get_request_type(data)
-<<<<<<< HEAD
-        print('The request type is', data)
-        print(request_type)
-        print("The data is", data)
-        request_type = get_request_type(data)
-=======
 
->>>>>>> 067c0a821043462b672984835637fa70755ef1bd
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
                 postbackmessages = PostBackMessages(recipient_id)
@@ -129,6 +123,7 @@ class WebHook(Resource):
                 #         # Log this message for categorization later
                 #         norman.handleUncategorized("text", message)
                 #         ##@Todo: Handle APIAI Responses here
+                api = apiai.ApiAI
                 return response.response_ok('Success')
         else:
             print("unknown message type received")

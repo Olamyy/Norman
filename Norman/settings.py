@@ -147,8 +147,7 @@ class MessageConfig(Config):
     GET_STARTED_MEANING = "It means I help you keep track of vital personal health information. " \
                           "I then update your hospital with this information to help treat you better"
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
-                      "hospitals assigns me to monitor on you."
-    GET_STARTED_SERVICE_LIST = "hospitals assigns me to on you."
+                      "hospitals assigns me to on you."
     GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"
 
     COMING_FROM_HOSPITAL = "Great. I can see you have been brought here from your hospital dashboard."
@@ -157,8 +156,7 @@ class MessageConfig(Config):
 
     TIME_TO_SET_UP = "Please {0}, give me some minutes to get you all set up. I promise I won't take long.".format(
         EMOJI_DICT['BOWING_MAN'])
-    # administrator list
-    ADMINS = "olamyy53@gmail.com"
+
     FIRST_TIME_TEMP_USER = ["You are currently using me as a free user.",
                             "While you can enjoy some of my services as a free user,"
                             "to enjoy the best of my features, you need to be registered to an hospital.",
