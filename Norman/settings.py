@@ -27,7 +27,10 @@ class FBConfig(Config):
     GRAPH_API_VERSION = 'v2.6'
     GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/messages?access_token={1}'.format(
         GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
-
+    WHITE_LISTED_DOMAINS = [
+        "https://wallpaperbrowse.com/media/images/pictures-14.jpg",
+        "http://norman-bot.herokuapp.com/static/landing/images/norman-android.png"
+    ]
 
 class ApiAIConfig:
     CLIENT_ACCESS_TOKEN = '223fceac22164b419316b65979d86fdb'
@@ -140,7 +143,7 @@ class MessageConfig(Config):
                           "bot that helps you keep track of your health while syncing it " \
                           "seamlessly with your hospital.".format(UIConfig.APP_NAME)
     GET_STARTED_MEANING = "It means I help you keep track of vital personal health information. " \
-                          "I then update your hospital with this information to help you treat you better"
+                          "I then update your hospital with this information to help treat you better"
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
                       "hospitals assigns me to monitor on you."
     GET_HELP_MESSAGE = "Hi <username>, what do you need help with?"

@@ -150,14 +150,16 @@ class Template(Message):
     def send_template_message(self, template_type, **kwargs):
         self.payload_structure["message"]["attachment"]["payload"]["template_type"] = template_type
 
+        print(self.payload_structure)
+
         if template_type == "button":
             self.payload_structure['message']["attachment"]["payload"]["text"] = kwargs.get('text')
             self.payload_structure['message']['attachment']['payload'].pop('elements')
         elif template_type == 'generic':
             self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('generic_info')
         elif template_type == 'list':
-            self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('list_info')
-
+            self.payload_structure['message']["attachment"]["payload"]['elements'] = kwargs.get('list_info')
+            self.payload_structure['message']['attachment']['payload'].pop('text')
         if kwargs.get("buttons"):
             self.payload_structure['message']["attachment"]["payload"]['buttons'] = [kwargs.get('buttons')]
         else:
@@ -191,11 +193,11 @@ class PostBackMessages(Message):
     def __init__(self, recipient_id, **kwargs):
         super().__init__(recipient_id, **kwargs)
         self.current_user = UserUtils(recipient_id)
+        self.user_details = self.user_profile.get_user_details(recipient_id)
 
     def handle_get_started(self, recipient_id):
         # self.current_user.create_temp_user(recipient_id)
-        user_details = self.user_profile.get_user_details(recipient_id)
-        message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', user_details['first_name'])
+        message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
@@ -231,7 +233,7 @@ class PostBackMessages(Message):
         return response.response_ok('Success')
 
     def get_started_service_list(self):
-        message_text = MessageConfig.GET_ALL_SERVICE_LIST
+        message_text = MessageConfig.GET_ALL_SERVICE_LIST.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
             {"content_type": "text", "title": "I'm still confused",
@@ -241,7 +243,7 @@ class PostBackMessages(Message):
         return response.response_ok('Success')
 
     def handle_help(self):
-        message_text = MessageConfig.GET_HELP_MESSAGE
+        message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
         self.send_message("text", message_text=message_text)
         return response.response_ok('Success')
 

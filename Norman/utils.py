@@ -12,6 +12,9 @@ from flask import current_app
 from flask import flash
 from flask import jsonify, make_response
 from flask import redirect
+from Norman.api.base import base
+from Norman.settings import FBConfig
+from Norman.errors import HttpMethodError
 
 
 def flash_errors(form, category='warning'):
@@ -55,6 +58,22 @@ def last_five_minute():
     return datetime.now() - timedelta(minutes=5)
 
 
+def update_white_listed_domains():
+    """https://graph.facebook.com/v2.6/me/messenger_profile?access_token=PAGE_ACCESS_TOKEN"""
+    graph_api_url = FBConfig.GRAPH_API_URL.replace('messages', 'messenger_profile')
+    data = {
+        "setting_type": "domain_whitelisting",
+        "whitelisted_domains": FBConfig.WHITE_LISTED_DOMAINS,
+        "domain_action_type": "add"
+            }
+    print(FBConfig.WHITE_LISTED_DOMAINS)
+    try:
+        request = base.exec_request('POST', graph_api_url, data=data)
+        return request
+    except HttpMethodError:
+        return 'Error'
+
+
 class Response:
 
     def __init__(self):
@@ -72,3 +91,6 @@ class Response:
         return make_response(response, 400)
 
 response = Response()
+
+if __name__ == '__main__':
+    print(update_white_listed_domains())
