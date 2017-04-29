@@ -230,8 +230,7 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
         ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        response.response_ok('Success')
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
     def handle_get_started_meaning(self):

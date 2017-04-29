@@ -71,7 +71,6 @@ class WebHook(Resource):
                 if postback_payload == 'NORMAN_GET_HELP':
                     return postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
-                    print(postback_payload)
                     return postbackmessages.handle_get_started()
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
                     return postbackmessages.handle_get_started_meaning()
