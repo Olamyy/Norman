@@ -65,10 +65,13 @@ class WebHook(Resource):
 
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
+                print("I got a postback")
                 postbackmessages = PostBackMessages(recipient_id)
+                print(postbackmessages)
                 if postback_payload == 'NORMAN_GET_HELP':
                     return postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
+                    print(postback_payload)
                     return postbackmessages.handle_get_started()
                 elif postback_payload == 'NORMAN_GET_STARTED_MEANING':
                     return postbackmessages.handle_get_started_meaning()
@@ -90,6 +93,7 @@ class WebHook(Resource):
                     return postbackmessages.handle_get_nearby_hospital()
 
         elif request_type == "message":
+            print("I got a message")
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
@@ -140,13 +144,4 @@ class WebHook(Resource):
                 return postbackmessages.handle_api_ai_message(message)
 
         else:
-            print("unknown message type received")
             return response.response_ok('success')
-
-
-def parse_natural_text(user_text):
-    ai = AI().parse(user_text)
-    if ai.match_successful:
-        return ai.text
-    else:
-        return "Sorry.. I do not understand you."
