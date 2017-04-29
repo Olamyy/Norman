@@ -21,6 +21,7 @@ class AI:
         self.log = Logger()
 
     def parse(self, data):
+        print('got to apiai parse function')
         self.request.query = data
         try:
             r = self.request.getresponse()  # returns a response object
