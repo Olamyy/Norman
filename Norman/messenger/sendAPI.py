@@ -301,7 +301,7 @@ class PostBackMessages(Template):
             self.send_message('text', MessageConfig.TIME_TO_SET_UP)
             response.response_ok('Success')
         else:
-            self.handle_first_time_temp_user()
+            return self.handle_first_time_temp_user()
 
     def handle_first_time_temp_user(self):
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
@@ -342,10 +342,12 @@ class PostBackMessages(Template):
             elif 'users_last_message_was a response to what':
                 MessagingService().send_notification(who='previous_message', what='this_message')
                 message_text = "Your message was successfully sent"
-                self.send_message("text", message_text=message_text)
+                return self.send_message("text", message_text=message_text)
         else:
             message_text = "Sure, give me a few seconds... B-)"
-            self.send_message("text", message_text=message_text)
+            return self.send_message("text", message_text=message_text)
+
+        return response.response_ok('Success')
 
     def handle_api_ai_message(self, message):
         test = AI()
@@ -362,6 +364,8 @@ class PostBackMessages(Template):
                 {"content_type": "text", "title": "Drug Purchase", "payload": "GET_NEARBY_HOSPITAL"}
             ]
             return self.send_message('text', message_text="Sorry I didn't get that, let's try again", quick_replies=quick_replies)
+
+        return response.response_ok('Success')
 
     def handle_leave_message(self):
         message_text = "Who would you like to leave a message for?"
