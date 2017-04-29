@@ -36,9 +36,12 @@ class AI:
                 self.match_successful = True
                 self.text = response['result']['fulfillment']['speech']
         except KeyError:
-            if response['result']['metadata'] == {}:
-                self.match_successful = True
-                self.text = response['result']['fulfillment']['speech']
+            try:
+                if response['result']['metadata'] == {}:
+                    self.match_successful = True
+                    self.text = response['result']['fulfillment']['speech']
+            except KeyError:
+                self.match_successful = False
 
 
 if __name__ == '__main__':
