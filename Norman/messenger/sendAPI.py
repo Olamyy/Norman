@@ -1,13 +1,14 @@
 import requests
 from flask import json
+
 from Norman import settings
+from Norman.api.api_ai import AI
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
 from Norman.norman.user import NormanUser, TempUser, MessagingService
 from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
-from Norman.api.api_ai import AI
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -346,24 +347,30 @@ class PostBackMessages(Template):
         test.parse(message)
         if test.match_successful:
             reply = test.text
-            self.send_message('text', message_text=reply)
+            return self.send_message('text', message_text=reply)
         else:
             reply = "Sorry I didn't get that, let's try again"
-            self.send_message('text', message_text=reply)
+            return self.send_message('text', message_text=reply)
 
         return response.response_ok('Success')
 
     def handle_leave_message(self):
-        pass
+        message_text = "Who would you like to leave a message for?"
+        return self.send_message('text', message_text=message_text)
 
     def handle_set_reminder(self):
-        pass
+        message_text = "Nice. Your reminder has been set."
+        return self.send_message('text', message_text=message_text)
 
     def handle_request_urgent_help(self):
-        pass
+        message_text = "Hi, what can I do for you?"
+        return self.send_message('text', message_text=message_text)
 
     def handle_book_appointment(self):
-        pass
+        message_text = "Unfortunately, I could not handle your appointment scheduling."
+        return self.send_message('text', message_text=message_text)
 
     def handle_get_nearby_hospital(self):
-        pass
+        message_text = "Give me a few minute. I'm searching for hospitals around you"
+        return self.send_message('text', message_text=message_text)
+
