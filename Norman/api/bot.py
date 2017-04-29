@@ -93,9 +93,9 @@ class WebHook(Resource):
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
-                norman = NormanUser(recipient_id)
-                messenger = Message(recipient_id)
-                message_response = NLPProcessor(message, recipient_id)
+                # norman = NormanUser(recipient_id)
+                # messenger = Message(recipient_id)
+                # message_response = NLPProcessor(message, recipient_id)
                 # norman = NormanUser(recipient_id)
                 # context = norman.getuserContext()
                 # messenger = Message(recipient_id)
