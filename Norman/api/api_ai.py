@@ -1,11 +1,12 @@
-from apiai import ApiAI
 import json
-from Norman.settings import ApiAIConfig
-from Norman.utils import generate_session_id
-from Norman.errors import HttpError
-from Norman.logger import Logger
 from socket import gaierror
 
+from apiai import ApiAI
+
+from Norman.errors import HttpError
+from Norman.logger import Logger
+from Norman.settings import ApiAIConfig
+from Norman.utils import generate_session_id
 
 ai = ApiAI(ApiAIConfig.CLIENT_ACCESS_TOKEN)
 
@@ -43,11 +44,3 @@ class AI:
             except KeyError:
                 self.match_successful = False
 
-
-if __name__ == '__main__':
-    test = AI()
-    test.parse('blahblahblah')
-    if test.match_successful:
-        print(test.text)
-    else:
-        print('Sorry couldn\'t match your input')
