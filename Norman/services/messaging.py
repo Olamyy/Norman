@@ -12,5 +12,6 @@ class MessagingService:
     def add_previous_message(cls):
         pass
 
+    @staticmethod
     def send_notification(self, who, what):
         pass
