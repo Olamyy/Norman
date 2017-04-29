@@ -1,6 +1,5 @@
 from Norman.messenger.sendAPI import Message, Template
 
-
 """
     Examples on how to you sendAPI class in your code
 """
@@ -8,6 +7,14 @@ from Norman.messenger.sendAPI import Message, Template
 
 def class_message(recipient):
     """
+    curl -X POST -H "Content-Type: application/json" -d '{
+  "get_started":{
+    "payload":"NORMAN_GET_STARTED_PAYLOAD"
+  }
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
+
+
+        curl -X GET "https://graph.facebook.com/v2.6/me/messenger_profile?fields=get_started&access_token=EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD"
 
     :param recipient: a valid recipient id
     :return: a json response from the server
@@ -54,33 +61,70 @@ def class_message(recipient):
 def class_template(recipient):
 
     """
-    t = Template('some_fb_user_id')
+    t = Template('some_fb_user_id') # '1280106375410348'
 
     # send a list_template
 
     >>> list_item_one = {
-                    "title": "Classic White T-Shirt",
-                    "image_url": "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
-                    "subtitle": "100% Cotton, 200% Comfortable",
-                    "default_action": {
-                        "type": "web_url",
-                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=100",
-                        "messenger_extensions": true,
-                        "webview_height_ratio": "tall",
-                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                     },
-                    "buttons": [
-                        {
-                            "title": "Shop Now",
-                            "type": "web_url",
-                            "url": "https://peterssendreceiveapp.ngrok.io/shop?item=100",
-                            "messenger_extensions": true,
-                            "webview_height_ratio": "tall",
-                            "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                        }
-                    ]
+            "title": "Classic White T-Shirt",
+            "image_url": "https://wallpaperbrowse.com/media/images/pictures-14.jpg",
+            "subtitle": "100% Cotton, 200% Comfortable",
+            "default_action": {
+                "type": "web_url",
+                "url": "https://norman-bot.herokuapp.com/",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            },
+            "buttons": [
+                {
+                    "title": "Shop Now",
+                    "type": "web_url",
+                    "url": "https://norman-bot.herokuapp.com/",
+                    "messenger_extensions": True,
+                    "webview_height_ratio": "tall",
+                    "fallback_url": "https://norman-bot.herokuapp.com/"
                 }
+            ]
+    }
 
-    t.send_template_message('template_type=list', list_info=[list_item_one])
+
+    t.send_template_message(template_type='list', list_info=[list_item_one, list_item_two])
+
+    Notes:
+        1. Maximum of 4 elements and minimum of 2 elements
+        2. Maximum of 1 button per element
+        3. All urls used must be registered in FBConfig.WHITE_LISTED_DOMAINS
+            ** You must explicitly run utils.update_white_listed_domains() after
+                adding a url for the changes to take effect as it is not called automatically
+        4. Urls must be https
 
     """
+
+if __name__ == '__main__':
+    t = Template('1280106375410348')
+
+    list_item_one = {
+        "title": "Classic White T-Shirt",
+        "image_url": "https://wallpaperbrowse.com/media/images/pictures-14.jpg",
+        "subtitle": "100% Cotton, 200% Comfortable",
+        "default_action": {
+            "type": "web_url",
+            "url": "https://norman-bot.herokuapp.com/",
+            "messenger_extensions": True,
+            "webview_height_ratio": "tall",
+            "fallback_url": "https://norman-bot.herokuapp.com/"
+        },
+        "buttons": [
+            {
+                "title": "Shop Now",
+                "type": "web_url",
+                "url": "https://norman-bot.herokuapp.com/",
+                "messenger_extensions": True,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://norman-bot.herokuapp.com/"
+            }
+        ]
+    }
+
+    t.send_template_message(template_type='list', list_info=[list_item_one, list_item_one])

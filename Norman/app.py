@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
-
+from flask_mail import Mail
 from Norman import commands, public
 from Norman.api import bot, web
 from Norman.assets import assets
 from Norman.auth import views as auth_view
-from Norman.extensions import cache, csrf_protect, db, debug_toolbar, login_manager, mailer
+from Norman.extensions import cache, csrf_protect, db, debug_toolbar, mailer
 from Norman.dashboard import views
 from Norman.settings import ProdConfig
 from Norman.models import Hospital
@@ -33,9 +33,12 @@ def register_extensions(app):
     cache.init_app(app)
     db.init_app(app)
     csrf_protect.init_app(app)
-    login_manager.init_app(app)
     debug_toolbar.init_app(app)
     mailer.init_app(app)
+
+    # mail
+    mail = Mail()
+    mail.init_app(app)
     return None
 
 

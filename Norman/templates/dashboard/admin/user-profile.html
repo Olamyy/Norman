@@ -1,0 +1,220 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+     <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+<div class="row">
+                            <div class="col-sm-4">
+                                 <a href="{{ url_for('dashboard.patient') }}?pID=" class="btn btn-success btn-md waves-effect waves-light m-b-30"><i class="md md-add"></i> Edit Profile</a>
+                            </div><!-- end col -->
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="bg-picture card-box">
+                                    <div class="profile-info-name">
+                                        <img style="width:50%;" src="{{ url_for('static', filename='assets/images/profile.jpg') }}"
+                                             class="img-thumbnail" alt="profile-image">
+
+                                        <div class="profile-info-detail">
+                                            <h3 class="m-t-0 m-b-0">User Full Name</h3>
+                                            <p>@username</p>
+                                            <div class="button-list m-t-20">
+                                                <button type="button" class="btn btn-sm btn-dribbble waves-effect waves-light">
+                                                   Card No
+                                                </button>
+                                                <button type="button" class="btn btn-facebook btn-sm waves-effect waves-light">
+                                                   Hello@patientemail.com
+                                                </button>
+
+                                                <button type="button" class="btn btn-sm btn-linkedin waves-effect waves-light">
+                                                   Mobile Number
+                                                </button>
+
+                                                <button type="button" class="btn btn-sm btn-twitter waves-effect waves-light">
+                                                   Sex:Male
+                                                </button>
+
+                                                <button type="button" class="btn btn-sm btn-dribbble waves-effect waves-light">
+                                                   Date of Birth
+                                                </button>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="clearfix"></div>
+
+                                        <br><br>
+                                        <div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30"><i class="zmdi zmdi-notifications-none m-r-5"></i> Recent Activities</h4>
+
+                                    <ul class="list-group m-b-0 user-list">
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar text-center">
+                                                    <i class="zmdi zmdi-circle text-primary"></i>
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Booking</span>
+                                                    <span class="desc">February 29, 2016 - 10:30am to 12:45pm</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar text-center">
+                                                    <i class="zmdi zmdi-circle text-success"></i>
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Ambulance</span>
+                                                    <span class="desc">February 29, 2016 - 10:30am to 12:45pm</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar text-center">
+                                                    <i class="zmdi zmdi-circle text-pink"></i>
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Prescription</span>
+                                                    <span class="desc">February 29, 2016 - 10:30am to 12:45pm</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar text-center">
+                                                    <i class="zmdi zmdi-circle text-muted"></i>
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Emergency</span>
+                                                    <span class="desc">February 29, 2016 - 10:30am to 12:45pm</span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar text-center">
+                                                    <i class="zmdi zmdi-circle text-danger"></i>
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Ambulance</span>
+                                                    <span class="desc">February 29, 2016 - 10:30am to 12:45pm</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="card-box">
+                                    <div class="dropdown pull-right">
+                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="zmdi zmdi-more-vert"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </div>
+
+                        			<h4 class="header-title m-t-0 m-b-30">Available Services For You</h4>
+
+                                    <ul class="list-group m-b-0 user-list">
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar">
+                                                    <img src="{{ url_for('static', filename='assets/images/users/icon-3.png') }}" alt="">
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Ambulance</span>
+                                                    <span class="desc"></span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar">
+                                                    <img src="{{ url_for('static', filename='assets/images/users/icon-4.png') }}" alt="">
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Allergies</span>
+                                                    <span class="desc"></span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar">
+                                                    <img src="{{ url_for('static', filename='assets/images/users/icon-1.svg') }}" alt="">
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Emergency</span>
+                                                    <span class="desc m-b-0"></span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar">
+                                                    <img src="{{ url_for('static', filename='assets/images/users/icon-4.png') }}" alt="">
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Bookings</span>
+                                                    <span class="desc"></span>
+                                                </div>
+                                            </a>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <a href="#" class="user-list-item">
+                                                <div class="avatar">
+                                                    <img src="{{ url_for('static', filename='assets/images/users/icon-1.svg') }}" alt="">
+                                                </div>
+                                                <div class="user-desc">
+                                                    <span class="name">Prescription</span>
+                                                    <span class="desc m-b-0"></span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div> <!-- container -->
+
+                </div>
+
+                <footer class="footer">
+                    2017 © Norman Bot.
+                </footer>
+
+            </div>
+
+
+{% endblock %}

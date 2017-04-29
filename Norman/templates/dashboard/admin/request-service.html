@@ -1,0 +1,74 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+<div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+
+                        <div class="row">
+                        	<div class="col-sm-12">
+                        		<div class="card-box">
+
+                        			<h4 class="header-title m-t-0 m-b-30 text-center">Request A New Service Not Available Yet
+                                        <br><br><small class="text-center">We will go through your request and get back to you</small></h4>
+
+                        			<div class="row">
+                        				<div class="col-lg-12">
+                                            <div class="text-center" id="error"></div>
+                                            <div class="text-center" id="success"></div>
+                        					<form class="form-horizontal" role="form" >
+                                                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}">
+                                                <input type="hidden" value="{{ url_for('web.register_service') }}" id="service_url">
+	                                            <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">Service Name</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="name" id="service_name" placeholder="Service Name E.g Diagnosis" >
+	                                                </div>
+	                                            </div>
+                                                <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">Short Description</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="short_description" id="short_description" placeholder="Short Description Of Service">
+	                                                </div>
+	                                            </div>
+                                                <div class="form-group col-lg-12">
+	                                                <label class="col-md-2 control-label">Long Description</label>
+	                                                <div class="col-md-10">
+	                                                    <input type="text" class="form-control" name="long_description" id="long_description" placeholder="Long Description Of Service">
+	                                                </div>
+	                                            </div>
+
+
+                                                <div class="attached-files m-t-30">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="text-center m-t-30">
+                                                                <button type="button" id="requestService" class="btn btn-success waves-effect waves-light">
+                                                                    Request Service
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+	                                        </form>
+                        				</div>
+                        			</div>
+                        		</div>
+                        	</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            <div class="container">
+                <footer class="footer">
+                    2017 © Norman Bot
+                </footer>
+            </div>
+
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                            {% for service in services %}
+                            <div class="col-lg-3 col-md-6">
+                                <div class="text-center card-box">
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/icon.png') }}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-center">
+                                            <h2 class="text-info" data-plugin="counterup">{{ service.name }}</h2>
+                                        </div>
+                                        <p class="text-muted font-13 m-b-30">
+                                            {{ service.short_description }}
+                                        </p> 
+                                        <p class="text-muted font-13 m-b-30" style="display: none;">
+                                            {{ service.long_description }}
+                                        </p>
+                                        <button class="btn btn-primary waves-effect waves-light">Add Service</button>
+                                        <button class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#custom-width-modal">More Information</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="row">
+                            <div class="col-md-12">
+                            	<div class="card-box">
+                                    <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+                                        <div class="modal-dialog" style="width:55%;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="custom-width-modalLabel">Modal Heading</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h4>Text in a modal</h4>
+                                                    <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                                                    <hr>
+                                                    <h4>Overflowing text to show scroll behavior</h4>
+                                                    <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary waves-effect waves-light">Save changes</button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal-dialog -->
+                                    </div><!-- /.modal -->
+                            	</div>
+                            </div><!-- end col -->
+                        </div>
+                         </div>
+                    </div> <!-- container -->
+                </div>
+                <footer class="footer">
+                    2017 Norman Bot
+                </footer>
+
+            </div>
+
+
+{% endblock %}

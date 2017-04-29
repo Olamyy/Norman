@@ -15,5 +15,17 @@ flake8-isort==2.1.3
 flake8-quotes==0.9.0
 isort==4.2.5
 pep8-naming==0.4.1
-requests
 
+
+
+
+#Mail
+flask-mail
+
+# chat
+chatterbot
+apiai
+
+# files
+Flask-Excel
+pyexcel-xls

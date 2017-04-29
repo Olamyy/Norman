@@ -1,7 +1,14 @@
+import requests
+from flask import json
+
+from Norman import settings
+from Norman.api.api_ai import AI
 from Norman.api.base import base
 from Norman.errors import HttpError
-from Norman.settings import FBConfig
-
+from Norman.messenger.userProfile import Profile
+from Norman.norman.user import NormanUser, TempUser, MessagingService
+from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
+from Norman.utils import response
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -29,28 +36,41 @@ class Message(object):
                                   'sender_action': '',
                                   'notification_type': ''
                                 }
+        self.user_profile = Profile()
 
     def send_action(self, action):
         """
         :param action: - typing_on, typing_off, mark_as_read
         """
         # clean up payload
-        self.payload_structure.pop('message')
+        # self.payload_structure.pop('message')
         self.payload_structure.pop('notification_type')
         self.payload_structure['sender_action'] = action
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
+    @staticmethod
+    def show_typing(recipient_id, action='typing_on'):
+        r = requests.post("https://graph.facebook.com/v2.6/me/messages",
+                          params={"access_token": settings.FBConfig.FACEBOOK_SECRET_KEY},
+                          data=json.dumps({
+                              "recipient": {"id": recipient_id},
+                              "sender_action": action
+                          }),
+                          headers={'Content-type': 'application/json'})
+        if r.status_code != requests.codes.ok:
+            return response.response_ok('Success')
+
     def send_message(self, message_type, message_text=None, attachment=None, notification_type=None, quick_replies=None):
         """
         - text must be UTF-8 and has a 640 character limit
         - You cannot send a text and an attachment together
+        :param quick_replies: a list of quick responses sent along with the message to the user
         :param message_type: text or attachment
         :param message_text: text to send
         :param attachment: a valid attachment object i.e dictionary
@@ -62,34 +82,75 @@ class Message(object):
 
         if message_type == "text":
             self.payload_structure['message']['text'] = message_text
-            self.payload_structure['message'].pop('attachment')
+            try:
+                self.payload_structure['message'].pop('attachment')
+            except KeyError:
+                pass
         else:
-            self.payload_structure['message'].pop('text')
+            try:
+                self.payload_structure['message'].pop('text')
+            except KeyError:
+                pass
             self.payload_structure['message']['attachment'] = attachment
 
         # clean up payload
-        self.payload_structure.pop('sender_action')
+        try:
+            self.payload_structure.pop('sender_action')
+        except KeyError:
+            pass
         if quick_replies:
             self.payload_structure['message']['quick_replies'] = quick_replies
         else:
-            self.payload_structure['message'].pop('quick_replies')
+            try:
+                self.payload_structure['message'].pop('quick_replies')
+            except KeyError:
+                pass
         if notification_type:
             self.payload_structure['notification_type'] = notification_type
         else:
-            self.payload_structure.pop('notification_type')
+            try:
+                self.payload_structure.pop('notification_type')
+            except KeyError:
+                pass
 
         # connect
-        print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
 
+    def handleGreeting(self, timeContext):
+        pass
+
+    def handleBotInfo(self):
+        pass
+
+    def handle_find_food(self, context, message, noun_phrase, message1, param):
+        pass
+
+    def handle_yelp_rename(self, context, message):
+        pass
+
+    def handle_memo(self, message_text):
+        pass
+
+    def initService(self, param):
+        pass
+
+    def handleGoodbye(self, param):
+        pass
+
+    def handleYelp(self, param, noun_phrase, message, param1):
+        pass
+
+    def handleLocation(self):
+        pass
+
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(Template, self).__init__(recipient_id, **kwargs)
         self.payload_structure['message']["attachment"]["type"] = "template"
         self.payload_structure['message']["attachment"]["payload"]["buttons"] = {}
         self.payload_structure['message']["attachment"]["payload"]["elements"] = [{
@@ -123,12 +184,15 @@ class Template(Message):
         elif template_type == 'generic':
             self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('generic_info')
         elif template_type == 'list':
-            self.payload_structure['message']["attachment"]["payload"]['elements'][0] = kwargs.get('list_info')
-
+            self.payload_structure['message']["attachment"]["payload"]['elements'] = kwargs.get('list_info')
+            self.payload_structure['message']['attachment']['payload'].pop('text')
         if kwargs.get("buttons"):
             self.payload_structure['message']["attachment"]["payload"]['buttons'] = [kwargs.get('buttons')]
         else:
-            self.payload_structure.pop('buttons')
+            try:
+                self.payload_structure.pop('buttons')
+            except KeyError:
+                pass
 
         # clean up payload
         self.payload_structure.pop('sender_action')
@@ -137,11 +201,210 @@ class Template(Message):
             self.payload_structure['notification_type'] = notification_type
         else:
             self.payload_structure.pop('notification_type')
-
-        # connect
+        quick_replies = kwargs.get('notification_type')
+        if quick_replies:
+            self.payload_structure['quick_replies'] = quick_replies
+        else:
+            self.payload_structure['message'].pop('quick_replies')
+        self.payload_structure['message'].pop('text')
         print(self.payload_structure)
         request = base.exec_request('POST', graphAPIURL, data=self.payload_structure)
         if request:
             return request
         else:
             raise HttpError('Unable to complete request.')
+
+
+class PostBackMessages(Template):
+    def __init__(self, recipient_id, **kwargs):
+        super(PostBackMessages, self).__init__(recipient_id, **kwargs)
+        self.recipient_id = recipient_id
+        self.temp_user = None
+        self.current_user = NormanUser(recipient_id)
+        self.user_details = self.user_profile.get_user_details(recipient_id)
+
+    def handle_get_started(self):
+        print('i got to started')
+        self.temp_user = TempUser(self.recipient_id)
+        message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', self.user_details['first_name'])
+        quick_replies = [
+            {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
+            {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
+        ]
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        return response.response_ok('Success')
+
+    def handle_get_started_meaning(self):
+        message_text = MessageConfig.GET_STARTED_MEANING
+        quick_replies = [
+            {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
+            {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
+        ]
+        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
+        return response.response_ok('Success')
+
+    def handle_get_started_how(self):
+        print('i got st ho')
+        message_text = MessageConfig.GET_STARTED_HOW
+        quick_replies = [
+            {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"},
+            {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
+            {"content_type": "text", "title": "I'm still confused",
+             "payload": "NORMAN_GET_HELP"}
+        ]
+        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
+        return response.response_ok('Success')
+
+    def get_started_service_list(self):
+        print('i got')
+        # self.send_message("text", message_text="Here are the services we offer")
+        self.send_template_message(template_type='list', list_info=[ServiceListConfig.messaging,
+                                                                    ServiceListConfig.reminder,
+                                                                    ServiceListConfig.emergency,
+                                                                    ServiceListConfig.scheduling
+                                                                    ])
+        message_text = MessageConfig.GET_ALL_SERVICE_LIST.replace('<username>', self.user_details['first_name'])
+        quick_replies = [
+            {"content_type": "text", "title": "Nice", "payload": "GOOD_TO_GO"},
+            {"content_type": "text", "title": "I'm still confused",
+             "payload": "NORMAN_GET_HELP"}
+        ]
+        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
+        return response.response_ok('Success')
+
+    def handle_help(self):
+        print('i got to get help')
+        message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
+        quick_replies = [
+            {"content_type": "text", "title": "Tell Me About You", "payload": "NORMAN_GET_STARTED_PAYLOAD"},
+            {"content_type": "text", "title": "Leave a Message", "payload": "NORMAN_LEAVE_MESSAGE"},
+            {"content_type": "text", "title": "Set Reminder", "payload": "NORMAN_SET_REMINDER"},
+            {"content_type": "text", "title": "Request Urgent Help", "payload": "NORMAN_REQUEST_URGENT_HELP"},
+            {"content_type": "text", "title": "Book an Appointment","payload": "NORMAN_BOOK_APPOINTMENT"}
+        ]
+        self.send_message("text", message_text=message_text,quick_replies=quick_replies)
+        response.response_ok('Success')
+        return response.response_ok('Success')
+
+    def good_to_go(self):
+        print('i got to good help')
+        message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
+        self.send_message("text", message_text=message_text)
+        response.response_ok('Success')
+        return self.beyondGetStarted()
+
+    def beyondGetStarted(self):
+        print('i got to beyond')
+        if self.current_user.is_from_ref_id:
+            message_text = MessageConfig.COMING_FROM_HOSPITAL
+            self.show_typing('typing_on')
+            self.show_typing('typing_off')
+            self.send_message('text', message_text)
+            self.show_typing('typing_on')
+            self.show_typing('typing_off')
+            self.send_message('text', MessageConfig.TIME_TO_SET_UP)
+            return response.response_ok('Success')
+        else:
+            return self.handle_first_time_temp_user()
+
+    def handle_first_time_temp_user(self):
+        print('i got to ftu')
+        for statement in MessageConfig.FIRST_TIME_TEMP_USER:
+            self.send_message('text', statement)
+        text = "While you can enjoy some of my services as a free user," + \
+               "to enjoy the best of my features, you need to be registered to an hospital."
+        self.send_message("text", message_text=text)
+        quick_replies = [
+            {"content_type": "text", "title": "Continue as a free user", "payload": "GOOD_TO_GO_FREE"},
+            {"content_type": "text", "title": "Inform your hospital about Norman", "payload": "GET_NEARBY_HOSPITAL"},
+            {"content_type": "text", "title": "View registered hospitals", "payload": "GET_NEARBY_HOSPITAL"}
+        ]
+        second_text = "As a free user, you can go on and"
+        self.send_message("text", message_text=second_text, quick_replies=quick_replies)
+        return response.response_ok('Success')
+
+    @property
+    def handle_messaging_service(self):
+        message_text = "Who would you like to leave a message for?"
+        self.send_message("text", message_text=message_text)
+        """
+            Hey lekan my laptop is about to go off,
+            @Todo: Here is what i am trying to do here
+            1. Create a boolean field 'awaiting_message' in the user model
+            1. At this point, update field to true
+            2. When  a new message comes in from the same user, check if the user's
+              awaiting_message is true
+            3. take the message as continuation of the previous message
+        """
+        MessagingService.add_previous_message()
+        return response.response_ok('Success')
+
+    def handle_awaited_message(self, message_type='messaging_service'):
+        if message_type == 'messaging_service':
+            if 'users_last_message was a response to who?':
+                message_text = "What message would you like to leave a message?"
+                self.send_message("text", message_text=message_text)
+            elif 'users_last_message_was a response to what':
+                MessagingService().send_notification(who='previous_message', what='this_message')
+                message_text = "Your message was successfully sent"
+                return self.send_message("text", message_text=message_text)
+        else:
+            message_text = "Sure, give me a few seconds... B-)"
+            return self.send_message("text", message_text=message_text)
+
+        return response.response_ok('Success')
+
+    def handle_api_ai_message(self, message):
+        test = AI()
+        test.parse(message)
+        if test.match_successful:
+            reply = test.text
+            return self.send_message('text', message_text=reply)
+        else:
+            reply = "Sure, give me a few seconds... B-)"
+            self.send_message('text', message_text=reply)
+            quick_replies = [
+                {"content_type": "text", "title": "Drug Use Reminder", "payload": "GOOD_TO_GO_FREE"},
+                {"content_type": "text", "title": "Emergency Service", "payload": "GET_NEARBY_HOSPITAL"},
+                {"content_type": "text", "title": "Drug Purchase", "payload": "GET_NEARBY_HOSPITAL"}
+            ]
+            return self.send_message('text', message_text="Sorry I didn't get that, let's try again", quick_replies=quick_replies)
+
+        return response.response_ok('Success')
+
+    def handle_leave_message(self):
+        message_text = "Who would you like to leave a message for?"
+        return self.send_message('text', message_text=message_text)
+
+    def handle_set_reminder(self):
+        message_text = "Nice. Your reminder has been set."
+        return self.send_message('text', message_text=message_text)
+
+    def handle_request_urgent_help(self):
+        message_text = "Hey, what can I do for you?"
+        return self.send_message('text', message_text=message_text)
+
+    def handle_book_appointment(self):
+        message_text = "Unfortunately, I could not handle your appointment scheduling."
+        return self.send_message('text', message_text=message_text)
+
+    def handle_get_nearby_hospital(self):
+        message_text = "Sure, give me a few seconds... B-)"
+        return self.send_message('text', message_text=message_text)
+
+    def good_to_go_free(self):
+        message_text = "Sweet. You're all setup up now to use Norman as a free user."
+        self.send_message('text', message_text=message_text)
+        options = "You can either send a message, or try one of the options below"
+        quick_replies = [
+            {"content_type": "text", "title": "Drug Use Reminder", "payload": "DRUG_USE_REMINDER"},
+            {"content_type": "text", "title": "Emergency Service", "payload": "NORMAN_REQUEST_URGENT_HELP"},
+            {"content_type": "text", "title": "Drug Purchase", "payload": "DRUG_PURCHASE"}
+        ]
+        return self.send_message('text', message_text=options, quick_replies=quick_replies)
+
+
+

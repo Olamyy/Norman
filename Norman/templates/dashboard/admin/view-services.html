@@ -1,0 +1,62 @@
+{% extends "dashboard/layout/layout.html" %}
+
+{% block content %}
+
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container">
+                        <div class="row">
+                      <div class="row">
+                            {% for service in services %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="text-center card-box">
+                                    <div>
+                                        <img src="{{ url_for('static', filename='assets/images/users/icon.png') }}" class="img-circle thumb-xl img-thumbnail m-b-10" alt="profile-image">
+                                        <div class="text-center">
+                                            <h2 class="text-info" data-plugin="counterup">{{ service.name }}</h2>
+                                        </div>
+                                        <p class="text-muted font-13 m-b-30">
+                                            {{ service.short_description }}
+                                        </p>
+                                        <p class="text-muted font-13 m-b-30" style="display: none;">
+                                            {{ service.long_description }}
+                                        </p>
+                                        <button class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#event-modal{{ service.id }}">More Information</button>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="modal fade none-border" id="event-modal{{ service.id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header text-center">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title"><strong>{{ service.name }}</strong></h4>
+                                                <small>{{ service.short_description }}</small>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-center">
+                                                    {{ service.long_description }}
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                         </div>
+                    </div> <!-- container -->
+
+                </div>
+                <footer class="footer">
+                    2017 Norman Bot
+                </footer>
+
+            </div>
+
+
+{% endblock %}

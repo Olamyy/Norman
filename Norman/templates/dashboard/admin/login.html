@@ -30,21 +30,6 @@
         <![endif]-->
 
         <script src="{{ url_for('static',filename='assets/js/modernizr.min.js') }}"></script>
-<script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-        a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
-    ga('create', 'UA-74137680-1', 'auto');
-    ga('send', 'pageview');
-</script>
 
     </head>
     <body>
@@ -53,7 +38,7 @@
         <div class="clearfix"></div>
         <div class="wrapper-page">
             <div class="text-center">
-                <a href="{{ url_for('public.home') }}" class="logo"><span>Norman<span>Bot</span></span></a>
+                <a href="{{ url_for('public.home') }}" class="logo"><span>Norman</span></a>
                 <h5 class="text-muted m-t-0 font-600">Continue with Norman</h5>
             </div>
             <div class="m-t-40 card-box">
@@ -61,12 +46,12 @@
                     <h4 class="text-uppercase font-bold m-b-0">Sign In</h4>
                 </div>
                 <div class="panel-body">
-                    <form class="form-horizontal m-t-20" action="{{ url_for('auth.login') }}" method="POST">
+                    <form class="form-horizontal m-t-20" action="{{ url_for('dashboard.login') }}" method="POST">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                             {% if error %}
                                 <div class="alert alert-danger alert-dismissible" role="alert">
                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                              aria-hidden="true">&times;</span></button>{{ error }}</div>'
+                              aria-hidden="true">&times;</span></button>{% for error_msg in error %}{{ error_msg }}{% endfor  %}</div>'
                             {% endif %}
                         <div class="form-group ">
                             <div class="col-xs-12">
@@ -79,20 +64,6 @@
                                     {{form.password(placeholder="Password", class_="form-control")}}
                             </div>
                         </div>
-
-                        <div class="form-group ">
-                            <div class="col-xs-12">
-                                <div class="checkbox checkbox-custom">
-{#                                    <input id="checkbox-signup" type="checkbox">#}
-                                    {{form.remember(id="checkbox-signup")}}
-                                    <label for="checkbox-signup">
-                                        Remember me
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-
                         <div class="form-group text-center m-t-30">
                             <div class="col-xs-12">
                                 <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light" type="submit">Log In</button>

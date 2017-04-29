@@ -1,28 +1,38 @@
 # from Norman.conversation.norman import norman
-from Norman.core.dbutils import UserUtils
-from Norman.models import UserModel
-from Norman.utils import generate_session_id
+from Norman.conversation.dbutils import UserUtils
 
 
-class NormanUser:
-    def __init__(self, user_id):
-        self.fb_id = user_id
-        self.user_db = UserUtils()
-        self.first_message = self.user_db.is_first_message(self.fb_id)
+class NormanUser(object):
+    def __init__(self, fb_id):
+        self.is_from_ref_id = None
+        self.fb_id = fb_id
+        self.userObj = UserUtils()
+        self.first_message = self.userObj.is_first_message(self.fb_id)
         self.instantiated_user = None
         self.session_id = None
-        self.user = self.user_db.get_one_from_fb_id(self.fb_id)
-
-    def instantiate_user(self):
-        self.session_id = generate_session_id()
-        UserModel.objects.filter(fb_id=self.fb_id).update(session_ids=self.session_id)
-        self.instantiated_user = True
-
-    def start_conversation(self, message, **kwargs):
-        # return norman.get_response(message)
-        return "David says hi"
 
     def get_user_instance(self):
-        self.session_id = self.user
+        self.session_id = self.userObj
 
 
+class TempUser(NormanUser):
+    def __init__(self, recipient_id):
+        super(TempUser, self).__init__(recipient_id)
+
+
+class MessagingService:
+    def __init__(self):
+        pass
+
+    def _message(self):
+        pass
+
+    def is_valid_message_type(self):
+        pass
+
+    @classmethod
+    def add_previous_message(cls):
+        pass
+
+    def send_notification(self, who, what):
+        pass
