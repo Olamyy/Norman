@@ -135,7 +135,7 @@ class WebHook(Resource):
                 #         # Log this message for categorization later
                 #         norman.handleUncategorized("text", message)
                 #         ##@Todo: Handle APIAI Responses here
-
+                print(data)
                 postbackmessages = PostBackMessages(recipient_id)
                 return postbackmessages.handle_api_ai_message(message)
 
