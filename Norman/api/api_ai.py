@@ -25,6 +25,7 @@ class AI:
         try:
             r = self.request.getresponse()  # returns a response object
             response = json.loads(r.read().decode(encoding='UTF-8').replace('\n', ''))
+            print(response)
         except HttpError:
             self.log.log_error('HTTP Error: Unable to complete request.')
             return
@@ -43,4 +44,14 @@ class AI:
                     self.text = response['result']['fulfillment']['speech']
             except KeyError:
                 self.match_successful = False
+
+if __name__ == '__main__':
+    test = AI()
+    message = 'hi'
+    test.parse(message)
+    if test.match_successful:
+        reply = test.text
+        print(reply)
+    else:
+        pass
 
