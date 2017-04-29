@@ -306,10 +306,15 @@ class PostBackMessages(Template):
     def handle_first_time_temp_user(self):
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
             self.send_message('text', statement)
+        text = "While you can enjoy some of my services as a free user," + \
+               "to enjoy the best of my features, you need to be registered to an hospital."
+        self.send_message("text", message_text=text)
         quick_replies = [
-            {"content_type": "text", "title": "Get Nearby Hospital", "payload": "GET_NEARBY_HOSPITAL"}
+            {"content_type": "text", "title": "Continue as a free user", "payload": "GOOD_TO_GO_FREE"},
+            {"content_type": "text", "title": "Inform your hospital about Norman", "payload": "GET_NEARBY_HOSPITAL"},
+            {"content_type": "text", "title": "View registered hospitals", "payload": "GET_NEARBY_HOSPITAL"}
         ]
-        text = "While you can enjoy some of my services as a free user," + " to enjoy the best of my features, you need to be registered to an hospital."
+        second_text = "As a free user, you can go on and"
         self.send_message("text", message_text=text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
@@ -331,7 +336,7 @@ class PostBackMessages(Template):
 
     def handle_awaited_message(self, message_type='messaging_service'):
         if message_type == 'messaging_service':
-            if 'users_last_message was a reponse to who?':
+            if 'users_last_message was a response to who?':
                 message_text = "What message would you like to leave a message?"
                 self.send_message("text", message_text=message_text)
             elif 'users_last_message_was a response to what':
