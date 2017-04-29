@@ -91,6 +91,8 @@ class WebHook(Resource):
                     return postbackmessages.handle_book_appointment()
                 elif postback_payload == 'GET_NEARBY_HOSPITAL':
                     return postbackmessages.handle_get_nearby_hospital()
+                elif postback_payload == 'GET_NEARBY_HOSPITAL':
+                    return postbackmessages.good_to_go_free()
 
         elif request_type == "message":
             print("I got a message")

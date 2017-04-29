@@ -315,7 +315,7 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "View registered hospitals", "payload": "GET_NEARBY_HOSPITAL"}
         ]
         second_text = "As a free user, you can go on and"
-        self.send_message("text", message_text=text, quick_replies=quick_replies)
+        self.send_message("text", message_text=second_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
     @property
@@ -340,11 +340,11 @@ class PostBackMessages(Template):
                 message_text = "What message would you like to leave a message?"
                 self.send_message("text", message_text=message_text)
             elif 'users_last_message_was a response to what':
-                MessagingService.send_notification(who='previous_message', what='this_message')
+                MessagingService().send_notification(who='previous_message', what='this_message')
                 message_text = "Your message was successfully sent"
                 self.send_message("text", message_text=message_text)
         else:
-            message_text = "Sorry, I didn't get that, let's try again"
+            message_text = "Sure, give me a few seconds... B-)"
             self.send_message("text", message_text=message_text)
 
     def handle_api_ai_message(self, message):
@@ -354,10 +354,14 @@ class PostBackMessages(Template):
             reply = test.text
             return self.send_message('text', message_text=reply)
         else:
-            reply = "Sorry I didn't get that, let's try again"
-            return self.send_message('text', message_text=reply)
-
-        return response.response_ok('Success')
+            reply = "Sure, give me a few seconds... B-)"
+            self.send_message('text', message_text=reply)
+            quick_replies = [
+                {"content_type": "text", "title": "Drug Use Reminder", "payload": "GOOD_TO_GO_FREE"},
+                {"content_type": "text", "title": "Emergency Service", "payload": "GET_NEARBY_HOSPITAL"},
+                {"content_type": "text", "title": "Drug Purchase", "payload": "GET_NEARBY_HOSPITAL"}
+            ]
+            return self.send_message('text', message_text="Sorry I didn't get that, let's try again", quick_replies=quick_replies)
 
     def handle_leave_message(self):
         message_text = "Who would you like to leave a message for?"
@@ -368,7 +372,7 @@ class PostBackMessages(Template):
         return self.send_message('text', message_text=message_text)
 
     def handle_request_urgent_help(self):
-        message_text = "Hi, what can I do for you?"
+        message_text = "Hey, what can I do for you?"
         return self.send_message('text', message_text=message_text)
 
     def handle_book_appointment(self):
@@ -376,6 +380,19 @@ class PostBackMessages(Template):
         return self.send_message('text', message_text=message_text)
 
     def handle_get_nearby_hospital(self):
-        message_text = "Give me a few minute. I'm searching for hospitals around you"
+        message_text = "Sure, give me a few seconds... B-)"
         return self.send_message('text', message_text=message_text)
+
+    def good_to_go_free(self):
+        message_text = "Sweet. You're all setup up now to use Norman as a free user."
+        self.send_message('text', message_text=message_text)
+        options = "You can either send a message, or try one of the options below"
+        quick_replies = [
+            {"content_type": "text", "title": "Drug Use Reminder", "payload": "DRUG_USE_REMINDER"},
+            {"content_type": "text", "title": "Emergency Service", "payload": "NORMAN_REQUEST_URGENT_HELP"},
+            {"content_type": "text", "title": "Drug Purchase", "payload": "DRUG_PURCHASE"}
+        ]
+        return self.send_message('text', message_text=options, quick_replies=quick_replies)
+
+
 

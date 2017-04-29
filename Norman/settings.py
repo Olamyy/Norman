@@ -140,7 +140,7 @@ class ErrorConfig(Config):
 
 
 class MessageConfig(Config):
-    GET_ALL_SERVICE_LIST = "Hi <username>, you can go to {0} anytime to view a list of all the services I offer".format(
+    GET_ALL_SERVICE_LIST = "You can also go to {0} anytime to view a list of all the services I offer".format(
         ProdConfig.SERVICE_URL)
     GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am Medical Assistance " \
                           "Bot that helps you keep track of your health while syncing it " \
