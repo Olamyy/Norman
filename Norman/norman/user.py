@@ -2,7 +2,7 @@
 from Norman.conversation.dbutils import UserUtils
 
 
-class NormanUser:
+class NormanUser(object):
     def __init__(self, fb_id):
         self.is_from_ref_id = None
         self.fb_id = fb_id
@@ -17,7 +17,7 @@ class NormanUser:
 
 class TempUser(NormanUser):
     def __init__(self, recipient_id):
-        super().__init__(recipient_id)
+        super(TempUser, self).__init__(recipient_id)
 
 
 class MessagingService:

@@ -53,6 +53,7 @@ flask-mail
 # chat
 chatterbot
 apiai
+regex
 
 # files
 Flask-Excel

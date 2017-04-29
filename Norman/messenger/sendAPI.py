@@ -149,7 +149,7 @@ class Message(object):
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(Template, self).__init__(recipient_id, **kwargs)
         self.payload_structure['message']["attachment"]["type"] = "template"
         self.payload_structure['message']["attachment"]["payload"]["buttons"] = {}
         self.payload_structure['message']["attachment"]["payload"]["elements"] = [{
@@ -216,7 +216,7 @@ class Template(Message):
 
 class PostBackMessages(Template):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(PostBackMessages, self).__init__(recipient_id, **kwargs)
         self.recipient_id = recipient_id
         self.temp_user = None
         self.current_user = NormanUser(recipient_id)
@@ -312,10 +312,11 @@ class PostBackMessages(Template):
         self.send_message("text", message_text=text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
+    @property
     def handle_messaging_service(self):
         message_text = "Who would you like to leave a message for?"
         self.send_message("text", message_text=message_text)
-        '''
+        """
             Hey lekan my laptop is about to go off,
             @Todo: Here is what i am trying to do here
             1. Create a boolean field 'awaiting_message' in the user model
@@ -323,7 +324,7 @@ class PostBackMessages(Template):
             2. When  a new message comes in from the same user, check if the user's
               awaiting_message is true
             3. take the message as continuation of the previous message
-        '''
+        """
         MessagingService.add_previous_message()
         return response.response_ok('Success')
 
@@ -344,11 +345,11 @@ class PostBackMessages(Template):
         test = AI()
         test.parse(message)
         if test.match_successful:
-            response = test.text
-            self.send_message('text', message_text=response)
+            reply = test.text
+            self.send_message('text', message_text=reply)
         else:
-            response = "Sorry I didn't get that, let's try again"
-            self.send_message('text', message_text=response)
+            reply = "Sorry I didn't get that, let's try again"
+            self.send_message('text', message_text=reply)
 
         return response.response_ok('Success')
 
