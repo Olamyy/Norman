@@ -67,7 +67,7 @@ class WebHook(Resource):
             for recipient_id, postback_payload in postback_events(data):
                 print("I got a postback")
                 postbackmessages = PostBackMessages(recipient_id)
-                print(postbackmessages)
+                print(postback_payload)
                 if postback_payload == 'NORMAN_GET_HELP':
                     return postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':

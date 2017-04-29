@@ -224,6 +224,7 @@ class PostBackMessages(Template):
         self.user_details = self.user_profile.get_user_details(recipient_id)
 
     def handle_get_started(self):
+        print('i got to started')
         self.temp_user = TempUser(self.recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
@@ -244,7 +245,7 @@ class PostBackMessages(Template):
         return response.response_ok('Success')
 
     def handle_get_started_how(self):
-        # self.current_user.
+        print('i got st ho')
         message_text = MessageConfig.GET_STARTED_HOW
         quick_replies = [
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"},
@@ -257,6 +258,7 @@ class PostBackMessages(Template):
         return response.response_ok('Success')
 
     def get_started_service_list(self):
+        print('i got')
         # self.send_message("text", message_text="Here are the services we offer")
         self.send_template_message(template_type='list', list_info=[ServiceListConfig.messaging,
                                                                     ServiceListConfig.reminder,
@@ -274,6 +276,7 @@ class PostBackMessages(Template):
         return response.response_ok('Success')
 
     def handle_help(self):
+        print('i got to get help')
         message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Tell Me About You", "payload": "NORMAN_GET_STARTED_PAYLOAD"},
@@ -287,12 +290,14 @@ class PostBackMessages(Template):
         return response.response_ok('Success')
 
     def good_to_go(self):
+        print('i got to good help')
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
         response.response_ok('Success')
         return self.beyondGetStarted()
 
     def beyondGetStarted(self):
+        print('i got to beyond')
         if self.current_user.is_from_ref_id:
             message_text = MessageConfig.COMING_FROM_HOSPITAL
             self.show_typing('typing_on')
@@ -306,6 +311,7 @@ class PostBackMessages(Template):
             return self.handle_first_time_temp_user()
 
     def handle_first_time_temp_user(self):
+        print('i got to ftu')
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
             self.send_message('text', statement)
         text = "While you can enjoy some of my services as a free user," + \
