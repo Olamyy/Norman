@@ -241,6 +241,7 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def handle_get_started_how(self):
@@ -253,6 +254,7 @@ class PostBackMessages(Template):
              "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def get_started_service_list(self):
@@ -269,6 +271,7 @@ class PostBackMessages(Template):
              "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def handle_help(self):
@@ -281,14 +284,14 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "Book an Appointment","payload": "NORMAN_BOOK_APPOINTMENT"}
         ]
         self.send_message("text", message_text=message_text,quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def good_to_go(self):
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
         response.response_ok('Success')
-        self.beyondGetStarted()
-        return response.response_ok('Success')
+        return self.beyondGetStarted()
 
     def beyondGetStarted(self):
         if self.current_user.is_from_ref_id:
@@ -299,7 +302,7 @@ class PostBackMessages(Template):
             self.show_typing('typing_on')
             self.show_typing('typing_off')
             self.send_message('text', MessageConfig.TIME_TO_SET_UP)
-            response.response_ok('Success')
+            return response.response_ok('Success')
         else:
             return self.handle_first_time_temp_user()
 

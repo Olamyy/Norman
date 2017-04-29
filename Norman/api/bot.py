@@ -95,7 +95,6 @@ class WebHook(Resource):
                     return postbackmessages.good_to_go_free()
 
         elif request_type == "message":
-            print("I got a message")
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
