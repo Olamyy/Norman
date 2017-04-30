@@ -1,16 +1,11 @@
 from flask import Blueprint, jsonify
-from flask import json
 from flask import make_response
 from flask import request
 from flask_restful import Resource
-from Norman.api.api_ai import AI
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
-from Norman.messenger.sendAPI import PostBackMessages, Message
-from Norman.norman.nlp import NLPProcessor
-from Norman.norman.user import NormanUser
-from Norman.settings import ApiAIConfig
+from Norman.messenger.sendAPI import PostBackMessages
 from Norman.utils import response
 
 
@@ -140,9 +135,9 @@ class WebHook(Resource):
                 #         # Log this message for categorization later
                 #         norman.handleUncategorized("text", message)
                 #         ##@Todo: Handle APIAI Responses here
-
                 postbackmessages = PostBackMessages(recipient_id)
-                return postbackmessages.handle_api_ai_message(message)
+                message_text = message['data'].decode('unicode_escape')
+                return postbackmessages.handle_api_ai_message(message_text)
 
         else:
             return response.response_ok('success')
