@@ -276,7 +276,6 @@ class PostBackMessages(Template):
         return response.response_ok('Success')
 
     def handle_help(self):
-        print('i got to get help')
         message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "Tell Me About You", "payload": "NORMAN_GET_STARTED_PAYLOAD"},
@@ -311,7 +310,6 @@ class PostBackMessages(Template):
             return self.handle_first_time_temp_user()
 
     def handle_first_time_temp_user(self):
-        print('i got to ftu')
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
             self.send_message('text', statement)
         text = "While you can enjoy some of my services as a free user," + \
