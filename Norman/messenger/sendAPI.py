@@ -358,7 +358,6 @@ class PostBackMessages(Template):
         return response.response_ok('Success')
 
     def handle_api_ai_message(self, message):
-        print('got to handle api')
         test = AI()
         test.parse(message)
         if test.match_successful:
