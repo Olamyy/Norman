@@ -66,7 +66,6 @@ def update_white_listed_domains():
         "whitelisted_domains": FBConfig.WHITE_LISTED_DOMAINS,
         "domain_action_type": "add"
             }
-    print(FBConfig.WHITE_LISTED_DOMAINS)
     try:
         request = base.exec_request('POST', graph_api_url, data=data)
         return request
