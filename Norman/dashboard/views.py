@@ -180,18 +180,6 @@ def security_settings():
     return render_template('dashboard/admin/security-settings.html', hospital=hospital)
 
 
-@blueprint.route('/confirm-email', methods=['GET'])
-def confirm_email():
-    hospital = hospitalObj.get_current_user_instance()
-    return render_template('dashboard/admin/confirm-email.html', hospital=hospital)
-
-
-@blueprint.route('/success-email', methods=['GET'])
-def success_email():
-    hospital = hospitalObj.get_current_user_instance()
-    return render_template('dashboard/admin/success-email.html', hospital=hospital)
-
-
 @blueprint.route('/user-profile', methods=['GET'])
 def user_profile():
     patient_id = request.args.get('pID')
@@ -206,3 +194,14 @@ def user_profile():
 def edit_user_profile():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/edit-user-profile.html', hospital=hospital)
+
+@blueprint.route('/confirm-email', methods=['GET'])
+def confirm_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/confirm-email.html', hospital=hospital)
+
+
+@blueprint.route('/success-email', methods=['GET'])
+def success_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/success-email.html', hospital=hospital)
