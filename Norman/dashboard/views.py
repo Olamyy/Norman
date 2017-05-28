@@ -195,6 +195,7 @@ def edit_user_profile():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/edit-user-profile.html', hospital=hospital)
 
+
 @blueprint.route('/confirm-email', methods=['GET'])
 def confirm_email():
     hospital = hospitalObj.get_current_user_instance()
@@ -205,3 +206,21 @@ def confirm_email():
 def success_email():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/success-email.html', hospital=hospital)
+
+
+@blueprint.route('/service-notification-email', methods=['GET'])
+def service_notification_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/service-notification-email.html', hospital=hospital)
+
+
+@blueprint.route('/password-reset-email', methods=['GET'])
+def password_reset_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/password-reset-email.html', hospital=hospital)
+
+
+@blueprint.route('/password-choosing-email', methods=['GET'])
+def password_choosing_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/password-choosing-email.html', hospital=hospital)
