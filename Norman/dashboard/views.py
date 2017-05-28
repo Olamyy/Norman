@@ -224,3 +224,15 @@ def password_reset_email():
 def password_choosing_email():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/password-choosing-email.html', hospital=hospital)
+
+
+@blueprint.route('/added-patient-email', methods=['GET'])
+def added_patient_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/added-patient-email.html', hospital=hospital)
+
+
+@blueprint.route('/password-recovery-email', methods=['GET'])
+def password_recovery_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/password-recovery-email.html', hospital=hospital)
