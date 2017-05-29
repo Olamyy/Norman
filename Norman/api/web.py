@@ -16,18 +16,6 @@ from Norman.utils import generate_id, hash_data
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 
 
-@blueprint.route('/g', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def test():
-    import googlemaps
-    gmaps = googlemaps.Client(key='AIzaSyAmoOVSZfK0Av6j_ONXa343qyYLGVczlS4')
-    a = gmaps.directions("Obafemi Awolowo University", "Lagos, Nigeria",
-                         mode="transit",
-                         traffic_model="optimistic",
-                         departure_time=datetime.now())
-    return Response.response_ok(a)
-
-
 @blueprint.route('/service', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def register_service():

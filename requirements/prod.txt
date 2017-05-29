@@ -42,6 +42,8 @@ requests
 #API
 flask_restful
 
+=======
+gunicorn>=1
 #Facebook
 pymessenger
 
@@ -53,6 +55,7 @@ flask-mail
 # chat
 chatterbot
 apiai
+regex
 
 # files
 Flask-Excel

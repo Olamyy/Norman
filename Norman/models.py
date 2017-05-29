@@ -82,6 +82,7 @@ class UserModel(db.Document):
     reg_num = db.StringField(max_length=50, min_length=3)
     last_seen = db.DateTimeField(default=datetime.datetime.now())
     drug_use_reminders = DictField()
+    awaiting_message = db.BooleanField(default=False)
 
 
 class Conversation(db.Document):

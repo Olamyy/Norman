@@ -16,7 +16,10 @@ flake8-quotes==0.9.0
 isort==4.2.5
 pep8-naming==0.4.1
 
-
 #GoogleAPIs
 python-google-places==1.4.0
 googlemaps==2.4.6
+
+#NLTK
+regex
+inflection
