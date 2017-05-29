@@ -19,7 +19,7 @@ def dashboard():
     if not user_id and not coming_from:
         return redirect(url_for('user.login', action="invalidRoute"))
     else:
-        user_id = userObj.get_by_user_id(user_id)
+        user_id = userObj.get_by_userID(user_id)
         if user_id:
             if user_id.has_chosen_password:
                 return render_template('dashboard/patient/dashboard.html', user=user_id)
@@ -56,9 +56,7 @@ def password_chooser():
         password = request.form["passsword"]
         patient = userObj.get_by_id(user_id)
         if patient:
-            userObj.update_password(user_id, password)
             if userObj.update_password(user_id, password):
-                userObj.choose_password_updates(patient.id)
                 userObj.write_to_session('current_user', str(patient))
                 return redirect(url_for('dashboard.dashboard'))
             else:

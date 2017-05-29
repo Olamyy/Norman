@@ -16,6 +16,18 @@ from Norman.utils import generate_id, hash_data
 blueprint = Blueprint('web', __name__, url_prefix='/api/web')
 
 
+@blueprint.route('/g', methods=['GET', 'POST'])
+@csrf_protect.exempt
+def test():
+    import googlemaps
+    gmaps = googlemaps.Client(key='AIzaSyAmoOVSZfK0Av6j_ONXa343qyYLGVczlS4')
+    a = gmaps.directions("Obafemi Awolowo University", "Lagos, Nigeria",
+                         mode="transit",
+                         traffic_model="optimistic",
+                         departure_time=datetime.now())
+    return Response.response_ok(a)
+
+
 @blueprint.route('/service', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def register_service():
@@ -111,7 +123,6 @@ class ServiceAPI(Resource):
         Service.objects(service_id=service_id).update(add_to_set__questions=questions)
         return Response.response_ok(service_details)
 
-
 @blueprint.route('/user', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def users():
@@ -159,10 +170,11 @@ class UserAPI:
                 return Response.response_error('Unable to handle action', 'No action specified.')
 
     def validate_fb_id(self, fb_id):
-        if not self.user_object.objects.get(fb_id=fb_id):
-            return False
+        user_details = self.user_object.objects.get(fb_id=fb_id)
+        if user_details:
+            return user_details
         else:
-            return Response.response_ok(user_details)
+            return Response.response_error('Unable to validate fb id')
 
     def post(self):
         data = request.get_json()
@@ -236,53 +248,12 @@ class UserAPI:
 
 @blueprint.route('/hospital', methods=['GET', 'POST'])
 @csrf_protect.exempt
-def hospital():
-    view_class = HospitalApi()
-    if request.method == "GET":
-        return view_class.get_hospital()
-    else:
-        return view_class.post()
-
-    @staticmethod
-    def add_users(data):
-        hospital_id = data.form.get('hospital_id')
-        user_records = data.get_records(field_name='file')
-        entries = []
-        for user in user_records:
-            new_user = UserModel(first_name=user['First Name'], last_name=user['Last Name'],
-                                 email=user['Email'], hospital_id=hospital_id, user_id=generate_id(10))
-            new_user.save()
-            entries.append(new_user)
-        return Response.response_ok(entries)
-
-    @staticmethod
-    def add_user(data):
-        data['user_id'] = generate_id(10)
-        user_details = UserModel(**data)
-        try:
-            user_details.save()
-        except NotUniqueError as e:
-            return Response.response_error('Unable to add user', str(e))
-        return Response.response_ok(user_details)
-
-    def update_user(self, user_id, data):
-        user_details = self.user_object.objects.filter(user_id=user_id)
-        if not user_details:
-            return Response.response_error("Unable to retrieve user, Invalid USER ID")
-        else:
-            self.user_object.objects(user_id=user_id).update(**data)
-            return Response.response_ok(user_details)
-
-
-@blueprint.route('/hospital', methods=['GET', 'POST'])
-@csrf_protect.exempt
 def register_hospital():
     view_class = HospitalApi()
     if request.method == "GET":
         return view_class.get_hospital()
     else:
         return view_class.post()
-
 
 class HospitalApi(Resource):
     def __init__(self):
@@ -323,9 +294,8 @@ class HospitalApi(Resource):
                                    verificationID=generate_id(4),
                                    )
         try:
-            create_hospital.save()
-            return Response.response_ok(create_hospital)
-            if create_hospital.save():
+            save_hospital = create_hospital.save()
+            if save_hospital.save():
                 self.hospital_util.write_to_session('current_user', data['temp_id'])
                 return Response.response_ok(create_hospital)
         except NotUniqueError:
@@ -348,3 +318,34 @@ class HospitalApi(Resource):
         else:
             Hospital.objects(hospital_id=hospital_id).update(**data)
             return Response.response_ok(hospital_details)
+
+
+    @staticmethod
+    def add_users(data):
+        hospital_id = data.form.get('hospital_id')
+        user_records = data.get_records(field_name='file')
+        entries = []
+        for user in user_records:
+            new_user = UserModel(first_name=user['First Name'], last_name=user['Last Name'],
+                                 email=user['Email'], hospital_id=hospital_id, user_id=generate_id(10))
+            new_user.save()
+            entries.append(new_user)
+        return Response.response_ok(entries)
+
+    @staticmethod
+    def add_user(data):
+        data['user_id'] = generate_id(10)
+        user_details = UserModel(**data)
+        try:
+            user_details.save()
+        except NotUniqueError as e:
+            return Response.response_error('Unable to add user', str(e))
+        return Response.response_ok(user_details)
+
+    def update_user(self, user_id, data):
+        user_details = self.user_object.objects.filter(user_id=user_id)
+        if not user_details:
+            return Response.response_error("Unable to retrieve user, Invalid USER ID")
+        else:
+            self.user_object.objects(user_id=user_id).update(**data)
+            return Response.response_ok(user_details)

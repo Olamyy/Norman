@@ -7,7 +7,7 @@ from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
 from Norman.messenger.sendAPI import PostBackMessages, Message
-from Norman.norman.nlp import NLPProcessor
+from Norman.norman.processor import Processor
 from Norman.norman.user import NormanUser
 from Norman.utils import response
 
@@ -91,50 +91,10 @@ class WebHook(Resource):
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
-                norman = NormanUser(recipient_id)
-                messenger = Message(recipient_id)
-                message_response = NLPProcessor(message, recipient_id)
-                # norman = NormanUser(recipient_id)
-                # context = norman.getuserContext()
-                # messenger = Message(recipient_id)
-                # decipher_message = norman.process_message(message, recipient_id)
-                # noun_phrase = decipher_message.findNounPhrase()
-                # if decipher_message.isAskingBotInfo():
-                #     return messenger.handleBotInfo()
-                # if context is not None and len(context) > 0:
-                #     context = context[-1]
-                #
-                #     if decipher_message.isDismissPreviousRequest():
-                #         return norman.popContexts(context)
-                #
-                #     if context == 'find-food':
-                #         return messenger.handle_find_food(context, message, noun_phrase, message,
-                #                                           'receive_location_text')
-                #
-                #     elif context['context'] == 'yelp-rename':
-                #         messenger.handle_yelp_rename(context, message)
-                #         return norman.popContexts(context)  # pop yelp-rename
-                #
-                #     elif context['context'] == 'create-reminder':
-                #         return messenger.initService('create-reminder')
-                # if message['type'] == "location":
-                #     return messenger.handleLocation()
-                # else:
-                #     if decipher_message.isGreetings():
-                #         return messenger.handleGreeting(decipher_message.sayHiTimeZone(recipient_id))
-                #
-                #     elif decipher_message.isGoodbye():
-                #         return messenger.handleGoodbye(decipher_message.sayByeTimeZone())
-                #
-                #     elif decipher_message.isYelp():
-                #         return messenger.handleYelp(None, noun_phrase, message, 'receive_request')
-                #
-                #     else:
-                #         # Log this message for categorization later
-                #         norman.handleUncategorized("text", message)
-                #         ##@Todo: Handle APIAI Responses here
-                postbackmessages = PostBackMessages(recipient_id)
-                return postbackmessages.handle_api_ai_message()
+                message = Message(recipient_id)
+                message_response = Processor(message, recipient_id)
+                message.send_message(message_response)
+                ##@Todo: Get Response and send to user.
         else:
             print("unknown message type received")
             return response.response_ok('success')

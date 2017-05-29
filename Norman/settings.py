@@ -18,6 +18,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MONGOALCHEMY_DATABASE = "norman"
 
+class GoogleConfig(Config):
+    PLACES_API_KEY = 'AIzaSyAmoOVSZfK0Av6j_ONXa343qyYLGVczlS4'
 
 class FBConfig(Config):
     """

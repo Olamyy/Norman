@@ -49,3 +49,8 @@ Flask-Mail
 #NLTK
 regex
 inflection
+
+
+#GoogleAPIs
+python-google-places==1.4.0
+googlemaps==2.4.6

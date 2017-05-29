@@ -7,6 +7,7 @@ import random
 import string
 import uuid
 from datetime import datetime, timedelta
+from time import time
 
 from flask import current_app
 from flask import flash
@@ -27,6 +28,10 @@ def flash_errors(form, category='warning'):
 def generate_id(length):
         chars = string.ascii_uppercase + string.digits
         return ''.join(random.choice(chars) for _ in range(length))
+
+def generate_conversation_id(recipient_id):
+    chars = recipient_id + str(time())[:5]
+    return chars
 
 
 def hash_data(data):
