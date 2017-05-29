@@ -44,8 +44,6 @@ class RealTimeMessagingService:
             return response
 
 
-
-
 class LocationService:
     def __init__(self, fb_id, message,**kwargs):
         self.fb_id = fb_id
