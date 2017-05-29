@@ -141,3 +141,14 @@ class WebHook(Resource):
 
         else:
             return response.response_ok('success')
+        data = request.get_json()
+        for event in data['entry']:
+            messaging = event['messaging']
+            for action in messaging:
+                if action.get('message'):
+                    recipient_id = action['sender']['id']
+                    if not self.user_view.validate_user(recipient_id):
+                        message = "Hello {0}, I'm Norman. Type Help to get started".format(recipient_id)
+                        bot.send_text_message(recipient_id, message)
+                        return response.response_ok('success')
+#                         self.free_conversation.init_conversation()

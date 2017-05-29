@@ -2,6 +2,8 @@
 """Application configuration."""
 import os
 
+from pymongo import MongoClient
+
 
 class Config:
     """Base configuration."""
@@ -82,6 +84,7 @@ class ProdConfig(Config, UIConfig):
         'password': 'toga',
         'alias': 'default'
     }
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
 
 
 class DevConfig(Config, UIConfig):
@@ -98,6 +101,11 @@ class DevConfig(Config, UIConfig):
         'password': 'toga',
         'alias': 'default'
     }
+    MONGODB_DB = 'Norman'
+    MONGODB_HOST = '127.0.0.1'
+    MONGODB_PORT = 27017
+    BASE_URL = "localhost:5000/"
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
 
 
 class TestConfig(Config):

@@ -15,6 +15,9 @@ from flask import redirect
 from Norman.api.base import base
 from Norman.settings import FBConfig
 from Norman.errors import HttpMethodError
+import string
+import random
+from bson.json_util import dumps
 
 
 def flash_errors(form, category='warning'):
@@ -81,6 +84,17 @@ class Response:
 
     @staticmethod
     def response_ok(data):
+        try:
+            oid = data._id
+            data._id = str(oid)
+        except AttributeError:
+            pass
+        try:
+            oid = data['_id']
+            data['_id'] = str(oid)
+        except KeyError:
+            pass
+
         response = jsonify({'status': 'success', 'data': data}, 200)
         return make_response(response)
 
@@ -88,6 +102,9 @@ class Response:
     def response_error(message, error=None, error_code=None):
         response = json.dumps({'status': 'fail', 'message': message, 'error': error, 'error_code': error_code})
         return make_response(response, 400)
+    def response_error(message, error=None):
+        response = jsonify({'status': 'fail', 'message': message, 'error': error})
+        return make_response(response)
 
 response = Response()
 
