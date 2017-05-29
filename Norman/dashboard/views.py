@@ -236,3 +236,9 @@ def added_patient_email():
 def password_recovery_email():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/password-recovery-email.html', hospital=hospital)
+
+
+@blueprint.route('/patient-dashboard', methods=['GET'])
+def patient_dashboard():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/patient-dashboard.html', hospital=hospital)
