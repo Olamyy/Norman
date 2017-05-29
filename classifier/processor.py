@@ -56,12 +56,23 @@ called by the main bot class, accepts fb_id and accompaning text
 
     def classify_sentence(self):
         """ Returns the service"""
+        # loc_nearest_hosp, loc_self, loc_pharmacy, loc_my_hosp
 
         # get probability hint for each service type
         msg_prob = round(self.msg_clf.prob_classify(self.sentence).prob("pos"), 2)
-        loc_prob = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
+        loc_nearest_hosp = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
+        loc_self = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
+        loc_pharmacy = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
+        sum_loc_prob = loc_nearest_hosp + loc_self + loc_pharmacy
+        loc_types = {loc_pharmacy: "pharmacy", loc_self: "loc_self", loc_nearest_hosp: "nearest_hosp",
+                     }
+
         # pick most probable service
-        result = {msg_prob: "messaging_service", loc_prob: "location_service"}
+
+        result = {
+                    msg_prob: "messaging_service",
+                    sum_loc_prob: {"type": "location_service", v }
+                }
         # print(result)
         service = result[max(result.keys())]
 
@@ -116,5 +127,5 @@ called by the main bot class, accepts fb_id and accompaning text
 
 if __name__ == '__main__':
     # test = Processor(sentence="message Dr Norman that i will be late")
-    test = Processor(sentence="where is the nearest hospital to me")
+    test = Processor(sentence="i nedd more drugs")
     test.call_service(test.classify_sentence())
