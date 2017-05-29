@@ -180,18 +180,6 @@ def security_settings():
     return render_template('dashboard/admin/security-settings.html', hospital=hospital)
 
 
-@blueprint.route('/confirm-email', methods=['GET'])
-def confirm_email():
-    hospital = hospitalObj.get_current_user_instance()
-    return render_template('dashboard/admin/confirm-email.html', hospital=hospital)
-
-
-@blueprint.route('/success-email', methods=['GET'])
-def success_email():
-    hospital = hospitalObj.get_current_user_instance()
-    return render_template('dashboard/admin/success-email.html', hospital=hospital)
-
-
 @blueprint.route('/user-profile', methods=['GET'])
 def user_profile():
     patient_id = request.args.get('pID')
@@ -206,3 +194,63 @@ def user_profile():
 def edit_user_profile():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/edit-user-profile.html', hospital=hospital)
+
+
+@blueprint.route('/confirm-email', methods=['GET'])
+def confirm_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/confirm-email.html', hospital=hospital)
+
+
+@blueprint.route('/success-email', methods=['GET'])
+def success_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/success-email.html', hospital=hospital)
+
+
+@blueprint.route('/service-notification-email', methods=['GET'])
+def service_notification_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/service-notification-email.html', hospital=hospital)
+
+
+@blueprint.route('/password-reset-email', methods=['GET'])
+def password_reset_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/password-reset-email.html', hospital=hospital)
+
+
+@blueprint.route('/password-choosing-email', methods=['GET'])
+def password_choosing_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/password-choosing-email.html', hospital=hospital)
+
+
+@blueprint.route('/added-patient-email', methods=['GET'])
+def added_patient_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/added-patient-email.html', hospital=hospital)
+
+
+@blueprint.route('/password-recovery-email', methods=['GET'])
+def password_recovery_email():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/password-recovery-email.html', hospital=hospital)
+
+
+@blueprint.route('/patient-dashboard', methods=['GET'])
+def patient_dashboard():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/patient-dashboard.html', hospital=hospital)
+
+
+@blueprint.route('/patient-password-choosing', methods=['GET'])
+def patient_password_choosing():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/patient-password-choosing.html', hospital=hospital)
+
+
+@blueprint.route('/patient-messages', methods=['GET'])
+def patient_messages():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/patient-messages.html', hospital=hospital)

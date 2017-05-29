@@ -1,11 +1,12 @@
-from apiai import ApiAI
 import json
-from Norman.settings import ApiAIConfig
-from Norman.utils import generate_session_id
-from Norman.errors import HttpError
-from Norman.logger import Logger
 from socket import gaierror
 
+from apiai import ApiAI
+
+from Norman.errors import HttpError
+from Norman.logger import Logger
+from Norman.settings import ApiAIConfig
+from Norman.utils import generate_session_id
 
 ai = ApiAI(ApiAIConfig.CLIENT_ACCESS_TOKEN)
 
@@ -20,10 +21,12 @@ class AI:
         self.log = Logger()
 
     def parse(self, data):
+        print('got to apiai parse function')
         self.request.query = data
         try:
             r = self.request.getresponse()  # returns a response object
             response = json.loads(r.read().decode(encoding='UTF-8').replace('\n', ''))
+            print(response)
         except HttpError:
             self.log.log_error('HTTP Error: Unable to complete request.')
             return
@@ -36,15 +39,20 @@ class AI:
                 self.match_successful = True
                 self.text = response['result']['fulfillment']['speech']
         except KeyError:
-            if response['result']['metadata'] == {}:
-                self.match_successful = True
-                self.text = response['result']['fulfillment']['speech']
-
+            try:
+                if response['result']['metadata'] == {}:
+                    self.match_successful = True
+                    self.text = response['result']['fulfillment']['speech']
+            except KeyError:
+                self.match_successful = False
 
 if __name__ == '__main__':
     test = AI()
-    test.parse('blahblahblah')
+    message = 'hi'
+    test.parse(message)
     if test.match_successful:
-        print(test.text)
+        reply = test.text
+        print(reply)
     else:
-        print('Sorry couldn\'t match your input')
+        pass
+

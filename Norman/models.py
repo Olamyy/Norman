@@ -79,6 +79,7 @@ class UserModel(db.Document):
     temp_id = db.StringField(max_length=20, min_length=3)
     reg_num = db.StringField(max_length=50, min_length=3)
     last_seen = db.DateTimeField(default=datetime.datetime.now())
+    awaiting_message = db.BooleanField(default=False)
 
 
 class Conversation(db.Document):

@@ -2,7 +2,7 @@
 from Norman.conversation.dbutils import UserUtils
 
 
-class NormanUser:
+class NormanUser(object):
     def __init__(self, fb_id):
         self.is_from_ref_id = None
         self.fb_id = fb_id
@@ -15,10 +15,24 @@ class NormanUser:
         self.session_id = self.userObj
 
 
-
 class TempUser(NormanUser):
     def __init__(self, recipient_id):
-        super().__init__(recipient_id)
+        super(TempUser, self).__init__(recipient_id)
 
 
+class MessagingService:
+    def __init__(self):
+        pass
 
+    def _message(self):
+        pass
+
+    def is_valid_message_type(self):
+        pass
+
+    @classmethod
+    def add_previous_message(cls):
+        pass
+
+    def send_notification(self, who, what):
+        pass

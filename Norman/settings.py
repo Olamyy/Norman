@@ -2,6 +2,8 @@
 """Application configuration."""
 import os
 
+from pymongo import MongoClient
+
 
 class Config:
     """Base configuration."""
@@ -31,6 +33,7 @@ class FBConfig(Config):
         "https://wallpaperbrowse.com/media/images/pictures-14.jpg",
         "http://norman-bot.herokuapp.com/static/landing/images/norman-android.png"
     ]
+
 
 class ApiAIConfig:
     CLIENT_ACCESS_TOKEN = '223fceac22164b419316b65979d86fdb'
@@ -81,6 +84,7 @@ class ProdConfig(Config, UIConfig):
         'password': 'toga',
         'alias': 'default'
     }
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
 
 
 class DevConfig(Config, UIConfig):
@@ -97,6 +101,11 @@ class DevConfig(Config, UIConfig):
         'password': 'toga',
         'alias': 'default'
     }
+    MONGODB_DB = 'Norman'
+    MONGODB_HOST = '127.0.0.1'
+    MONGODB_PORT = 27017
+    BASE_URL = "localhost:5000/"
+    pymongo_client = MongoClient('mongodb://localhost:27017/')
 
 
 class TestConfig(Config):
@@ -139,7 +148,7 @@ class ErrorConfig(Config):
 
 
 class MessageConfig(Config):
-    GET_ALL_SERVICE_LIST = "Hi <username>, you can go to {0} anytime to view a list of all the services I offer".format(
+    GET_ALL_SERVICE_LIST = "You can also go to {0} anytime to view a list of all the services I offer".format(
         ProdConfig.SERVICE_URL)
     GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am Medical Assistance " \
                           "Bot that helps you keep track of your health while syncing it " \

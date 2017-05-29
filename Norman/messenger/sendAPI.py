@@ -1,14 +1,14 @@
 import requests
 from flask import json
+
 from Norman import settings
+from Norman.api.api_ai import AI
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
-from Norman.norman.user import NormanUser, TempUser
+from Norman.norman.user import NormanUser, TempUser, MessagingService
 from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
-from Norman.services.messaging import MessagingService
-from Norman.api.api_ai import AI
 
 graphAPIURL = FBConfig.GRAPH_API_URL.replace('<action>', '/me/messages?')
 
@@ -150,7 +150,7 @@ class Message(object):
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(Template, self).__init__(recipient_id, **kwargs)
         self.payload_structure['message']["attachment"]["type"] = "template"
         self.payload_structure['message']["attachment"]["payload"]["buttons"] = {}
         self.payload_structure['message']["attachment"]["payload"]["elements"] = [{
@@ -217,21 +217,21 @@ class Template(Message):
 
 class PostBackMessages(Template):
     def __init__(self, recipient_id, **kwargs):
-        super().__init__(recipient_id, **kwargs)
+        super(PostBackMessages, self).__init__(recipient_id, **kwargs)
         self.recipient_id = recipient_id
         self.temp_user = None
         self.current_user = NormanUser(recipient_id)
         self.user_details = self.user_profile.get_user_details(recipient_id)
 
     def handle_get_started(self):
+        print('i got to started')
         self.temp_user = TempUser(self.recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [
             {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
         ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        response.response_ok('Success')
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
     def handle_get_started_meaning(self):
@@ -241,10 +241,11 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def handle_get_started_how(self):
-        # self.current_user.
+        print('i got st ho')
         message_text = MessageConfig.GET_STARTED_HOW
         quick_replies = [
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"},
@@ -253,10 +254,11 @@ class PostBackMessages(Template):
              "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
-
     def get_started_service_list(self):
+        print('i got')
         # self.send_message("text", message_text="Here are the services we offer")
         self.send_template_message(template_type='list', list_info=[ServiceListConfig.messaging,
                                                                     ServiceListConfig.reminder,
@@ -270,6 +272,7 @@ class PostBackMessages(Template):
              "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def handle_help(self):
@@ -282,16 +285,18 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "Book an Appointment","payload": "NORMAN_BOOK_APPOINTMENT"}
         ]
         self.send_message("text", message_text=message_text,quick_replies=quick_replies)
+        response.response_ok('Success')
         return response.response_ok('Success')
 
     def good_to_go(self):
+        print('i got to good help')
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
         response.response_ok('Success')
-        self.beyondGetStarted()
-        return response.response_ok('Success')
+        return self.beyondGetStarted()
 
     def beyondGetStarted(self):
+        print('i got to beyond')
         if self.current_user.is_from_ref_id:
             message_text = MessageConfig.COMING_FROM_HOSPITAL
             self.show_typing('typing_on')
@@ -300,24 +305,30 @@ class PostBackMessages(Template):
             self.show_typing('typing_on')
             self.show_typing('typing_off')
             self.send_message('text', MessageConfig.TIME_TO_SET_UP)
-            response.response_ok('Success')
+            return response.response_ok('Success')
         else:
-            self.handle_first_time_temp_user()
+            return self.handle_first_time_temp_user()
 
     def handle_first_time_temp_user(self):
         for statement in MessageConfig.FIRST_TIME_TEMP_USER:
             self.send_message('text', statement)
+        text = "While you can enjoy some of my services as a free user," + \
+               "to enjoy the best of my features, you need to be registered to an hospital."
+        self.send_message("text", message_text=text)
         quick_replies = [
-            {"content_type": "text", "title": "Get Nearby Hospital", "payload": "GET_NEARBY_HOSPITAL"}
+            {"content_type": "text", "title": "Continue as a free user", "payload": "GOOD_TO_GO_FREE"},
+            {"content_type": "text", "title": "Inform your hospital about Norman", "payload": "GET_NEARBY_HOSPITAL"},
+            {"content_type": "text", "title": "View registered hospitals", "payload": "GET_NEARBY_HOSPITAL"}
         ]
-        text = "While you can enjoy some of my services as a free user," + " to enjoy the best of my features, you need to be registered to an hospital."
-        self.send_message("text", message_text=text, quick_replies=quick_replies)
+        second_text = "As a free user, you can go on and"
+        self.send_message("text", message_text=second_text, quick_replies=quick_replies)
         return response.response_ok('Success')
 
+    @property
     def handle_messaging_service(self):
         message_text = "Who would you like to leave a message for?"
         self.send_message("text", message_text=message_text)
-        '''
+        """
             Hey lekan my laptop is about to go off,
             @Todo: Here is what i am trying to do here
             1. Create a boolean field 'awaiting_message' in the user model
@@ -325,46 +336,73 @@ class PostBackMessages(Template):
             2. When  a new message comes in from the same user, check if the user's
               awaiting_message is true
             3. take the message as continuation of the previous message
-        '''
+        """
         MessagingService.add_previous_message()
         return response.response_ok('Success')
 
     def handle_awaited_message(self, message_type='messaging_service'):
         if message_type == 'messaging_service':
-            if 'users_last_message was a reponse to who?':
+            if 'users_last_message was a response to who?':
                 message_text = "What message would you like to leave a message?"
                 self.send_message("text", message_text=message_text)
             elif 'users_last_message_was a response to what':
-                MessagingService.send_notification(who='previous_message', what='this_message')
+                MessagingService().send_notification(who='previous_message', what='this_message')
                 message_text = "Your message was successfully sent"
-                self.send_message("text", message_text=message_text)
+                return self.send_message("text", message_text=message_text)
         else:
-            message_text = "Sorry, I didn't get that, let's try again"
-            self.send_message("text", message_text=message_text)
+            message_text = "Sure, give me a few seconds... B-)"
+            return self.send_message("text", message_text=message_text)
+
+        return response.response_ok('Success')
 
     def handle_api_ai_message(self, message):
         test = AI()
         test.parse(message)
         if test.match_successful:
-            response = test.text
-            self.send_message('text', message_text=response)
+            reply = test.text
+            return self.send_message('text', message_text=reply)
         else:
-            response = "Sorry I didn't get that, let's try again"
-            self.send_message('text', message_text=response)
+            reply = "Sure, give me a few seconds... B-)"
+            self.send_message('text', message_text=reply)
+            quick_replies = [
+                {"content_type": "text", "title": "Drug Use Reminder", "payload": "GOOD_TO_GO_FREE"},
+                {"content_type": "text", "title": "Emergency Service", "payload": "GET_NEARBY_HOSPITAL"},
+                {"content_type": "text", "title": "Drug Purchase", "payload": "GET_NEARBY_HOSPITAL"}
+            ]
+            return self.send_message('text', message_text="Sorry I didn't get that, let's try again", quick_replies=quick_replies)
 
         return response.response_ok('Success')
 
     def handle_leave_message(self):
-        pass
+        message_text = "Who would you like to leave a message for?"
+        return self.send_message('text', message_text=message_text)
 
     def handle_set_reminder(self):
-        pass
+        message_text = "Nice. Your reminder has been set."
+        return self.send_message('text', message_text=message_text)
 
     def handle_request_urgent_help(self):
-        pass
+        message_text = "Hey, what can I do for you?"
+        return self.send_message('text', message_text=message_text)
 
     def handle_book_appointment(self):
-        pass
+        message_text = "Unfortunately, I could not handle your appointment scheduling."
+        return self.send_message('text', message_text=message_text)
 
     def handle_get_nearby_hospital(self):
-        pass
+        message_text = "Sure, give me a few seconds... B-)"
+        return self.send_message('text', message_text=message_text)
+
+    def good_to_go_free(self):
+        message_text = "Sweet. You're all setup up now to use Norman as a free user."
+        self.send_message('text', message_text=message_text)
+        options = "You can either send a message, or try one of the options below"
+        quick_replies = [
+            {"content_type": "text", "title": "Drug Use Reminder", "payload": "DRUG_USE_REMINDER"},
+            {"content_type": "text", "title": "Emergency Service", "payload": "NORMAN_REQUEST_URGENT_HELP"},
+            {"content_type": "text", "title": "Drug Purchase", "payload": "DRUG_PURCHASE"}
+        ]
+        return self.send_message('text', message_text=options, quick_replies=quick_replies)
+
+
+
