@@ -44,3 +44,7 @@ docs/_build
 
 # Virtualenvs
 env/
+
+# trained model
+Norman/classifier/loc.p
+Norman/classifier/msg.p

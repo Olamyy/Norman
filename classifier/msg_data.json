@@ -1,0 +1,13 @@
+[
+	{"text": "leave this message msg", "label": "pos"},
+	{"text": "can you tell someone", "label": "pos"},
+	{"text": "tell doctor tim i will be late", "label": "pos"},
+	{"text": "i want to leave a message for doctor", "label": "pos"},
+	{"text": "ask him for my drug prescribtion", "label": "pos"},
+	{"text": "this is an amazing place", "label": "neg"},
+	{"text": "i like to send a gift doctor leke", "label": "neg"},
+	{"text": "can i ask you a question ?", "label": "neg"},
+	{"text": "morning. how do you do ?", "label": "neg"},
+	{"text": "how are you today ?", "label": "neg"},
+	{"text": "i want to buy a call", "label": "neg"}
+]

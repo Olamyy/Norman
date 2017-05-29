@@ -1,0 +1,13 @@
+[
+	{"text": "where is the nearest hospital to me", "label": "pos"},
+	{"text": "how far am i from a clinic?", "label": "pos"},
+	{"text": "show me the map to the closest hospital", "label": "pos"},
+	{"text": "what hospitals are nearby", "label": "pos"},
+	{"text": "how do i get to my hospital", "label": "pos"},
+	{"text": "this is an amazing place", "label": "neg"},
+	{"text": "where is the nearest hostel", "label": "neg"},
+	{"text": "where can i get water ?", "label": "neg"},
+	{"text": "distance to next hospital ?", "label": "pos"},
+	{"text": "how are you today ?", "label": "neg"},
+	{"text": "i want to buy a call", "label": "neg"}
+]
