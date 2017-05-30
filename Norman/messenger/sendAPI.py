@@ -6,7 +6,7 @@ from Norman.api.api_ai import AI
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
-from Norman.norman.user import NormanUser, TempUser, MessagingService
+from Norman.norman.user import NormanUser, TempUser
 from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
 
