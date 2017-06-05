@@ -2,9 +2,9 @@ import datetime
 from bson import ObjectId
 from Norman.auth.auth_utils import PatientUtil, ServiceUtil, HospitalUtil
 from Norman.models import Conversation, Notification
-from googleplaces import GooglePlaces, types, lang
 from Norman.settings import GoogleConfig
 import googlemaps
+
 
 class RealTimeMessagingService:
     def __init__(self, fb_id,message,**kwargs):

@@ -231,8 +231,8 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "What does that mean?", "payload": "NORMAN_GET_STARTED_MEANING"},
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
         ]
+        response.response_ok('Success')
         return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
 
     def handle_get_started_meaning(self):
         message_text = MessageConfig.GET_STARTED_MEANING
@@ -240,9 +240,8 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
         ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         response.response_ok('Success')
-        return response.response_ok('Success')
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
 
     def handle_get_started_how(self):
         print('i got st ho')
@@ -337,7 +336,7 @@ class PostBackMessages(Template):
               awaiting_message is true
             3. take the message as continuation of the previous message
         """
-        MessagingService.add_previous_message()
+        # MessagingService.add_previous_message()
         return response.response_ok('Success')
 
     def handle_awaited_message(self, message_type='messaging_service'):
@@ -346,7 +345,7 @@ class PostBackMessages(Template):
                 message_text = "What message would you like to leave a message?"
                 self.send_message("text", message_text=message_text)
             elif 'users_last_message_was a response to what':
-                MessagingService().send_notification(who='previous_message', what='this_message')
+                # MessagingService().send_notification(who='previous_message', what='this_message')
                 message_text = "Your message was successfully sent"
                 return self.send_message("text", message_text=message_text)
         else:
@@ -371,7 +370,6 @@ class PostBackMessages(Template):
             ]
             return self.send_message('text', message_text="Sorry I didn't get that, let's try again", quick_replies=quick_replies)
 
-        return response.response_ok('Success')
 
     def handle_leave_message(self):
         message_text = "Who would you like to leave a message for?"
