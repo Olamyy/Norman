@@ -284,7 +284,8 @@ class PostBackMessages(Template):
         print('i got to good help')
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
-        return return self.beyondGetStarted()
+        return  self.beyondGetStarted()
+
 
     def beyondGetStarted(self):
         print('i got to beyond')
