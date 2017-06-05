@@ -15,24 +15,6 @@ from Norman.utils import response
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 
-@blueprint.route('/', methods=['GET', 'POST'])
-@csrf_protect.exempt
-def helloworld():
-    view_class = HelloWorld()
-    if request.method == "GET":
-        return view_class.get()
-    else:
-        return view_class.post()
-
-
-class HelloWorld(Resource):
-    def get(self):
-        return jsonify({'hello': 'world'})
-
-    def post(self):
-        return jsonify({'method': 'POST'})
-
-
 @blueprint.route('/webhook', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def webhook():
@@ -63,7 +45,6 @@ class WebHook(Resource):
 
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
-                print("I got a postback")
                 postbackmessages = PostBackMessages(recipient_id)
                 print(postback_payload)
                 if postback_payload == 'NORMAN_GET_HELP':
