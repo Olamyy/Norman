@@ -96,6 +96,7 @@ class Conversation(db.Document):
     is_complete = db.BooleanField(default=True)
     missing = db.StringField(max_length=200, min_length=5)
 
+
 class Notification(db.Document):
     sender_id = db.StringField(max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())

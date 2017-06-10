@@ -224,7 +224,6 @@ class PostBackMessages(Template):
         self.user_details = self.user_profile.get_user_details(recipient_id)
 
     def handle_get_started(self):
-        print('i got to started')
         self.temp_user = TempUser(self.recipient_id)
         message_text = MessageConfig.GET_STARTED_MESSAGE.replace('<username>', self.user_details['first_name'])
         quick_replies = [

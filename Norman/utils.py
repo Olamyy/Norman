@@ -109,6 +109,7 @@ class Response:
     def response_error(message, error=None, error_code=None):
         response = json.dumps({'status': 'fail', 'message': message, 'error': error, 'error_code': error_code})
         return make_response(response, 400)
+
     def response_error(message, error=None):
         response = jsonify({'status': 'fail', 'message': message, 'error': error})
         return make_response(response)

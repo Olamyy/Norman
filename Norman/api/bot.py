@@ -84,7 +84,51 @@ class WebHook(Resource):
                 # postbackmessages = PostBackMessages(recipient_id)
                 # message_text = message['data'].decode('unicode_escape')
                 # return postbackmessages.handle_api_ai_message(message_text)
-
+                # norman = NormanUser(recipient_id)
+                # messenger = Message(recipient_id)
+                # message_response = NLPProcessor(message, recipient_id)
+                # norman = NormanUser(recipient_id)
+                # context = norman.getuserContext()
+                # messenger = Message(recipient_id)
+                # decipher_message = norman.process_message(message, recipient_id)
+                # noun_phrase = decipher_message.findNounPhrase()
+                # if decipher_message.isAskingBotInfo():
+                #     return messenger.handleBotInfo()
+                # if context is not None and len(context) > 0:
+                #     context = context[-1]
+                #
+                #     if decipher_message.isDismissPreviousRequest():
+                #         return norman.popContexts(context)
+                #
+                #     if context == 'find-food':
+                #         return messenger.handle_find_food(context, message, noun_phrase, message,
+                #                                           'receive_location_text')
+                #
+                #     elif context['context'] == 'yelp-rename':
+                #         messenger.handle_yelp_rename(context, message)
+                #         return norman.popContexts(context)  # pop yelp-rename
+                #
+                #     elif context['context'] == 'create-reminder':
+                #         return messenger.initService('create-reminder')
+                # if message['type'] == "location":
+                #     return messenger.handleLocation()
+                # else:
+                #     if decipher_message.isGreetings():
+                #         return messenger.handleGreeting(decipher_message.sayHiTimeZone(recipient_id))
+                #
+                #     elif decipher_message.isGoodbye():
+                #         return messenger.handleGoodbye(decipher_message.sayByeTimeZone())
+                #
+                #     elif decipher_message.isYelp():
+                #         return messenger.handleYelp(None, noun_phrase, message, 'receive_request')
+                #
+                #     else:
+                #         # Log this message for categorization later
+                #         norman.handleUncategorized("text", message)
+                #         ##@Todo: Handle APIAI Responses here
+                postbackmessages = PostBackMessages(recipient_id)
+                message_text = message['data'].decode('unicode_escape')
+                return postbackmessages.handle_api_ai_message(message_text)
         else:
             return response.response_ok('success')
         data = request.get_json()
@@ -97,5 +141,6 @@ class WebHook(Resource):
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello {0}, I'm Norman. Type Help to get started".format(recipient_id)
                         bot.send_message(recipient_id, message)
+                        # bot.send_text_message(recipient_id, message)
                         return response.response_ok('success')
-#                         self.free_conversation.init_conversation()
+                        # self.free_conversation.init_conversation()

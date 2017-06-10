@@ -7,7 +7,6 @@ from pymongo import MongoClient
 
 class Config:
     """Base configuration."""
-
     SECRET_KEY = os.environ.get('NORMAN_SECRET', 'a9fb1b64-1f0f-11e7-95e2-7077816bf77d')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -20,14 +19,16 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MONGOALCHEMY_DATABASE = "norman"
 
+
 class GoogleConfig(Config):
     PLACES_API_KEY = 'AIzaSyAmoOVSZfK0Av6j_ONXa343qyYLGVczlS4'
+
 
 class FBConfig(Config):
     """
     The GRAPH_API_URL format is <base_url><version><action><fields>
     """
-    FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
+    FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAO0CXLGIvNtVhMaS7DEpKEivuonecQ1ak8DYzVwmmRwjR0QW93QrWwAkupsvME4PcKCKeXZBaA7CZCxogZC12WFYxlP2oitgyvgpKOOrvv1ZCUm11WzciA0ZClsqVSC4CPYyEt2pgstmTb4hTv5KK1XhR23xpeAZDZD'
     GRAPH_API_VERSION = 'v2.6'
     GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/messages?access_token={1}'.format(
         GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
