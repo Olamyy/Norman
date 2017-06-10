@@ -15,6 +15,10 @@ class NormanUser(object):
         self.session_id = self.userObj
 
 
+<<<<<<< HEAD
+class TempUser:
+    def __init__(self, recipient_id):
+=======
 class TempUser(NormanUser):
     def __init__(self, recipient_id):
         super(TempUser, self).__init__(recipient_id)
@@ -25,6 +29,7 @@ class MessagingService:
         pass
 
     def _message(self):
+>>>>>>> dbac5a93d71bad30a277b2c3f0b7a46df409cee4
         pass
 
     def is_valid_message_type(self):

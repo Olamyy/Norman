@@ -61,6 +61,7 @@
                             'temp_id': generate_id(5),
                             'action' : 'create'
                             };
+                     console.log(payload)
                      var  verify_password  = $('#verify_password').val();
                      if(payload['password'] != verify_password){
                          handle_error('Your passwords should match.', 'error')

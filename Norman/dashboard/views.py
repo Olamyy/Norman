@@ -2,7 +2,7 @@ from flask import render_template, Blueprint, redirect, jsonify
 from flask import request
 from flask import url_for
 
-from Norman.auth.auth_utils import HospitalUtil, ServiceUtil, UserUtil
+from Norman.auth.auth_utils import HospitalUtil, ServiceUtil, PatientUtil
 from Norman.auth.forms import LoginForm, VerificationForm
 from Norman.settings import ErrorConfig
 from Norman.utils import validate_hashes
@@ -11,7 +11,7 @@ blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_fol
 
 hospitalObj = HospitalUtil()
 serviceObj = ServiceUtil()
-userObj = UserUtil()
+userObj = PatientUtil()
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])

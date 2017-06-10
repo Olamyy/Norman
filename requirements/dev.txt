@@ -17,15 +17,3 @@ isort==4.2.5
 pep8-naming==0.4.1
 
 
-
-
-#Mail
-flask-mail
-
-# chat
-chatterbot
-apiai
-
-# files
-Flask-Excel
-pyexcel-xls

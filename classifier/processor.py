@@ -60,20 +60,33 @@ called by the main bot class, accepts fb_id and accompaning text
 
         # get probability hint for each service type
         msg_prob = round(self.msg_clf.prob_classify(self.sentence).prob("pos"), 2)
-        loc_nearest_hosp = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
-        loc_self = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
-        loc_pharmacy = round(self.loc_clf.prob_classify(self.sentence).prob("pos"), 2)
-        sum_loc_prob = loc_nearest_hosp + loc_self + loc_pharmacy
-        loc_types = {loc_pharmacy: "pharmacy", loc_self: "loc_self", loc_nearest_hosp: "nearest_hosp",
-                     }
+        loc_nearest_hosp_prob = round(self.loc_clf.prob_classify(self.sentence).prob("loc_nearest_hosp"), 2)
+        loc_self_prob = round(self.loc_clf.prob_classify(self.sentence).prob("loc_self"), 2)
+        loc_pharmacy_prob = round(self.loc_clf.prob_classify(self.sentence).prob("loc_pharmacy"), 2)
+        loc_my_hosp_prob = round(self.loc_clf.prob_classify(self.sentence).prob("loc_my_hosp"), 2)
+
+        # get the total probability that the message was for a location service
+        # loc_prob = loc_nearest_hosp_prob * loc_self_prob * loc_pharmacy_prob * loc_my_hosp_prob
+
+        # figure out which location service it was
+        loc_subtypes_prob = {
+            loc_pharmacy_prob: "nearest_pharmacy",
+            loc_self_prob: "self_location_finder",
+            loc_nearest_hosp_prob: "nearest_hospital_finder",
+            loc_my_hosp_prob: "self_hospital_finder"
+            }
+
+        print(loc_subtypes_prob)
+        loc_prob = max(loc_subtypes_prob.keys())
+
+        loc_subtype = loc_subtypes_prob[max(loc_subtypes_prob.keys())]
 
         # pick most probable service
-
         result = {
-                    msg_prob: "messaging_service",
-                    sum_loc_prob: {"type": "location_service", v }
+                    msg_prob: {"name": "messaging_service", "sub_type": "messaging_service"},
+                    loc_prob: {"name": "location_service", "sub_type": loc_subtype}
                 }
-        # print(result)
+        print(result)
         service = result[max(result.keys())]
 
         return service
@@ -100,26 +113,41 @@ called by the main bot class, accepts fb_id and accompaning text
         return "Coming soon"
 
     def call_service(self, service):
+        print("service received: ", service)
         ### todo
         # check if the user really doesn't have any existing messages on the service
 
+        # IntentTrigger
+        # ', None)
+        # self.is_new = kwargs.get('is_new', None)
+        # self.missing = kwargs.get('missing', None)
+        # self.context = kwargs.get('context', None)
+        # self.person = kwargs.get('recipient
+
         data = {
-            "service": service,
-            "fulfilled": True,
+            "IntentTrigger": False,
             "missing": None,
             "is_new": True
         }
 
-        if service == "messaging_service":
+        if service["name"] == "messaging_service":
+            if not self.extract_messaging_details():
+                data["IntentTrigger"] = True
+                data["missing"] = "recipient"
             data["recipient"] = self.extract_messaging_details()
-            data["fulfilled"] = False
-            data["missing"] = "message_for_recipient"
+            data["text"] = self.sentence
 
-        elif service == "location_service":
-            data["where"] = self.extract_messaging_details()
+        elif service["name"] == "location_service":
             data["log_lat"] = self.extract_location_details()
-            data["fulfilled"] = False
-            data["missing"] = "message_for_recipient"
+            data["IntentTrigger"] = True
+            data["missing"] = "log_lat"
+            data["service_subtype"] = service["sub_type"]
+            if "direction" in self.sentence.lower():
+                data["context"] = "direction"
+            elif "address" or "addrs" in self.sentence.lower():
+                data["context"] = "address"
+            else:
+                data["context"] = None
 
         print(data)
         # call appropriate service
@@ -127,5 +155,5 @@ called by the main bot class, accepts fb_id and accompaning text
 
 if __name__ == '__main__':
     # test = Processor(sentence="message Dr Norman that i will be late")
-    test = Processor(sentence="i nedd more drugs")
+    test = Processor(sentence="tell me a joke")
     test.call_service(test.classify_sentence())

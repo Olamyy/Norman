@@ -2,6 +2,8 @@
 """Custom Models."""
 import datetime
 
+from mongoengine import DictField
+
 from Norman.database import db
 
 
@@ -79,6 +81,7 @@ class UserModel(db.Document):
     temp_id = db.StringField(max_length=20, min_length=3)
     reg_num = db.StringField(max_length=50, min_length=3)
     last_seen = db.DateTimeField(default=datetime.datetime.now())
+    drug_use_reminders = DictField()
     awaiting_message = db.BooleanField(default=False)
 
 
@@ -87,9 +90,15 @@ class Conversation(db.Document):
     created_at = db.DateTimeField(default=datetime.datetime.now())
     is_alive = db.BooleanField(default=True)
     last_message = db.StringField(max_length=200, min_length=3)
+    is_expecting = db.StringField(max_length=500, min_length=4)
+    service = db.StringField(max_length=500, min_length=4)
+    context = db.StringField(max_length=200, min_length=5)
+    is_complete = db.BooleanField(default=True)
+    missing = db.StringField(max_length=200, min_length=5)
 
 
-class Session(db.Document):
+class Notification(db.Document):
+    sender_id = db.StringField(max_length=200, min_length=3)
     created_at = db.DateTimeField(default=datetime.datetime.now())
-    message_count = db.IntField()
-    session_id = db.StringField(required=True, max_length=200, min_length=3)
+    is_read = db.BooleanField(default=True)
+    message = db.StringField(max_length=200, min_length=3)
