@@ -6,8 +6,9 @@ from googleplaces import GooglePlaces, types, lang
 from Norman.settings import GoogleConfig
 import googlemaps
 
+
 class RealTimeMessagingService:
-    def __init__(self, fb_id,message,**kwargs):
+    def __init__(self, fb_id, message, **kwargs):
         self.fb_id = fb_id
         self.user = PatientUtil().get_by_fbID(fb_id)
         self.message = message
@@ -21,17 +22,17 @@ class RealTimeMessagingService:
         if self.user.has_hospital:
             if self.is_new:
                 conversation_object = Conversation(fb_id=self.fb_id, created_at=datetime.datetime.now(), is_alive=True,
-                                                        service='messaging')
+                                                   service='messaging')
                 if not self.intent_trigger:
                         notification = Notification(sender_id=self.fb_id,
                                                     created_at=datetime.datetime.now(),
-                                                    is_read = False,
-                                                    message = self.message)
+                                                    is_read=False,
+                                                    message=self.message)
                         #@Todo: Also send email to hospital about the notification
                         return {'status':'success', 'response':'message_success'}
                 else:
                         Conversation.objects(id=ObjectId(conversation_object.id),
-                                             fb_id=self.fb_id).update(missing=self.missing, is_complete=False)
+                                              fb_id=self.fb_id).update(missing=self.missing, is_complete=False)
                         response = {'status': 'pending', 'response':'incomplete_intent'}
                         return response
             else:
@@ -42,8 +43,6 @@ class RealTimeMessagingService:
         else:
             response = {'status': 'error', 'err_ID': 'NoRegisteredHosp'}
             return response
-
-
 
 
 class LocationService:
@@ -71,7 +70,7 @@ class LocationService:
                         return 'request_location'
                     elif self.message == 'nearest_hospital_finder':
                         return 'request_location'
-                    elif self.message in ['nearest_pharmarcy' , 'nearest_drugstore']:
+                    elif self.message in ['nearest_pharmacy' , 'nearest_drugstore']:
                         return 'request_location'
                 else:
                     if self.message == 'self_location_finder':

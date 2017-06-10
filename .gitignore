@@ -44,3 +44,10 @@ docs/_build
 
 # Virtualenvs
 env/
+
+# trained model
+loc.p
+msg.p
+Norman/classifier/loc.p
+Norman/classifier/msg.p
+__pycache__/

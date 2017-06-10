@@ -5,13 +5,7 @@ from flask_restful import Resource
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
-<<<<<<< HEAD
-from Norman.messenger.sendAPI import PostBackMessages, Message
-from Norman.norman.processor import Processor
-from Norman.norman.user import NormanUser
-=======
 from Norman.messenger.sendAPI import PostBackMessages
->>>>>>> dbac5a93d71bad30a277b2c3f0b7a46df409cee4
 from Norman.utils import response
 
 
@@ -99,12 +93,6 @@ class WebHook(Resource):
             for recipient_id, message in messaging_events(data):
                 if not message:
                     return response.response_ok('Success')
-<<<<<<< HEAD
-                message = Message(recipient_id)
-                message_response = Processor(message, recipient_id)
-                message.send_message(message_response)
-                ##@Todo: Get Response and send to user.
-=======
                 # norman = NormanUser(recipient_id)
                 # messenger = Message(recipient_id)
                 # message_response = NLPProcessor(message, recipient_id)
@@ -151,7 +139,6 @@ class WebHook(Resource):
                 message_text = message['data'].decode('unicode_escape')
                 return postbackmessages.handle_api_ai_message(message_text)
 
->>>>>>> dbac5a93d71bad30a277b2c3f0b7a46df409cee4
         else:
             return response.response_ok('success')
         data = request.get_json()
@@ -162,6 +149,6 @@ class WebHook(Resource):
                     recipient_id = action['sender']['id']
                     if not self.user_view.validate_user(recipient_id):
                         message = "Hello {0}, I'm Norman. Type Help to get started".format(recipient_id)
-                        bot.send_text_message(recipient_id, message)
+                        # bot.send_text_message(recipient_id, message)
                         return response.response_ok('success')
-#                         self.free_conversation.init_conversation()
+                        # self.free_conversation.init_conversation()
