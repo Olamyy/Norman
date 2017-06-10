@@ -40,13 +40,12 @@ class WebHook(Resource):
             return response.response_error('Failed validation. Make sure the validation tokens match', args)
 
     def post(self):
+        print('fhfhfhghfgh')
         data = request.get_data()
         request_type = get_request_type(data)
-
         if request_type == 'postback':
             for recipient_id, postback_payload in postback_events(data):
                 postbackmessages = PostBackMessages(recipient_id)
-                print(postback_payload)
                 if postback_payload == 'NORMAN_GET_HELP':
                     return postbackmessages.handle_help()
                 elif postback_payload == 'NORMAN_GET_STARTED_PAYLOAD':
@@ -71,76 +70,23 @@ class WebHook(Resource):
                     return postbackmessages.handle_get_nearby_hospital()
                 elif postback_payload == 'GOOD_TO_GO_FREE':
                     return postbackmessages.good_to_go_free()
-                return response.response_ok('success')
+            return response.response_ok('success')
 
         elif request_type == "message":
-            for recipient_id, message in messaging_events(data):
-                if not message:
-                    return response.response_ok('Success')
-                message = Message(recipient_id)
-                message_response = Processor(message, recipient_id)
-                message.send_message(message_response)
-                ###@Todo: Handle APIAI Responses here
-                # postbackmessages = PostBackMessages(recipient_id)
-                # message_text = message['data'].decode('unicode_escape')
-                # return postbackmessages.handle_api_ai_message(message_text)
-                # norman = NormanUser(recipient_id)
-                # messenger = Message(recipient_id)
-                # message_response = NLPProcessor(message, recipient_id)
-                # norman = NormanUser(recipient_id)
-                # context = norman.getuserContext()
-                # messenger = Message(recipient_id)
-                # decipher_message = norman.process_message(message, recipient_id)
-                # noun_phrase = decipher_message.findNounPhrase()
-                # if decipher_message.isAskingBotInfo():
-                #     return messenger.handleBotInfo()
-                # if context is not None and len(context) > 0:
-                #     context = context[-1]
-                #
-                #     if decipher_message.isDismissPreviousRequest():
-                #         return norman.popContexts(context)
-                #
-                #     if context == 'find-food':
-                #         return messenger.handle_find_food(context, message, noun_phrase, message,
-                #                                           'receive_location_text')
-                #
-                #     elif context['context'] == 'yelp-rename':
-                #         messenger.handle_yelp_rename(context, message)
-                #         return norman.popContexts(context)  # pop yelp-rename
-                #
-                #     elif context['context'] == 'create-reminder':
-                #         return messenger.initService('create-reminder')
-                # if message['type'] == "location":
-                #     return messenger.handleLocation()
-                # else:
-                #     if decipher_message.isGreetings():
-                #         return messenger.handleGreeting(decipher_message.sayHiTimeZone(recipient_id))
-                #
-                #     elif decipher_message.isGoodbye():
-                #         return messenger.handleGoodbye(decipher_message.sayByeTimeZone())
-                #
-                #     elif decipher_message.isYelp():
-                #         return messenger.handleYelp(None, noun_phrase, message, 'receive_request')
-                #
-                #     else:
-                #         # Log this message for categorization later
-                #         norman.handleUncategorized("text", message)
-                #         ##@Todo: Handle APIAI Responses here
-                postbackmessages = PostBackMessages(recipient_id)
-                message_text = message['data'].decode('unicode_escape')
-                return postbackmessages.handle_api_ai_message(message_text)
+            print(request_type)
+
         else:
             return response.response_ok('success')
-        data = request.get_json()
-        for event in data['entry']:
-            messaging = event['messaging']
-            for action in messaging:
-                if action.get('message'):
-                    recipient_id = action['sender']['id']
-                    bot = Message(recipient_id)
-                    if not self.user_view.validate_user(recipient_id):
-                        message = "Hello {0}, I'm Norman. Type Help to get started".format(recipient_id)
-                        bot.send_message(recipient_id, message)
-                        # bot.send_text_message(recipient_id, message)
-                        return response.response_ok('success')
-                        # self.free_conversation.init_conversation()
+            data = request.get_json()
+            for event in data['entry']:
+                messaging = event['messaging']
+                for action in messaging:
+                    if action.get('message'):
+                        recipient_id = action['sender']['id']
+                        bot = Message(recipient_id)
+                        if not self.user_view.validate_user(recipient_id):
+                            message = "Hello {0}, I'm Norman. Type Help to get started".format(recipient_id)
+                            bot.send_message(recipient_id, message)
+                            # bot.send_text_message(recipient_id, message)
+                            return response.response_ok('success')
+                            # self.free_conversation.init_conversation()

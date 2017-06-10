@@ -238,7 +238,7 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
         ]
-        response.response_ok('Success')
+        response.response_ok()
         return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
 
     def handle_get_started_how(self):
@@ -250,7 +250,7 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "I'm still confused",
              "payload": "NORMAN_GET_HELP"}
         ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
 
     def get_started_service_list(self):
         print('i got')
@@ -280,14 +280,11 @@ class PostBackMessages(Template):
         return self.send_message("text", message_text=message_text,quick_replies=quick_replies)
 
     def good_to_go(self):
-        print('i got to good help')
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
-        return  self.beyondGetStarted()
-
+        return self.beyondGetStarted()
 
     def beyondGetStarted(self):
-        print('i got to beyond')
         if self.current_user.is_from_ref_id:
             message_text = MessageConfig.COMING_FROM_HOSPITAL
             self.show_typing('typing_on')
@@ -312,21 +309,6 @@ class PostBackMessages(Template):
         ]
         second_text = "As a free user, you can go on and"
         return self.send_message("text", message_text=second_text, quick_replies=quick_replies)
-
-    @property
-    def handle_messaging_service(self):
-        message_text = "Who would you like to leave a message for?"
-        return self.send_message("text", message_text=message_text)
-        """
-            Hey lekan my laptop is about to go off,
-            @Todo: Here is what i am trying to do here
-            1. Create a boolean field 'awaiting_message' in the user model
-            1. At this point, update field to true
-            2. When  a new message comes in from the same user, check if the user's
-              awaiting_message is true
-            3. take the message as continuation of the previous message
-        """
-        # MessagingService.add_previous_message()
 
     def handle_awaited_message(self, message_type='messaging_service'):
         if message_type == 'messaging_service':

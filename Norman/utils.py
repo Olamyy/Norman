@@ -89,18 +89,16 @@ class Response:
 
     @staticmethod
     def response_ok(data):
-        print(type(data))
-        print(data)
-        try:
-            oid = data._id
-            data._id = str(oid)
-        except AttributeError:
-            pass
-        try:
-            oid = data['_id']
-            data['_id'] = str(oid)
-        except KeyError:
-            pass
+        # try:
+        #     oid = data._id
+        #     data._id = str(oid)
+        # except AttributeError:
+        #     pass
+        # try:
+        #     oid = data['_id']
+        #     data['_id'] = str(oid)
+        # except KeyError:
+        #     pass
 
         response = jsonify({'status': 'success', 'data': data}, 200)
         return make_response(response)
@@ -110,11 +108,5 @@ class Response:
         response = json.dumps({'status': 'fail', 'message': message, 'error': error, 'error_code': error_code})
         return make_response(response, 400)
 
-    def response_error(message, error=None):
-        response = jsonify({'status': 'fail', 'message': message, 'error': error})
-        return make_response(response)
-
 response = Response()
 
-if __name__ == '__main__':
-    print(update_white_listed_domains())
