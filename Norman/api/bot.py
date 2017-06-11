@@ -1,16 +1,15 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask import make_response
 from flask import request
 from flask_restful import Resource
+
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
 from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
-from Norman.messenger.sendAPI import PostBackMessages, Message
-from Norman.norman.processor import Processor
-from Norman.norman.user import NormanUser
+from Norman.messenger.sendAPI import Message
 from Norman.messenger.sendAPI import PostBackMessages
+from Norman.norman.processor import Processor
 from Norman.utils import response
-
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 

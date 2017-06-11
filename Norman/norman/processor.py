@@ -1,12 +1,14 @@
-from Norman.utils import hash_data
 from Norman.api.api_ai import Agent
-from Norman.norman.services import RealTimeMessagingService, LocationService
+from Norman.norman.services import RealTimeMessagingService
+from Norman.utils import hash_data
+from .response import ResponseHandler
 
 
 class Processor:
     def __init__(self, sentence, recipient_id):
         self.sentence = sentence
         self.recipient_id = recipient_id
+        self.response = ResponseHandler()
 
         self.no_response_list = ["*scratch my head* :(", "How do I respond to that... :O",
                                  "I can be not-so-smart from time to time... :(",
@@ -45,12 +47,20 @@ class Processor:
 
     def process(self):
         # get agent response from api.ai
+        checker = self.check_badwords()
+        if checker:
+            self.response.bad_word_response(self.sentence)
         session_id = hash_data(self.recipient_id)
         service, intent, action_incomplete, suggested_response, = Agent.parse(self.sentence,
                                                                               session_id=session_id)
 
         if service == 'messaging':
             RealTimeMessagingService(fb_id=self.recipient_id, message=self.sentence)
+
+    def check_badwords(self):
+        words_in_sentence = self.sentence.split(' ')
+        return [True for word in words_in_sentence if word in self.bad_words]
+
 
 
 
