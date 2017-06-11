@@ -89,6 +89,8 @@ class Response:
 
     @staticmethod
     def response_ok(data):
+        print(type(data))
+        print(data)
         try:
             oid = data._id
             data._id = str(oid)
