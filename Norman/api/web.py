@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from flask import Blueprint
+from flask import current_app
 from flask import request
 from flask_excel import ExcelRequest
 from flask_restful import Resource
@@ -8,7 +9,7 @@ from mongoengine.errors import NotUniqueError
 
 from Norman.auth.auth_utils import HospitalUtil
 from Norman.extensions import csrf_protect
-from Norman.logger import Logger
+from Norman.mailer import mails
 from Norman.models import Service, Hospital, UserModel
 from Norman.utils import Response
 from Norman.utils import generate_id, hash_data
@@ -111,6 +112,7 @@ class ServiceAPI(Resource):
         Service.objects(service_id=service_id).update(add_to_set__questions=questions)
         return Response.response_ok(service_details)
 
+
 @blueprint.route('/user', methods=['GET', 'POST'])
 @csrf_protect.exempt
 def users():
@@ -164,37 +166,10 @@ class UserAPI:
         else:
             return Response.response_error('Unable to validate fb id')
 
-    def post(self):
-        data = request.get_json()
-        if data:
-            action, user_id = data.pop('action', None), data.get('user_id', None)
-            if not action:
-                return Response.response_error('Unable to handle action', 'No action specified.')
-            else:
-                if action.upper() == "GET":
-                    return self.get(user_id)
-                elif action.upper() == "CREATE":
-                    return self.add_user(data)
-                elif action.upper() == "GET_ALL":
-                    return self.get_users()
-                elif action.upper() == "UPDATE":
-                    return self.update_user(user_id, data)
-                else:
-                    return Response.response_error('Unable to handle action', 'Invalid action')
-        else:
-            return True
-
     def validate_user(self, _id):
         if self.user_object.objects.filter(is_verified=False, fb_id=_id) or not \
                 self.user_object.objects.filter(is_verified=False, user_id=_id):
             return False
-            data = ExcelRequest(request.environ)
-            action = data.form.get('action')
-            if action:
-                if action.upper() == 'CREATE':
-                    return self.add_users(data)
-            else:
-                return Response.response_error('Unable to handle action', 'No action specified.')
 
     @staticmethod
     def add_users(data):
@@ -243,6 +218,7 @@ def register_hospital():
     else:
         return view_class.post()
 
+
 class HospitalApi(Resource):
     def __init__(self):
         self.log = Logger()
@@ -276,7 +252,6 @@ class HospitalApi(Resource):
                                    reg_num=data['reg_num'],
                                    created_at=datetime.now(),
                                    hospital_id=generate_id(10),
-                                   plan_id=data['plan_id'],
                                    password=hashed_password,
                                    tempID=data['temp_id'],
                                    verificationID=generate_id(4),
@@ -285,9 +260,10 @@ class HospitalApi(Resource):
             save_hospital = create_hospital.save()
             if save_hospital.save():
                 self.hospital_util.write_to_session('current_user', data['temp_id'])
+                mails.registration(hospital=data, recipient='olamyy53@gmail.com')
                 return Response.response_ok(create_hospital)
         except NotUniqueError:
-            self.log.log_error('Unable to create hospital')
+            current_app.logger.error('{cls}.GET called'.format(cls=self.__class__.__name__))
             return Response.response_error('Unable to create hospital', 'Hospital already exists')
 
     @staticmethod

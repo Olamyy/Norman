@@ -1,21 +1,17 @@
 # from Norman.conversation.norman import norman
-from Norman.conversation.dbutils import UserUtils
+from Norman.auth.auth_utils import PatientUtil
+from Norman.models import UserModel
 
 
-class NormanUser(object):
-    def __init__(self, fb_id):
+class NormanUser(PatientUtil):
+    def __init__(self):
+        super(NormanUser, self).__init__()
         self.is_from_ref_id = None
-        self.fb_id = fb_id
-        self.userObj = UserUtils()
-        self.first_message = self.userObj.is_first_message(self.fb_id)
         self.instantiated_user = None
         self.session_id = None
 
-    def get_user_instance(self):
-        self.session_id = self.userObj
+    def update_ref_id(self, refID, fb_id):
+        return True if UserModel.objects.filter(referenceID=refID).update(fb_id=fb_id, has_hospital=True) else False
 
-
-class TempUser(NormanUser):
-    def __init__(self, recipient_id):
-        super(TempUser, self).__init__(recipient_id)
-
+    def isRegistered(self, fb_id):
+        return True if self.get_by_fbID(fb_id=fb_id) else False

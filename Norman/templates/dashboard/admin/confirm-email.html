@@ -119,7 +119,7 @@
                                     <td class=""
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
-                                        Hi {{ hospital.name }},
+                                        Hi {{ hospital }},
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -128,9 +128,9 @@
                                         valign="top">
                                         We are glad you signed up to use Norman. Verify your Account.
                                         <blockquote style="font-weight: bolder">
-                                            Your Verification code is <em>{{ hospital.verificationID }}525255</em>
+                                            Your Verification code is <em>{{ hospital.verificationID }}</em>
                                         </blockquote>
-                                        Click <a href="https://norman-bot.herokuapp.com/dashboard/verify/">this link</a> to verify
+                                        Click <a href="{{ hospital.link}}">this link</a> to verify
                                         <br>You can know more about Norman from
                                         <a href="https://norman-bot.herokuapp.com">this link</a>
                                     </td>

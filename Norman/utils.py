@@ -7,18 +7,27 @@ import random
 import string
 import uuid
 from datetime import datetime, timedelta
+from functools import wraps
+from threading import Thread
 from time import time
 
 from flask import current_app
 from flask import flash
 from flask import jsonify, make_response
 from flask import redirect
+
 from Norman.api.base import base
-from Norman.settings import FBConfig
 from Norman.errors import HttpMethodError
-import string
-import random
-from bson.json_util import dumps
+from Norman.settings import FBConfig
+
+
+def async_task(f):
+    """ Takes a function and runs it in a thread """
+    @wraps(f)
+    def _decorated(*args, **kwargs):
+        thr = Thread(target=f, args=args, kwargs=kwargs)
+        thr.start()
+    return _decorated
 
 
 def flash_errors(form, category='warning'):
@@ -89,17 +98,6 @@ class Response:
 
     @staticmethod
     def response_ok(data):
-        # try:
-        #     oid = data._id
-        #     data._id = str(oid)
-        # except AttributeError:
-        #     pass
-        # try:
-        #     oid = data['_id']
-        #     data['_id'] = str(oid)
-        # except KeyError:
-        #     pass
-
         response = jsonify({'status': 'success', 'data': data}, 200)
         return make_response(response)
 

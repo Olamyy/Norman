@@ -65,8 +65,6 @@ class HospitalUtil(UserMixin):
                 self.id = hospital.id
                 self.tempID = hospital.tempID
                 self.hospital_id = hospital.hospital_id
-                # self.has_selected_services = hospital.has_selected_services
-                print(self.email)
                 return self
             else:
                 return None
@@ -188,7 +186,6 @@ class PatientUtil(UserMixin):
             return self
         else:
             return None
-
 
     def login_user_updates(self, user_id):
         if UserModel.objects.filter(id=user_id).update(is_logged_in=True):

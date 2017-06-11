@@ -126,12 +126,12 @@ class MailerConfig(Config):
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = 'bot.normanai@gmail.com'
+    MAIL_PASSWORD = 'weflock5and6'
     MAIL_DEFAULT_SENDER = None
     MAIL_MAX_EMAILS = None
     MAIL_ASCII_ATTACHMENTS = False
-    ADMINS = ['davash001@gmail.com']
+    DEFAULT_FROM = ['davash001@gmail.com']
 
 
 class ErrorConfig(Config):
@@ -153,9 +153,11 @@ class ErrorConfig(Config):
 class MessageConfig(Config):
     GET_ALL_SERVICE_LIST = "You can also go to {0} anytime to view a list of all the services I offer".format(
         ProdConfig.SERVICE_URL)
-    GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am Medical Assistance " \
-                          "Bot that helps you keep track of your health while syncing it " \
-                          "seamlessly with your hospital.".format(UIConfig.APP_NAME)
+    GET_STARTED_MESSAGE = {'registered': "Hello <username>, My name is {0}. I am a Medical Assistance "
+                                         "Bot that helps you keep track of your health while syncing it"
+                                         "seamlessly with your hospital.".format(UIConfig.APP_NAME),
+                           'not_registered': "Hello <username>, My name is {0}.".format(UIConfig.APP_NAME),
+                           }
     GET_STARTED_MEANING = "It means I help you keep track of vital personal health information. " \
                           "I then update your hospital with this information to help treat you better"
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \

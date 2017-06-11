@@ -1,30 +1,28 @@
-from flask_mail import Message, Mail
-from flask import Flask
+from flask import current_app
+from flask_mail import Message
+
+from Norman.extensions import mailer
 from Norman.settings import MailerConfig
-from Norman.app import create_app
 
 
-class NormanMailer(Message):
-    def __init__(self, recipient):
-        super().__init__(sender=MailerConfig.ADMINS[0])
-        self.app = Flask(__name__)
-        self.mail = Mail()
-        self.recipient_list = recipient
-        self.handle_recipients()
+def send_email(subject, recipients, text_body=None, html_body=None, **kwargs):
+    sender = MailerConfig.MAIL_USERNAME
+    recipients = handle_recipients(recipients)
+    current_app.logger.info("send_email(subject='{subject}', recipients=['{recp}'], text_body='{txt}')".format(sender=sender, subject=subject, recp=recipients, txt=text_body))
+    msg = Message(subject, sender=sender, recipients=recipients, **kwargs)
+    msg.body = text_body
+    msg.html = html_body
 
-    def handle_recipients(self):
-        if isinstance(self.recipient_list, list):
-            self.recipients = self.recipient_list
-        self.add_recipient(self.recipients)
+    current_app.logger.info("Message(to=[{m.recipients}], from='{m.sender}')".format(m=msg))
+    mailer.send_message(
+        sender,
+        recipients,
+        subject, html=msg.html
+    )
+    # _send_async_email(current_app.name, msg)
 
-    def send_mail(self, message, message_subject, msg_type='text'):
-        msg = Message(message_subject, sender=MailerConfig.ADMINS[0], recipients=self.recipient_list)
-        if msg_type == 'text':
-            msg.text = message
-        elif msg_type == 'html':
-            msg.html = message
-        self.mail.init_app(self.app).send(msg)
 
-if __name__ == '__main__':
-    test = NormanMailer('wapshow01@gmail.com')
-    test.send_mail('<b>HTML</b> body',  message_subject='test subject')
+def handle_recipients(recipients):
+        if isinstance(recipients, list):
+            recipients = recipients
+        return recipients

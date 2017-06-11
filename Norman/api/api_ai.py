@@ -4,7 +4,6 @@ from socket import gaierror
 from apiai import ApiAI
 
 from Norman.errors import HttpError
-from Norman.logger import Logger
 from Norman.settings import ApiAIConfig
 from Norman.utils import generate_session_id
 
@@ -18,7 +17,6 @@ class AI:
         self.request.session_id = generate_session_id()
         self.match_successful = False
         self.text = None
-        self.log = Logger()
 
     def parse(self, data):
         print('got to apiai parse function')
