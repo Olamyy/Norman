@@ -46,7 +46,7 @@ class AI:
 
 if __name__ == '__main__':
     test = AI()
-    message = 'hi'
+    message = "i'll like to leave a message"
     test.parse(message)
     if test.match_successful:
         reply = test.text
