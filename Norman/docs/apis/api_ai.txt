@@ -1,0 +1,35 @@
+*** sample ***
+
+    # input: 'I want to leave a message'
+
+                service        intent         is any required       suggested response
+                  name         matched         slot missing
+    # output: ('messaging',   'messaging',     'True',          'who would you like to leave a message for?')
+
+
+*** Resources ***
+
+    # Api.ai Response format
+
+     {
+      'result': {
+        'action': 'smalltalk.greetings',
+        'fulfillment': {
+          'speech': 'Hey!'
+        },
+        'resolvedQuery': 'hi',
+        'source': 'domains',
+        'metadata': {},
+        'parameters': {
+          'simplified': 'hello'
+        },
+        'score': 1.0
+      },
+      'id': 'e4755acd-f68d-47ee-94b2-841fb4d87153',
+      'timestamp': '2017-04-10T14:28:34.059Z',
+      'sessionId': 'f5e91100-1df9-11e7-857d-0ceee6ae2ac6',
+      'status': {
+        'code': 200,
+        'errorType': 'success'
+      }
+    }

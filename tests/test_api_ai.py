@@ -1,30 +1,17 @@
-from Norman.api.api_ai import  AI
+from Norman.api.api_ai import Agent
+from Norman.utils import generate_session_id
 
 
 def test_ai():
-    """ api ai client """
-    pass
 
-a = {
-  'result': {
-    'action': 'smalltalk.greetings',
-    'fulfillment': {
-      'speech': 'Hey!'
-    },
-    'resolvedQuery': 'hi',
-    'source': 'domains',
-    'metadata': {},
-    'parameters': {
-      'simplified': 'hello'
-    },
-    'score': 1.0
-  },
-  'id': 'e4755acd-f68d-47ee-94b2-841fb4d87153',
-  'timestamp': '2017-04-10T14:28:34.059Z',
-  'sessionId': 'f5e91100-1df9-11e7-857d-0ceee6ae2ac6',
-  'status': {
-    'code': 200,
-    'errorType': 'success'
-  }
-}
+    sample_sentence = "i'll like to leave a message?"
+    result = Agent.parse(sample_sentence, session_id=generate_session_id())
+    expected_result = 'messaging', 'messaging', True, 'who would you like to leave a message for?'
 
+    print('sample sentence: ', sample_sentence)
+    print('result: ', result)
+    print('expected result: ', expected_result)
+    print('Test passed: ', result == expected_result)
+
+if __name__ == '__main__':
+    test_ai()

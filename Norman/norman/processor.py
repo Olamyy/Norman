@@ -1,14 +1,13 @@
-import datetime
-import random
-import string
-import time
-
-from Norman.settings import RegexConfig
+from Norman.utils import hash_data
+from Norman.api.api_ai import Agent
+from Norman.norman.services import RealTimeMessagingService, LocationService
 
 
 class Processor:
     def __init__(self, sentence, recipient_id):
         self.sentence = sentence
+        self.recipient_id = recipient_id
+
         self.no_response_list = ["*scratch my head* :(", "How do I respond to that... :O",
                                  "I can be not-so-smart from time to time... :(",
                                  "Err... you know I'm not human, right? :O", "I do not understand you."]
@@ -43,6 +42,16 @@ class Processor:
                           'mothafuckings','mothafucks','mother fucker','motherfuck','motherfucked','motherfucker','motherfuckers','motherfuckin','motherfucking','motherfuckings','motherfuckka','motherfucks','muff','mutha',
                           'muthafecker','muthafuckker','muther','mutherfucker','n1gga','n1gger','nazi','nigg3r','nigg4h','nigga','niggah','niggas','niggaz','nigger','niggers ','nob','nob jokey','nobhead','nobjocky','nobjokey','numbnuts','nutsack','orgasim ','orgasims ','orgasm','orgasms ','p0rn','pawn','pecker','penis',
                           'penisfucker','phonesex','phuck','phuk','phuked','phuking','phukked','phukking','phuks','phuq','pigfucker','pimpis','piss','pissed','pisser','pissers','pisses ','pissflaps','pissin ','pissing','pissoff ','poop','porn','porno','pornography','pornos','prick','pricks ','pron','pube','pusse','pussi','pussies','pussy','pussys ','rectum','retard','rimjaw','rimming','s hit','s.o.b.','sadist','schlong','screwing','scroat','scrote','scrotum','semen','sex','sh!+','sh!t','sh1t','shag','shagger','shaggin','shagging','shemale','shi+','shit','shitdick','shite','shited','shitey','shitfuck','shitfull','shithead','shiting','shitings','shits','shitted','shitter','shitters ','shitting','shittings','shitty ','skank','slut','sluts','smegma','smut','snatch','son-of-a-bitch','spac','spunk','s_h_i_t','t1tt1e5','t1tties','teets','teez','testical','testicle','tit','titfuck','tits','titt','tittie5','tittiefucker','titties','tittyfuck','tittywank','titwank','tosser','turd','tw4t','twat','twathead','twatty','twunt','twunter','v14gra','v1gra','vagina','viagra','vulva','w00se','wang','wank','wanker','wanky','whoar','whore','willies','willy','xrated','xxx']
+
+    def process(self):
+        # get agent response from api.ai
+        session_id = hash_data(self.recipient_id)
+        service, intent, action_incomplete, suggested_response, = Agent.parse(self.sentence,
+                                                                              session_id=session_id)
+
+        if service == 'messaging':
+            RealTimeMessagingService(fb_id=self.recipient_id, message=self.sentence)
+
 
 
 

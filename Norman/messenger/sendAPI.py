@@ -6,7 +6,7 @@ from Norman.api.api_ai import AI
 from Norman.api.base import base
 from Norman.errors import HttpError
 from Norman.messenger.userProfile import Profile
-from Norman.norman.user import NormanUser, TempUser, MessagingService
+from Norman.norman.user import NormanUser, TempUser
 from Norman.settings import FBConfig, MessageConfig, ServiceListConfig
 from Norman.utils import response
 
@@ -232,7 +232,6 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
         ]
         return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
 
     def handle_get_started_meaning(self):
         message_text = MessageConfig.GET_STARTED_MEANING
@@ -240,9 +239,8 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "How do you do that?", "payload": "NORMAN_GET_STARTED_HOW"},
             {"content_type": "text", "title": "What services do you offer?", "payload": "NORMAN_GET_ALL_SERVICE_LIST"}
         ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
         response.response_ok('Success')
-        return response.response_ok('Success')
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
 
     def handle_get_started_how(self):
         print('i got st ho')
@@ -254,8 +252,6 @@ class PostBackMessages(Template):
              "payload": "NORMAN_GET_HELP"}
         ]
         self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        response.response_ok('Success')
-        return response.response_ok('Success')
 
     def get_started_service_list(self):
         print('i got')
@@ -271,9 +267,7 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "I'm still confused",
              "payload": "NORMAN_GET_HELP"}
         ]
-        self.send_message("text", message_text=message_text, quick_replies=quick_replies)
-        response.response_ok('Success')
-        return response.response_ok('Success')
+        return self.send_message("text", message_text=message_text, quick_replies=quick_replies)
 
     def handle_help(self):
         message_text = MessageConfig.GET_HELP_MESSAGE.replace('<username>', self.user_details['first_name'])
@@ -284,16 +278,14 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "Request Urgent Help", "payload": "NORMAN_REQUEST_URGENT_HELP"},
             {"content_type": "text", "title": "Book an Appointment","payload": "NORMAN_BOOK_APPOINTMENT"}
         ]
-        self.send_message("text", message_text=message_text,quick_replies=quick_replies)
-        response.response_ok('Success')
-        return response.response_ok('Success')
+        return self.send_message("text", message_text=message_text,quick_replies=quick_replies)
 
     def good_to_go(self):
         print('i got to good help')
         message_text = "Awesome {0}".format(MessageConfig.EMOJI_DICT['HAPPY_SMILE'])
         self.send_message("text", message_text=message_text)
-        response.response_ok('Success')
-        return self.beyondGetStarted()
+        return  self.beyondGetStarted()
+
 
     def beyondGetStarted(self):
         print('i got to beyond')
@@ -304,8 +296,7 @@ class PostBackMessages(Template):
             self.send_message('text', message_text)
             self.show_typing('typing_on')
             self.show_typing('typing_off')
-            self.send_message('text', MessageConfig.TIME_TO_SET_UP)
-            return response.response_ok('Success')
+            return self.send_message('text', MessageConfig.TIME_TO_SET_UP)
         else:
             return self.handle_first_time_temp_user()
 
@@ -321,13 +312,12 @@ class PostBackMessages(Template):
             {"content_type": "text", "title": "View registered hospitals", "payload": "GET_NEARBY_HOSPITAL"}
         ]
         second_text = "As a free user, you can go on and"
-        self.send_message("text", message_text=second_text, quick_replies=quick_replies)
-        return response.response_ok('Success')
+        return self.send_message("text", message_text=second_text, quick_replies=quick_replies)
 
     @property
     def handle_messaging_service(self):
         message_text = "Who would you like to leave a message for?"
-        self.send_message("text", message_text=message_text)
+        return self.send_message("text", message_text=message_text)
         """
             Hey lekan my laptop is about to go off,
             @Todo: Here is what i am trying to do here
@@ -337,8 +327,7 @@ class PostBackMessages(Template):
               awaiting_message is true
             3. take the message as continuation of the previous message
         """
-        MessagingService.add_previous_message()
-        return response.response_ok('Success')
+        # MessagingService.add_previous_message()
 
     def handle_awaited_message(self, message_type='messaging_service'):
         if message_type == 'messaging_service':
@@ -346,7 +335,7 @@ class PostBackMessages(Template):
                 message_text = "What message would you like to leave a message?"
                 self.send_message("text", message_text=message_text)
             elif 'users_last_message_was a response to what':
-                MessagingService().send_notification(who='previous_message', what='this_message')
+                # MessagingService().send_notification(who='previous_message', what='this_message')
                 message_text = "Your message was successfully sent"
                 return self.send_message("text", message_text=message_text)
         else:
@@ -371,7 +360,6 @@ class PostBackMessages(Template):
             ]
             return self.send_message('text', message_text="Sorry I didn't get that, let's try again", quick_replies=quick_replies)
 
-        return response.response_ok('Success')
 
     def handle_leave_message(self):
         message_text = "Who would you like to leave a message for?"

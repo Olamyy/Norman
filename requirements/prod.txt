@@ -42,8 +42,6 @@ requests
 #API
 flask_restful
 
-=======
-gunicorn>=1
 #Facebook
 pymessenger
 
