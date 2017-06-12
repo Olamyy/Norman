@@ -30,15 +30,6 @@ Then run the following commands to bootstrap your environment ::
 
 You will see a pretty welcome screen.
 
-Once you have installed your DBMS, run the following to create your app's
-database tables and perform the initial migration ::
-
-    flask db init
-    flask db migrate
-    flask db upgrade
-    flask run
-
-
 Deployment
 ----------
 
@@ -63,18 +54,3 @@ To run all tests, run ::
 
     flask test
 
-
-Migrations
-----------
-
-Whenever a database migration needs to be made. Run the following commands ::
-
-    flask db migrate
-
-This will generate a new migration script. Then run ::
-
-    flask db upgrade
-
-To apply the migration.
-
-For a full migration command reference, run ``flask db --help``.
