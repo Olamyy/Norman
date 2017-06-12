@@ -23,3 +23,8 @@ def services():
 @blueprint.route('/service', methods=['GET'])
 def service():
     return render_template('landingpage/single-service.html')
+
+
+@blueprint.route('/hospital', methods=['GET'])
+def hospital():
+    return render_template('landingpage/single-hospital.html')
