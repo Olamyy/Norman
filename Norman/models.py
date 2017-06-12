@@ -68,6 +68,7 @@ class UserModel(db.Document):
     user_id = db.StringField(required=True, max_length=20, min_length=3, unique=True)
     fb_id = db.StringField(max_length=200, min_length=3)
     hospital_id = db.StringField(max_length=200, min_length=3)
+    referenceID = db.StringField(max_length=200, min_length=3)
     plan_id = db.StringField(max_length=200, min_length=3)
     contexts = db.ListField()
     is_verified = db.BooleanField(default=False)
@@ -83,6 +84,7 @@ class UserModel(db.Document):
     last_seen = db.DateTimeField(default=datetime.datetime.now())
     drug_use_reminders = DictField()
     awaiting_message = db.BooleanField(default=False)
+    normanName = db.StringField(max_length=200, min_length=3)
 
 
 class Conversation(db.Document):

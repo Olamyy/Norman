@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
-from flask_mail import Mail
+
 from Norman import commands, public
 from Norman.api import bot, web
 from Norman.assets import assets
 from Norman.auth import views as auth_view
-from Norman.extensions import cache, csrf_protect, db, debug_toolbar, mailer
 from Norman.dashboard import views
-from Norman.settings import ProdConfig
+from Norman.extensions import cache, csrf_protect, db, debug_toolbar, mailer
 from Norman.models import Hospital
+from Norman.settings import ProdConfig
 
 
 def create_app(config_object=ProdConfig):
@@ -35,11 +35,6 @@ def register_extensions(app):
     csrf_protect.init_app(app)
     debug_toolbar.init_app(app)
     mailer.init_app(app)
-
-    # mail
-    mail = Mail()
-    mail.init_app(app)
-    return None
 
 
 def register_blueprints(app):

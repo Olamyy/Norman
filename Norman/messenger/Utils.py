@@ -30,19 +30,25 @@ def get_request_type(payload):
 
 
 def postback_events(payload):
+    global referral_load
     data = json.loads(payload)
     postbacks = data["entry"][0]["messaging"]
+    referral_load = ''
 
     for event in postbacks:
         sender_id = event["sender"]["id"]
         if data["entry"][0]["messaging"][0].get('postback'):
             postback_payload = event["postback"]["payload"]
+            try:
+                referral_load = event["postback"]["referral"]['ref']
+            except KeyError:
+                    pass
         else:
             try:
                 postback_payload = event["message"]["quick_reply"]["payload"]
             except KeyError:
                 pass
-        yield sender_id, postback_payload
+        yield sender_id, postback_payload, referral_load
 
 
 def messaging_events(payload):

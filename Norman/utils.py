@@ -7,18 +7,27 @@ import random
 import string
 import uuid
 from datetime import datetime, timedelta
+from functools import wraps
+from threading import Thread
 from time import time
 
 from flask import current_app
 from flask import flash
 from flask import jsonify, make_response
 from flask import redirect
+
 from Norman.api.base import base
-from Norman.settings import FBConfig
 from Norman.errors import HttpMethodError
-import string
-import random
-from bson.json_util import dumps
+from Norman.settings import FBConfig
+
+
+def async_task(f):
+    """ Takes a function and runs it in a thread """
+    @wraps(f)
+    def _decorated(*args, **kwargs):
+        thr = Thread(target=f, args=args, kwargs=kwargs)
+        thr.start()
+    return _decorated
 
 
 def flash_errors(form, category='warning'):
@@ -32,6 +41,7 @@ def generate_id(length):
         chars = string.ascii_uppercase + string.digits
         return ''.join(random.choice(chars) for _ in range(length))
 
+
 def generate_conversation_id(recipient_id):
     chars = recipient_id + str(time())[:5]
     return chars
@@ -39,6 +49,10 @@ def generate_conversation_id(recipient_id):
 
 def hash_data(data):
     return hashlib.sha256(data.encode('utf-8')).hexdigest()
+
+
+def generate_api_ai_session(data):
+    return hash_data(data)[:32]
 
 
 def validate_hashes(new_password, old):
@@ -66,6 +80,10 @@ def last_five_minute():
     return datetime.now() - timedelta(minutes=5)
 
 
+def decode_data(data):
+    return data.decode("utf-8")
+
+
 def update_white_listed_domains():
     """https://graph.facebook.com/v2.6/me/messenger_profile?access_token=PAGE_ACCESS_TOKEN"""
     graph_api_url = FBConfig.GRAPH_API_URL.replace('messages', 'messenger_profile')
@@ -89,19 +107,6 @@ class Response:
 
     @staticmethod
     def response_ok(data):
-        print(type(data))
-        print(data)
-        try:
-            oid = data._id
-            data._id = str(oid)
-        except AttributeError:
-            pass
-        try:
-            oid = data['_id']
-            data['_id'] = str(oid)
-        except KeyError:
-            pass
-
         response = jsonify({'status': 'success', 'data': data}, 200)
         return make_response(response)
 
@@ -109,11 +114,6 @@ class Response:
     def response_error(message, error=None, error_code=None):
         response = json.dumps({'status': 'fail', 'message': message, 'error': error, 'error_code': error_code})
         return make_response(response, 400)
-    def response_error(message, error=None):
-        response = jsonify({'status': 'fail', 'message': message, 'error': error})
-        return make_response(response)
 
 response = Response()
 
-if __name__ == '__main__':
-    print(update_white_listed_domains())

@@ -1,9 +1,10 @@
-from flask import render_template, Blueprint, redirect, jsonify
+from flask import render_template, Blueprint, redirect
 from flask import request
 from flask import url_for
 
 from Norman.auth.auth_utils import HospitalUtil, ServiceUtil, PatientUtil
 from Norman.auth.forms import LoginForm, VerificationForm
+from Norman.mailer import mails
 from Norman.settings import ErrorConfig
 from Norman.utils import validate_hashes
 
@@ -12,6 +13,13 @@ blueprint = Blueprint('dashboard', __name__, url_prefix='/dashboard', static_fol
 hospitalObj = HospitalUtil()
 serviceObj = ServiceUtil()
 userObj = PatientUtil()
+
+
+@blueprint.route('/mail', methods=['GET', 'POST'])
+def mailer():
+    data = HospitalUtil().get_by_tempID('OcRb4')
+    mails.registration(hospital=data, recipient='olamyy53@gmail.com')
+    return 'ffff'
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])

@@ -7,7 +7,6 @@ from pymongo import MongoClient
 
 class Config:
     """Base configuration."""
-
     SECRET_KEY = os.environ.get('NORMAN_SECRET', 'a9fb1b64-1f0f-11e7-95e2-7077816bf77d')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -20,14 +19,16 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MONGOALCHEMY_DATABASE = "norman"
 
+
 class GoogleConfig(Config):
     PLACES_API_KEY = 'AIzaSyAmoOVSZfK0Av6j_ONXa343qyYLGVczlS4'
+
 
 class FBConfig(Config):
     """
     The GRAPH_API_URL format is <base_url><version><action><fields>
     """
-    FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAKIZBKELBTB7JZBsoetjvG1A3xmMWhJFlDxeUtfgNgr2odxHZBqZAailae0ev0PaIzLz7ifaWEAfIKTfWGy35yjejmzA9OJVhH2mxMPNGXzBhE397hWZBJhP8Uz0uJ588lJ4jW5DQN0544Gq1d7BuqYBAxflaiQZDZD'
+    FACEBOOK_SECRET_KEY = 'EAAS0PtgoBk4BAO0CXLGIvNtVhMaS7DEpKEivuonecQ1ak8DYzVwmmRwjR0QW93QrWwAkupsvME4PcKCKeXZBaA7CZCxogZC12WFYxlP2oitgyvgpKOOrvv1ZCUm11WzciA0ZClsqVSC4CPYyEt2pgstmTb4hTv5KK1XhR23xpeAZDZD'
     GRAPH_API_VERSION = 'v2.6'
     GRAPH_API_URL = 'https://graph.facebook.com/{0}/me/messages?access_token={1}'.format(
         GRAPH_API_VERSION, FACEBOOK_SECRET_KEY)
@@ -125,12 +126,12 @@ class MailerConfig(Config):
     MAIL_PORT = 465
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = 'bot.normanai@gmail.com'
+    MAIL_PASSWORD = 'weflock5and6'
     MAIL_DEFAULT_SENDER = None
     MAIL_MAX_EMAILS = None
     MAIL_ASCII_ATTACHMENTS = False
-    ADMINS = ['davash001@gmail.com']
+    DEFAULT_FROM = ['davash001@gmail.com']
 
 
 class ErrorConfig(Config):
@@ -152,9 +153,11 @@ class ErrorConfig(Config):
 class MessageConfig(Config):
     GET_ALL_SERVICE_LIST = "You can also go to {0} anytime to view a list of all the services I offer".format(
         ProdConfig.SERVICE_URL)
-    GET_STARTED_MESSAGE = "Hello <username>, My name is {0}. I am Medical Assistance " \
-                          "Bot that helps you keep track of your health while syncing it " \
-                          "seamlessly with your hospital.".format(UIConfig.APP_NAME)
+    GET_STARTED_MESSAGE = {'registered': "Hello <username>, My name is {0}. I am a Medical Assistance "
+                                         "Bot that helps you keep track of your health while syncing it"
+                                         "seamlessly with your hospital.".format(UIConfig.APP_NAME),
+                           'not_registered': "Hello <username>, My name is {0}.".format(UIConfig.APP_NAME),
+                           }
     GET_STARTED_MEANING = "It means I help you keep track of vital personal health information. " \
                           "I then update your hospital with this information to help treat you better"
     GET_STARTED_HOW = "I do this by asking you some questions overtime. I also carry out some of the services your " \
@@ -170,15 +173,9 @@ class MessageConfig(Config):
 
     FIRST_TIME_TEMP_USER = ["You are currently using me as a free user."]
 
-
-class RegexConfig(Config):
-    BotInfoMatcher = ['what [is|are|will|was]+\ your name', 'VP+ *+ your name',
-                      'who [is|are|will|was]+\ your creator|dad|mom|father|mother|papa|mama|daddy|mommy',
-                      'VP+ *+ your creator|dad|mom|father|mother', 'who [made|created|wrote|built]+\ you']
-    GreetingsMatcher = ['hi', 'hey', 'hello', 'greetings', 'good morning', 'good afternoon', 'good evening', 'bawo']
-
-    ByeMatcher = ['bye', 'see you']
-    MessagingServiceMatcher = ['leave a message [for|to]+\ \w [that|saying|] I will be home']
+    BAD_WORD_TEMPLATE = "Hello <username>, Unfortunately your last message contains words" \
+                        " I find offensive. Please, desist " \
+                        "from using such words."
 
 
 class YelpConfig(Config):

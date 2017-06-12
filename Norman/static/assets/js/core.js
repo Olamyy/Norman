@@ -16,7 +16,7 @@
                                $('#'+error_id).html(error_text);
     };
 
-    var handle_success_message = function (success, success_id) {
+    var handle_success = function (success, success_id) {
             var success_text = '<div class="alert alert-info alert-dismissible" role="alert">' +
                              '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span' +
                              ' aria-hidden="true">&times;</span></button>'+ success + '</div>';
@@ -61,14 +61,13 @@
                             'temp_id': generate_id(5),
                             'action' : 'create'
                             };
-                     console.log(payload)
                      var  verify_password  = $('#verify_password').val();
                      if(payload['password'] != verify_password){
                          handle_error('Your passwords should match.', 'error')
                      }
                      else{
                          if(payload['password'].length < 5){
-                             handle_error('Your passwords should be more than 8 characters.', 'error')
+                             handle_error('Your passwords should be more than 5 characters.', 'error')
                          }
                          else{
                              var  register_url  = $('#register_url').val();
@@ -81,16 +80,15 @@
                                    dataType:"json",
                                    success : function (response) {
                                        var ver_id = response[0].data.tempID;
-                                       var replace = '?action=verify&verID='+ver_id;
+                                       var replace = '/register?action=verify&verID='+ver_id;
                                        handle_redirect('/register', replace)
                                    },
                                    error : function(xhr, errmsg, err){
-                                                console.log(xhr);
                                                 if (xhr.responseJSON.error_code == 'HOSPEXISTS'){
                                                     localStorage.setItem('errors', 'Hospital already exists');
-                                                    handle_redirect('/plans', '')
+                                                    // handle_redirect('/plans', '')
+                                                    handle_error('Hospital already exists', 'HOSPEXISTS')
                                                 }
-                                                // handle_redirect('/plans', '')
                            }
                             })
 
@@ -116,7 +114,7 @@
                 'action': 'update',
                 'hospital_id': $('#hospital_id').val()
             };
-            var hospital_url= $('#hospital_url').val()
+            var hospital_url= $('#hospital_url').val();;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
             $.ajax({
                            url : hospital_url,
                            type:  "POST",
@@ -127,7 +125,7 @@
                                console.log(response[0].data);
                                console.log("Your Data has been saved");
                                var success = "Successfully saved changes";
-                               handle_success_message(success,'success');
+                               handle_success(success,'success');
                            },
                            error : function(xhr, errmsg, err){
                                console.log(xhr);
@@ -157,7 +155,7 @@
                    dataType:"json",
                 success:function(response){
                        var success = "Successfully added New patient";
-                       handle_success_message(success,'success');
+                       handle_success(success,'success');
                 },
                 error:function(xhr, errmsg,err){
                     console.log(xhr);
@@ -186,8 +184,8 @@
             success: function (response) {
                 console.log(response[0].data);
                 console.log("data created");
-                // var success = "Successfully requested for a service";
-                // handle_success_message(success, 'success');
+                var success = "Successfully requested for a service";
+                handle_success(success, 'success');
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr);
@@ -195,36 +193,6 @@
             }
             })
         });
-    };
-
-
-    var addPatient = function () {
-      $('#addPatient').on('click', function(event){
-          event.preventDefault();
-          var payload= {
-              'first_name': $('#first_name').val(),
-              'last_name': $('#last_name').val(),
-              'email': $('#email').val(),
-              'hospital_id': $('#hospital_id').val(),
-              'action':'create'
-          };
-          var patient_url = $('#patient_url').val();
-          $.ajax({
-                   url : patient_url,
-                   type:  "POST",
-                   data : JSON.stringify(payload),
-                   contentType: 'application/json',
-                   dataType:"json",
-                success:function(response){
-                       var success = "Successfully added New patient";
-                       handle_success_message(success,'success');
-                },
-                error:function(xhr, errmsg,err){
-                    console.log(xhr);
-                    handle_error("Make sure your inputs are correct and use a unique email",'error');
-                }
-          })
-      });
     };
 
     var check_for_errors = function () {

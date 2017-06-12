@@ -4,7 +4,6 @@ from socket import gaierror
 from apiai import ApiAI
 
 from Norman.errors import HttpError
-from Norman.logger import Logger
 from Norman.settings import ApiAIConfig
 from Norman.utils import generate_session_id
 
@@ -33,7 +32,11 @@ class Agent:
         request.session_id = session_id
         request.query = sentence
 
+        print(session_id)
+        print(len(session_id))
+
         response = json.loads(request.getresponse().read().decode(encoding='UTF-8').replace('\n', ''))
+        print(response)
 
         result = response['result']
         intent = response['result']['metadata']['intentName']
