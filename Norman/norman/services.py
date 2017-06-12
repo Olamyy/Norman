@@ -2,46 +2,24 @@ import datetime
 from bson import ObjectId
 from Norman.auth.auth_utils import PatientUtil, ServiceUtil, HospitalUtil
 from Norman.models import Conversation, Notification
+from Norman.norman.response import ResponseHandler
 from Norman.settings import GoogleConfig
 import googlemaps
+from Norman.utils import response
 
 
 class RealTimeMessagingService:
-    def __init__(self, fb_id, message, **kwargs):
+    def __init__(self, fb_id, request,  **kwargs):
         self.fb_id = fb_id
         self.user = PatientUtil().get_by_fbID(fb_id)
-        self.message = message
-        self.intent_trigger = kwargs.get('IntentTrigger', None)
-        self.is_new = kwargs.get('is_new', None)
-        self.missing = kwargs.get('missing', None)
-        self.context = kwargs.get('context', None)
-        self.person = kwargs.get('recipient', None)
+        self.request = request
+        self.response = ResponseHandler(recipient_id=fb_id)
 
     def getResponse(self):
         if self.user.has_hospital:
-            if self.is_new:
-                conversation_object = Conversation(fb_id=self.fb_id, created_at=datetime.datetime.now(), is_alive=True,
-                                                   service='messaging')
-                if not self.intent_trigger:
-                        notification = Notification(sender_id=self.fb_id,
-                                                    created_at=datetime.datetime.now(),
-                                                    is_read=False,
-                                                    message=self.message)
-                        #@Todo: Also send email to hospital about the notification
-                        return {'status':'success', 'response':'message_success'}
-                else:
-                        Conversation.objects(id=ObjectId(conversation_object.id),
-                                              fb_id=self.fb_id).update(missing=self.missing, is_complete=False)
-                        response = {'status': 'pending', 'response':'incomplete_intent'}
-                        return response
-            else:
-                if self.intent_trigger:
-                    Conversation.objects(fb_id=self.fb_id, is_complete=False, service='messaging').update(missing=self.missing)
-                    response = {'status': 'pending', 'response': 'incomplete_intent'}
-                    return response
+            return response.response_ok('VBJKBV')
         else:
-            response = {'status': 'error', 'err_ID': 'NoRegisteredHosp'}
-            return response
+            return response.response_ok('VBJKBV')
 
 
 class LocationService:

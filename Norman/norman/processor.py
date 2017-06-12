@@ -1,6 +1,6 @@
 from Norman.api.api_ai import Agent
 from Norman.norman.services import RealTimeMessagingService
-from Norman.utils import hash_data
+from Norman.utils import generate_api_ai_session, response
 from .response import ResponseHandler
 
 
@@ -8,18 +8,7 @@ class Processor:
     def __init__(self, sentence, recipient_id):
         self.sentence = sentence
         self.recipient_id = recipient_id
-        self.response = ResponseHandler()
-
-        self.no_response_list = ["*scratch my head* :(", "How do I respond to that... :O",
-                                 "I can be not-so-smart from time to time... :(",
-                                 "Err... you know I'm not human, right? :O", "I do not understand you."]
-        self.error = ["Sorry I've got a little bit sick. BRB in 2 min :(", "Oops... 404 My Witty Mind Not Found :O",
-                      "Oops... My brain went MIA in the cloud, BRB in 2 :(",
-                      "Hmm... How should I respond to that... :O"]
-
-        self.looking_replies = ["Sure, give me a few seconds... B-)", "Scanning the world... :D", "Zoom zoom zoom...",
-                                "Going into the Food Cerebro... B-)",
-                                "Believe me, I'm a foodie, not an engineer... B-)"]
+        self.response = ResponseHandler(recipient_id=recipient_id)
 
         self.bad_words = ['4r5e','5h1t','5hit','a55','anal','anus','ar5e','arrse','arse','ass','ass-fucker','asses'
                             ,'assfucker','assfukka','asshole','assholes','asswhole','a_s_s','b!tch','b00bs',
@@ -49,8 +38,8 @@ class Processor:
         # get agent response from api.ai
         checker = self.check_badwords()
         if checker:
-            self.response.bad_word_response(self.sentence)
-        session_id = hash_data(self.recipient_id)
+            self.response.bad_word_response()
+        session_id = generate_api_ai_session(self.recipient_id)
         service, intent, action_incomplete, suggested_response, = Agent.parse(self.sentence,
                                                                               session_id=session_id)
 

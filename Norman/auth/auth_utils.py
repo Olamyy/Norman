@@ -179,7 +179,7 @@ class PatientUtil(UserMixin):
             self.email = patient.email
             self.id = patient.id
             self.user_id = patient.id
-            self.name = patient.name
+            self.name = patient.username
             self.hospital_id = patient.hospital_id
             self.drug_use_reminders  = patient.drug_use_reminders
             self.has_hospital = patient.has_hospital

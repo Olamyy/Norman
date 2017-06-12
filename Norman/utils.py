@@ -41,6 +41,7 @@ def generate_id(length):
         chars = string.ascii_uppercase + string.digits
         return ''.join(random.choice(chars) for _ in range(length))
 
+
 def generate_conversation_id(recipient_id):
     chars = recipient_id + str(time())[:5]
     return chars
@@ -48,6 +49,10 @@ def generate_conversation_id(recipient_id):
 
 def hash_data(data):
     return hashlib.sha256(data.encode('utf-8')).hexdigest()
+
+
+def generate_api_ai_session(data):
+    return hash_data(data)[:32]
 
 
 def validate_hashes(new_password, old):
@@ -73,6 +78,10 @@ def cookie_insertion(redirect_to, cookie_name, cookie_value):
 
 def last_five_minute():
     return datetime.now() - timedelta(minutes=5)
+
+
+def decode_data(data):
+    return data.decode("utf-8")
 
 
 def update_white_listed_domains():

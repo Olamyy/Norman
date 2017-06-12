@@ -2,13 +2,13 @@ from flask import Blueprint
 from flask import make_response
 from flask import request
 from flask_restful import Resource
-
 from Norman.api.web import UserAPI
 from Norman.extensions import csrf_protect
-from Norman.messenger.Utils import get_request_type, postback_events
+from Norman.messenger.Utils import get_request_type, postback_events, messaging_events
 from Norman.messenger.payloadconversation import PayloadConversationHandler
 from Norman.norman.user import NormanUser
-from Norman.utils import response
+from Norman.utils import response, decode_data
+from Norman.norman.processor import Processor
 
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
@@ -41,20 +41,28 @@ class WebHook(Resource):
     def post(self):
         data = request.get_data()
         request_type = get_request_type(data)
+        print(data)
+
         if request_type == 'postback':
             for recipient_id, postback_payload, referral_load in postback_events(data):
-                print('The ref is', referral_load)
+                print(recipient_id)
                 if referral_load:
                     self.normanuser.update_ref_id(referral_load, recipient_id)
                     payloadhandler = PayloadConversationHandler(registered=True, recipient_id=recipient_id)
                     return payloadhandler.handleconversation(postback_payload)
-                print('No reffereal')
                 payloadhandler = PayloadConversationHandler(registered=False, recipient_id=recipient_id)
                 return payloadhandler.handleconversation(postback_payload)
             return response.response_ok('success')
 
         elif request_type == "message":
-            print(request_type)
+            print('Got a me')
+            for recipient_id, message in messaging_events(data):
+                print(message, recipient_id)
+                if not message:
+                    return response.response_ok('Success')
+                message = decode_data(message.get('data'))
+                processor = Processor(sentence=message, recipient_id=recipient_id)
+                return processor.process()
             return response.response_ok('success')
 
         else:

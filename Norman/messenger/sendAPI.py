@@ -119,33 +119,6 @@ class Message(object):
         else:
             raise HttpError('Unable to complete request.')
 
-    def handleGreeting(self, timeContext):
-        pass
-
-    def handleBotInfo(self):
-        pass
-
-    def handle_find_food(self, context, message, noun_phrase, message1, param):
-        pass
-
-    def handle_yelp_rename(self, context, message):
-        pass
-
-    def handle_memo(self, message_text):
-        pass
-
-    def initService(self, param):
-        pass
-
-    def handleGoodbye(self, param):
-        pass
-
-    def handleYelp(self, param, noun_phrase, message, param1):
-        pass
-
-    def handleLocation(self):
-        pass
-
 
 class Template(Message):
     def __init__(self, recipient_id, **kwargs):

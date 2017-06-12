@@ -173,15 +173,9 @@ class MessageConfig(Config):
 
     FIRST_TIME_TEMP_USER = ["You are currently using me as a free user."]
 
-
-class RegexConfig(Config):
-    BotInfoMatcher = ['what [is|are|will|was]+\ your name', 'VP+ *+ your name',
-                      'who [is|are|will|was]+\ your creator|dad|mom|father|mother|papa|mama|daddy|mommy',
-                      'VP+ *+ your creator|dad|mom|father|mother', 'who [made|created|wrote|built]+\ you']
-    GreetingsMatcher = ['hi', 'hey', 'hello', 'greetings', 'good morning', 'good afternoon', 'good evening', 'bawo']
-
-    ByeMatcher = ['bye', 'see you']
-    MessagingServiceMatcher = ['leave a message [for|to]+\ \w [that|saying|] I will be home']
+    BAD_WORD_TEMPLATE = "Hello <username>, Unfortunately your last message contains words" \
+                        " I find offensive. Please, desist " \
+                        "from using such words."
 
 
 class YelpConfig(Config):
