@@ -147,10 +147,19 @@
                             </li>
 
                             <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-email"></i> <span> Messages </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ url_for('dashboard.patient_messages') }}">View Messsages</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-account-box"></i> <span> User Dashboard</span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
+                                    <li><a href="{{ url_for('dashboard.patient_dashboard') }}">Patient Dashboard</a></li>
                                     <li><a href="{{ url_for('dashboard.user_profile') }}">My Profile</a></li>
                                     <li><a href="{{ url_for('dashboard.edit_user_profile') }}">Edit Profile</a></li>
+                                    <li><a href="{{ url_for('dashboard.patient_password_choosing') }}">Password Choosing</a></li>
                                     <li><a href="{{ url_for('dashboard.records') }}">Records</a></li>
                                 </ul>
                             </li>
