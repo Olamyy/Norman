@@ -27,25 +27,19 @@
                                         <li>
                                             <div class="card-box kanban-box">
                                                 <div class="checkbox-wrapper">
-                                                    <div class="checkbox checkbox-success checkbox-single">
-                                                        <input type="checkbox" id="singleCheckbox5" value="option2"
-                                                                aria-label="Single checkbox Two">
+                                                    <div class="">
+                                                        <i class="zmdi zmdi-comment-outline"></i>
                                                         <label></label>
                                                     </div>
                                                 </div>
 
                                                 <div class="kanban-detail">
                                                     <span class="label label-danger pull-right">20-6-17</span>
-                                                    <h4><a href="#">Message Title</a> </h4>
+                                                    <h4><a href="#">Message from {Patient Name}</a> </h4>
                                                     <ul class="list-inline m-b-0">
                                                         <li>
-                                                            <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="5 Tasks">
-                                                                <i class="zmdi zmdi-format-align-left"></i>
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="3 Comments">
-                                                                <i class="zmdi zmdi-comment-outline"></i>
+                                                            <a class="btn btn-primary" href="{{ url_for('dashboard.single_patient_message') }}">
+                                                                Reply Message
                                                             </a>
                                                         </li>
                                                     </ul>

@@ -262,3 +262,9 @@ def patient_password_choosing():
 def patient_messages():
     hospital = hospitalObj.get_current_user_instance()
     return render_template('dashboard/admin/patient-messages.html', hospital=hospital)
+
+
+@blueprint.route('/single-patient-message', methods=['GET'])
+def single_patient_message():
+    hospital = hospitalObj.get_current_user_instance()
+    return render_template('dashboard/admin/single-patient-message.html', hospital=hospital)

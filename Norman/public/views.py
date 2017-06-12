@@ -18,3 +18,13 @@ def privacy():
 @blueprint.route('/services', methods=['GET'])
 def services():
     return render_template('landingpage/services.html')
+
+
+@blueprint.route('/service', methods=['GET'])
+def service():
+    return render_template('landingpage/single-service.html')
+
+
+@blueprint.route('/hospital', methods=['GET'])
+def hospital():
+    return render_template('landingpage/single-hospital.html')
